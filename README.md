@@ -1,6 +1,10 @@
 # Untangled Stylekit
 
+This project is provided as an optional CSS toolkit for use with the Untangled Web Framework. It is generally applicable
+to any web-based project (it simply results in CSS). More documentation and usage guides coming very soon.
+
 ## Getting Started
+
 In your command line application, you will want to install the necessary tools
 to start working on the UI framework. Make sure your other projects are at the
 same level for synced releases.
