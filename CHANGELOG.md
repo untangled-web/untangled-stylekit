@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [1.6.0] - 2016-09-30
+## 1.6.0 - 2016-09-30
 
 ## Changed
 - Alignment with responsive small leader/trailer classes
@@ -29,7 +29,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - All references to gold colors
 - Accordion actions
 
-## [1.5.10] - 2016-08-23
+## 1.5.10 - 2016-08-23
 
 ## Changed
 - README.md
@@ -61,23 +61,23 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `.c-dropdown__select--xlarge`
 - `.u-column--icons`
 
-## [1.5.9] - 2016-08-10
+## 1.5.9 - 2016-08-10
 
 ## Fixed
 - Toolbar experimental feature media
 
-## [1.5.8] - 2016-08-10
+## 1.5.8 - 2016-08-10
 
 ## Removed
 -- Height media queries
 
-## [1.5.7] - 2016-08-10
+## 1.5.7 - 2016-08-10
 
 ## Fixed
 - Icon sizes by merging `.c-icon--auto`
 - Media queries `--sm` and `--md-up` use OR
 
-## [1.5.6] - 2016-08-10
+## 1.5.6 - 2016-08-10
 
 ## Changed
 - Card actions for better interaction
@@ -98,7 +98,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Fixed
 - Typo in arrow property
 
-## [1.5.5] - 2016-08-03
+## 1.5.5 - 2016-08-03
 
 ## Changed
 - Buttons shouldn't have a hand cursor in a webapp
@@ -118,7 +118,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Fixed
 - `.c-card--row` `:active` border
 
-## [1.5.4] - 2016-07-18
+## 1.5.4 - 2016-07-18
 
 ## Changed
 - Monospaced font stack
@@ -164,7 +164,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Card overflow
 - Accordion fade
 
-## [1.5.3] - 2016-06-27
+## 1.5.3 - 2016-06-27
 
 ## Changed
 - Relative `.o-button-group` with better borders
@@ -188,7 +188,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Blink bug with translate for full positioning [Chromium bug](https://goo.gl/vgxEdT)
 - Deprecated validation modifiers work again
 
-## [1.5.1] - 2016-06-23
+## 1.5.1 - 2016-06-23
 
 ## Changed
 - Typos
@@ -200,7 +200,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Fixed
 - Modal object placement
 
-## [1.5.0] - 2016-06-15
+## 1.5.0 - 2016-06-15
 
 ## Changed
 - [Breaking] Accordion Refactor
@@ -223,7 +223,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Removed
 - Nav object in favor of new sidebar
 
-## [1.4.0] - 2016-06-02
+## 1.4.0 - 2016-06-02
 
 ## Changed
 - Radio control is spec compliant
@@ -247,7 +247,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Checkbox for multi-line labels
 - Radio for multi-line labels
 
-## [1.3.5] - 2016-05-27
+## 1.3.5 - 2016-05-27
 
 ## Changed
 - Left align listing name
@@ -266,7 +266,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Type scale classes
 - function-url-quotes in stylelint
 
-## [1.3.4] - 2016-05-23
+## 1.3.4 - 2016-05-23
 
 ## Changed
 - Badge icon absolute dimensions
@@ -275,12 +275,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Editor functional active state styles
 
 
-## [1.3.3] - 2016-05-20
+## 1.3.3 - 2016-05-20
 
 ## Changed
 - Less-specific :--disabled
 
-## [1.3.2] - 2016-05-18
+## 1.3.2 - 2016-05-18
 
 ## Added
 - d3 to styleguide
@@ -296,7 +296,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - :--disabled is now more specific
 - button icon height for IE changed button text active color
 
-## [1.3.1] - 2016-05-16
+## 1.3.1 - 2016-05-16
 
 ## Added
 - gitignore log files
@@ -328,7 +328,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Header fixed positioning
 - Reverted back to using --triangle instead of --arrow
 
-## [1.3.0] - 2016-05-13
+## 1.3.0 - 2016-05-13
 
 ## Added
 - postcss-css-variables
@@ -354,14 +354,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Moved devcards styles into an unused partial
 - Update button docs for custom properties
 
-## [1.2.1] - 2016-05-09
+## 1.2.1 - 2016-05-09
 ### Added
 - This change log
 
 ### Changed
 - stylep-dropdown version bump
 
-## [1.2.0] - 2016-05-06
+## 1.2.0 - 2016-05-06
 ### Added
 - Loader component for a simple branded animation for view loading.
 - xlarge modifier for buttons
