@@ -1,7 +1,8 @@
 (ns styles.util
   #?(:clj
      (:require [devcards.core :as dc :include-macros true]
-               cljs.repl)
+               cljs.repl
+               [clojure.string :as str])
      :cljs
      (:require [devcards.core :as dc :include-macros true]
        [clojure.set :as set]
@@ -10,16 +11,22 @@
        [untangled.client.core :as uc]
        [om.next :as om :refer [defui]]
        [om.dom :as dom]
+       [devcards.util.markdown :as md]
        [devcards.util.edn-renderer :as edn])))
 
 #?(:clj
-   (defmacro source->react [obj]
-     `(devcards.core/markdown->react
-        (dc/mkdn-code
-          ~(or (cljs.repl/source-fn &env obj) (str "Source not found"))))))
+   (defmacro source->react [obj body]
+     (let [code (cljs.repl/source-fn &env obj)
+           marker (str "(" (first body))
+           beginning (- (.indexOf code marker) 2)
+           end (- (.length code) 1)
+           code (.substring code beginning end)]
+       `(devcards.core/markdown->react
+          (dc/mkdn-code
+            ~(or code (str "Source not found")))))))
 
 #?(:clj
-   (defmacro defexample [sym body]
+   (defmacro defexample [sym doc body]
      (let [root (gensym "Example")
            symfn (symbol (str (name sym) "-code"))]
        `(do
@@ -29,7 +36,8 @@
             (~'render [this#]
               (om.dom/div nil
                 (om.dom/div (cljs.core/clj->js {:className "u-row"})
-                  (om.dom/div (cljs.core/clj->js {:className ""}) (styles.util/source->react ~symfn)))
+                  (om.dom/div (cljs.core/clj->js {:className ""}) (styles.util/source->react ~symfn ~body)))
+                (om.dom/div (cljs.core/clj->js {:dangerouslySetInnerHTML (cljs.core/clj->js {:__html (devcards.util.markdown/markdown-to-html ~doc)})}))
                 (om.dom/div (cljs.core/clj->js {:className "u-row"})
                   (om.dom/div (cljs.core/clj->js {:className ""}) (~symfn))))))
           (def ~sym (om.next/factory ~root {:keyfn (fn [] ~(name root))}))))))
