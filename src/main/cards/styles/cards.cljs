@@ -1,34 +1,15 @@
 (ns styles.cards
   (:require-macros user)
   (:require [om.next :as om :refer-macros [defui]]
-            [untangled.client.core :as uc]
     ;; NOTE: This is where the interesting macros and such are at:
             [styles.util :as util
              :refer [to-cljs]
              :refer-macros [source->react defexample]]
-            [om.dom :as dom]
-            [devcards.util.edn-renderer :as edn]
-            [untangled.client.mutations :as m]))
-
-;; NOTE: to embed an HTML CONVERTER on div with id "example-1":
-(def Client (uc/new-untangled-client))
-(uc/mount Client util/HTMLConverterApp "example-1")
+            [om.dom :as dom]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; START OF EXAMPLES
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defexample my-dropdown
-  "TEst *********************"
-  (dom/div #js {:className "c-dropdown"}
-    (dom/button #js {:className "c-dropdown__select js-dropdown-toggle"} "Apples")
-    (dom/ul #js {:id "test-dropdown" :tabIndex "-1" :aria-hidden "true" :className "c-dropdown__menu is-active"}
-      (dom/li #js {}
-        (dom/button #js {:className "c-dropdown__link"} "Apples"))
-      (dom/li #js {}
-        (dom/button #js {:className "c-dropdown__link"} "Oranges"))
-      (dom/li #js {}
-        (dom/button #js {:className "c-dropdown__link"} "Banannas")))))
 
 ;; Sample Example
 (defexample badge-example-1
@@ -213,7 +194,7 @@
                {:id :buttons :title "Buttons" :examples [button-size-and-shape button-color button-state button-postfix]}
                {:id :card :title "Card" :examples [drop-card active-card inactive-card card-with-titlebar card-example rounded-card transparent-card ruled-card]}
                {:id :checkboxes :title "Checkboxes" :examples [checkboxes]}
-               {:id :dropdowns :title "Dropdowns" :examples [my-dropdown dropdown-large dropdown]}
+               {:id :dropdowns :title "Dropdowns" :examples [dropdown-large dropdown]}
                ])
 
 ;; NOTE: How to render a section (with all examples) including hyperlink target anchor
@@ -242,6 +223,4 @@
       (section :badges sections)
       (section :buttons sections))))
 
-;; NOTE: Mount the main UI on div with ID example-2
-(def Client2 (uc/new-untangled-client))
-(uc/mount Client2 UI "example-2")
+

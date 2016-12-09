@@ -18,7 +18,7 @@
                         :compiler     {:asset-path           "js/cards"
                                        :optimizations        :none
                                        :recompile-dependents true
-                                       :main                 styles.cards
+                                       :main                 styles.main
                                        :output-dir           "resources/public/js/cards"
                                        :output-to            "resources/public/js/cards.js"
                                        :preloads             [devtools.preload]
