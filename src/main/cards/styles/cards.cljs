@@ -7,9 +7,13 @@
             [devcards.util.edn-renderer :as edn]
             [untangled.client.mutations :as m]))
 
-;; USING HTML CONVERTER:
+;; NOTE: to embed an HTML CONVERTER on div with id "example-1":
 (def Client (uc/new-untangled-client))
 (uc/mount Client util/HTMLConverterApp "example-1")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; START OF EXAMPLES
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Sample Example
 (defexample badge-example-1
@@ -168,7 +172,7 @@
                  (dom/button #js {:className "c-dropdown__link"} s))) selections)))))
 
 (defexample dropdown-large
-  "## Large Dropdown"
+  "## Large Dropdown" ; NOTE: markdown format doc string. Do not include cljs in it.
   (let [open (boolean (om/get-state this :open))
         menu-class (str "c-dropdown__menu" (if open " is-active" ""))
         selections ["Apples" "Oranges" "Banannas"]
@@ -184,7 +188,12 @@
                                               (om/update-state! this assoc :selection s))}
                  (dom/button #js {:className "c-dropdown__link"} s))) selections)))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; START OF SECTIONS (within a feature set...e.g. components)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; NOTE: This is where you add the sections for index
 (def sections [
+               ; NOTE: :examples is a list of example names, rendered in order given
                {:id :badges :title "Badges" :examples [badge-example-1 badge-on-button badge-with-icon]}
                {:id :buttons :title "Buttons" :examples [button-size-and-shape button-color button-state button-postfix]}
                {:id :card :title "Card" :examples [drop-card active-card inactive-card card-with-titlebar card-example rounded-card transparent-card ruled-card]}
@@ -192,6 +201,7 @@
                {:id :dropdowns :title "Dropdowns" :examples [dropdown-large dropdown]}
                ])
 
+;; NOTE: How to render a section (with all examples) including hyperlink target anchor
 (defn section
   [id sections]
   (let [{:keys [title examples]} (first (filter #(= id (:id %)) sections))]
@@ -200,10 +210,12 @@
         (dom/h1 nil title))
       (map #(%) examples))))
 
+;; NOTE: Rendering of the clickable index
 (defn section-index [sections]
   (dom/ul nil
     (map #(dom/li nil (dom/a #js {:href (str "#" (:id %))} (:title %))) sections)))
 
+;; NOTE: Rendering of the main guide UI
 (defui UI
   Object
   (render [this]
@@ -215,5 +227,6 @@
       (section :badges sections)
       (section :buttons sections))))
 
+;; NOTE: Mount the main UI on div with ID example-2
 (def Client2 (uc/new-untangled-client))
 (uc/mount Client2 UI "example-2")
