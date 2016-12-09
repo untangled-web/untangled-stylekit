@@ -12,7 +12,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Sample Example
-(defexample form-example
+(defexample form
   "## a simple form"
   (dom/div #js {} (dom/label #js {:htmlFor "input-1"} "Label")
            (dom/input #js {:id "input-1" :type "text" :placeholder "Input"})
@@ -24,7 +24,7 @@
 
 (def form-header (devcards.core/markdown->react "Basic styles for form elements like `input`, `select` and `label`"))
 
-(defexample image-example
+(defexample image
   "## a simple image"
   (dom/div #js {}
            (dom/img #js {:src "/img/bubbles.png" :alt "generic image" :height "50" :width "50"})))
@@ -32,7 +32,7 @@
 (def image-header (devcards.core/markdown->react "This section covers how we handle images. By default all `<img>` tags are 100% wide."))
 
 
-(defexample layout-example
+(defexample layout
   "## a simple layout example"
   (dom/div #js {}
            (dom/div #js {:className "s-app__view"}
@@ -77,10 +77,10 @@
 ;; NOTE: This is where you add the sections for index
 (def sections [
                ; NOTE: :examples is a list of example names, rendered in order given
-               {:id :forms :title "Forms" :examples [form-example] :header form-header}
-               {:id :images :title "Images" :examples [image-example] :header image-header}
-               {:id :layouts :title "Layouts" :examples [layout-example] :header layout-header}
-               {:id :typographies :title "Typographies" :examples [typography-example-1 typography-example-2 typography-example-3] :header typography-header-1}
+               {:id :forms :title "Forms" :examples [form] :header form-header}
+               {:id :images :title "Images" :examples [image] :header image-header}
+               {:id :layouts :title "Layouts" :examples [layout] :header layout-header}
+               {:id :typographies :title "Typography" :examples [typography-example-1 typography-example-2 typography-example-3] :header typography-header-1}
                ])
 
 ;; NOTE: How to render a section (with all examples) including hyperlink target anchor
