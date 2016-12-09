@@ -47,12 +47,18 @@
                   (om.dom/div (cljs.core/clj->js {:className ""}) (~symfn this#))))))
           (def ~sym (om.next/factory ~root {:keyfn (fn [] ~(name root))}))))))
 
+(def attr-renames {
+                   :class    :className
+                   :for      :htmlFor
+                   :tabindex :tabIndex
+                   :viewbox  :viewBox
+                   })
 #?(:cljs
    (defn elem-to-cljs [elem]
      (cond
        (string? elem) elem
        (vector? elem) (let [tag (name (first elem))
-                            attrs (set/rename-keys (second elem) {:class :className :viewbox :viewBox})
+                            attrs (set/rename-keys (second elem) attr-renames)
                             children (map elem-to-cljs (rest (rest elem)))]
                         (concat (list (symbol "dom" tag) (symbol "#js") attrs) children))
        :otherwise "UNKNOWN")))
