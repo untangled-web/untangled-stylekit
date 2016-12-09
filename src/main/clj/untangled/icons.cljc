@@ -4,7 +4,7 @@
     [om.dom :as dom]
     [om.next :as om :refer-macros [defui]]))
 
-(def material-icons
+(def material-icon-paths
   {;; Action
    :3d_rotation                                 "M7.52 21.48C4.25 19.94 1.91 16.76 1.55 13H.05C.56 19.16 5.71 24 12 24l.66-.03-3.81-3.81-1.33 1.32zm.89-6.52c-.19 0-.37-.03-.52-.08-.16-.06-.29-.13-.4-.24-.11-.1-.2-.22-.26-.37-.06-.14-.09-.3-.09-.47h-1.3c0 .36.07.68.21.95.14.27.33.5.56.69.24.18.51.32.82.41.3.1.62.15.96.15.37 0 .72-.05 1.03-.15.32-.1.6-.25.83-.44s.42-.43.55-.72c.13-.29.2-.61.2-.97 0-.19-.02-.38-.07-.56-.05-.18-.12-.35-.23-.51-.1-.16-.24-.3-.4-.43-.17-.13-.37-.23-.61-.31.2-.09.37-.2.52-.33.15-.13.27-.27.37-.42.1-.15.17-.3.22-.46.05-.16.07-.32.07-.48 0-.36-.06-.68-.18-.96-.12-.28-.29-.51-.51-.69-.2-.19-.47-.33-.77-.43C9.1 8.05 8.76 8 8.39 8c-.36 0-.69.05-1 .16-.3.11-.57.26-.79.45-.21.19-.38.41-.51.67-.12.26-.18.54-.18.85h1.3c0-.17.03-.32.09-.45s.14-.25.25-.34c.11-.09.23-.17.38-.22.15-.05.3-.08.48-.08.4 0 .7.1.89.31.19.2.29.49.29.86 0 .18-.03.34-.08.49-.05.15-.14.27-.25.37-.11.1-.25.18-.41.24-.16.06-.36.09-.58.09H7.5v1.03h.77c.22 0 .42.02.6.07s.33.13.45.23c.12.11.22.24.29.4.07.16.1.35.1.57 0 .41-.12.72-.35.93-.23.23-.55.33-.95.33zm8.55-5.92c-.32-.33-.7-.59-1.14-.77-.43-.18-.92-.27-1.46-.27H12v8h2.3c.55 0 1.06-.09 1.51-.27.45-.18.84-.43 1.16-.76.32-.33.57-.73.74-1.19.17-.47.26-.99.26-1.57v-.4c0-.58-.09-1.1-.26-1.57-.18-.47-.43-.87-.75-1.2zm-.39 3.16c0 .42-.05.79-.14 1.13-.1.33-.24.62-.43.85-.19.23-.43.41-.71.53-.29.12-.62.18-.99.18h-.91V9.12h.97c.72 0 1.27.23 1.64.69.38.46.57 1.12.57 1.99v.4zM12 0l-.66.03 3.81 3.81 1.33-1.33c3.27 1.55 5.61 4.72 5.96 8.48h1.5C23.44 4.84 18.29 0 12 0z"
    :accessibility                               "M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"
@@ -976,6 +976,8 @@ z"
    :editing_circle                              "M10 0c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm-6.721 13.466h13.442v2.188h-13.442v-2.188zm12.218-8.43c.218-.213.218-.558 0-.771l-1.311-1.28c-.218-.213-.571-.213-.79 0l-1.098 1.072 2.1 2.051 1.098-1.072h.001zm-1.517 1.482l-2.1-2.051-5.601 5.47v2.051h2.1l5.601-5.47z"
    })
 
+(def icon-names (sort (keys material-icon-paths)))
+
 
 (defn title-case
   "Capitalize every word in a string"
@@ -1010,28 +1012,43 @@ z"
           ""
           states))
 
-(defn icon
-  [iconPath
-   & {:keys [width height modifiers states className onClick]}]
-  (let [add-class (fn [attrs])
-        path-check (iconPath material-icons)
-        icon-name (str/replace (name iconPath) #"_" "-")]
-    (assert (keyword? iconPath) "Must pass a :key")
-    (when-not (str/blank? path-check)
-      (dom/svg (clj->js
-                 (cond->
-                   {:className       (str/join " " [(concat-class-string "c-icon" "--" modifiers)
-                                                    (str "c-icon--" icon-name)
-                                                    (concat-state-string states)
-                                                    (concat-class-string className)])
-                    :version         "1.1"
-                    :xmlns           "http://www.w3.org/2000/svg"
-                    :width           "24"
-                    :height          "24"
-                    :aria-labelledby "title"
-                    :role            "img"
-                    :viewBox         "0 0 24 24"}
-                   onClick (assoc :onClick #(onClick))))
-               (dom/title nil (str (title-case (str/replace (name iconPath) #"_" " "))))
-               (dom/path #js {:d path-check})))))
+#?(:cljs
+   (defn material-icon
+     "Get a React DOM SVG node for a material 24x24 icon."
+     [k]
+     (let [path (get material-icon-paths k)]
+       (dom/svg #js {:version         "1.1"
+                     :xmlns           "http://www.w3.org/2000/svg"
+                     :width           "24"
+                     :height          "24"
+                     :aria-labelledby "title"
+                     :role            "img"
+                     :viewBox         "0 0 24 24"}
+         (dom/path #js {:d path})))))
+
+#?(:cljs
+   (defn icon
+     [iconPath
+      & {:keys [width height modifiers states className onClick]}]
+     (assert (keyword? iconPath) "Must pass a :key")
+     (let [add-class (fn [attrs])
+           path-check (iconPath material-icon-paths)
+           icon-name (str/replace (name iconPath) #"_" "-")]
+       (when-not (str/blank? path-check)
+         (dom/svg (clj->js
+                    (cond->
+                      {:className       (str/join " " [(concat-class-string "c-icon" "--" modifiers)
+                                                       (str "c-icon--" icon-name)
+                                                       (concat-state-string states)
+                                                       (concat-class-string className)])
+                       :version         "1.1"
+                       :xmlns           "http://www.w3.org/2000/svg"
+                       :width           "24"
+                       :height          "24"
+                       :aria-labelledby "title"
+                       :role            "img"
+                       :viewBox         "0 0 24 24"}
+                      onClick (assoc :onClick #(onClick))))
+           (dom/title nil (str (title-case (str/replace (name iconPath) #"_" " "))))
+           (dom/path #js {:d path-check}))))))
 

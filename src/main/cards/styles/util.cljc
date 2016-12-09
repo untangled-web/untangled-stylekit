@@ -6,6 +6,7 @@
      :cljs
      (:require [devcards.core :as dc :include-macros true]
        [clojure.set :as set]
+       [clojure.string :as str]
        [hickory.core :as hc]
        [untangled.client.mutations :as m]
        [untangled.client.core :as uc]
@@ -42,9 +43,9 @@
               (om.dom/div nil
                 (om.dom/div (cljs.core/clj->js {:dangerouslySetInnerHTML (cljs.core/clj->js {:__html (devcards.util.markdown/markdown-to-html ~doc)})}))
                 (om.dom/div (cljs.core/clj->js {:className "u-row"})
-                  (om.dom/div (cljs.core/clj->js {:className ""}) (styles.util/source->react ~symfn ~body)))
+                  (om.dom/div (cljs.core/clj->js {:className "u-column--12"}) (styles.util/source->react ~symfn ~body)))
                 (om.dom/div (cljs.core/clj->js {:className "u-row"})
-                  (om.dom/div (cljs.core/clj->js {:className ""}) (~symfn this#))))))
+                  (om.dom/div (cljs.core/clj->js {:className "u-column--12"}) (~symfn this#))))))
           (def ~sym (om.next/factory ~root {:keyfn (fn [] ~(name root))}))))))
 
 (def attr-renames {
@@ -113,4 +114,23 @@
        (let [{:keys [converter ui/react-key]} (om/props this)]
          (dom/div
            #js {:key react-key} (ui-html-convert converter))))))
+
+#?(:cljs
+   (defn section
+     "Render a section with examples."
+     [id sections]
+     (let [{:keys [title documentation examples]} (first (filter #(= id (:id %)) sections))]
+       (dom/div nil
+         (dom/a #js {:id id}
+           (dom/h1 nil title))
+         (when documentation
+           (dom/div nil (dc/markdown->react documentation)))
+         (map #(%) examples)))))
+
+#?(:cljs
+   (defn section-index
+     "Render a clickable index of a given set of sections."
+     [sections]
+     (dom/ul nil
+       (map #(dom/li nil (dom/a #js {:href (str "#" (:id %))} (:title %))) sections))))
 
