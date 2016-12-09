@@ -149,17 +149,35 @@
     (dom/label #js {:for "checkbox-7"} "Indeterminate Checkbox")))
 
 (defexample dropdown
-  "# Dropdown
+  "## Normal Dropdown
 
   This example uses component local state to toggle the is-active class to open/close the dropdown."
   (let [open (boolean (om/get-state this :open))
+        menu-class (str "c-dropdown__menu" (if open " is-active" ""))
         selections ["Apples" "Oranges" "Banannas"]
         current (or (om/get-state this :selection) "Not Selected")]
     (dom/div #js {:className "c-dropdown"}
       (dom/button #js {:onClick   #(om/update-state! this update :open not)
                        :className "c-dropdown__select js-dropdown-toggle"} current)
       (dom/ul #js {:id        "test-dropdown" :tabindex "-1" :aria-hidden "true"
-                   :className (str "c-dropdown__menu " (if open "is-active" ""))}
+                   :className menu-class}
+        (map (fn [s]
+               (dom/li #js {:key s :onClick (fn [evt]
+                                              (om/update-state! this assoc :open false)
+                                              (om/update-state! this assoc :selection s))}
+                 (dom/button #js {:className "c-dropdown__link"} s))) selections)))))
+
+(defexample dropdown-large
+  "## Large Dropdown"
+  (let [open (boolean (om/get-state this :open))
+        menu-class (str "c-dropdown__menu" (if open " is-active" ""))
+        selections ["Apples" "Oranges" "Banannas"]
+        current (or (om/get-state this :selection) "Not Selected")]
+    (dom/div #js {:className "c-dropdown c-dropdown--large"}
+      (dom/button #js {:onClick   #(om/update-state! this update :open not)
+                       :className "c-dropdown__select js-dropdown-toggle"} current)
+      (dom/ul #js {:id        "test-dropdown" :tabindex "-1" :aria-hidden "true"
+                   :className menu-class}
         (map (fn [s]
                (dom/li #js {:key s :onClick (fn [evt]
                                               (om/update-state! this assoc :open false)
@@ -171,7 +189,7 @@
                {:id :buttons :title "Buttons" :examples [button-size-and-shape button-color button-state button-postfix]}
                {:id :card :title "Card" :examples [drop-card active-card inactive-card card-with-titlebar card-example rounded-card transparent-card ruled-card]}
                {:id :checkboxes :title "Checkboxes" :examples [checkboxes]}
-               {:id :dropdowns :title "Dropdowns" :examples [dropdown]}
+               {:id :dropdowns :title "Dropdowns" :examples [dropdown-large dropdown]}
                ])
 
 (defn section
