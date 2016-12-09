@@ -1,5 +1,6 @@
 (ns styles.main
   (:require [styles.cards]
+            [styles.elements]
             [untangled.client.core :as uc]
             [styles.util :as util]))
 
@@ -11,4 +12,6 @@
 (def Client2 (uc/new-untangled-client))
 (uc/mount Client2 styles.cards/UI "example-2")
 
+(def Client3 (uc/new-untangled-client))
+(uc/mount Client3 styles.elements/UI "example-3")
 
