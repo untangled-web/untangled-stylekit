@@ -2,6 +2,7 @@
   (:require-macros user)
   (:require [om.next :as om :refer-macros [defui]]
             [untangled.client.core :as uc]
+            ;; NOTE: This is where the interesting macros and such are at:
             [styles.util :as util :refer [source->react to-cljs defexample]]
             [om.dom :as dom]
             [devcards.util.edn-renderer :as edn]
