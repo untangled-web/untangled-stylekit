@@ -17,8 +17,10 @@
 #?(:clj
    (defmacro source->react [obj body]
      (let [code (cljs.repl/source-fn &env obj)
+           ; HACK: Use the first form in the sexp to find the end of the doc, so we can trim out the macro source
            marker (str "(" (first body))
            beginning (- (.indexOf code marker) 2)
+           ; HACK: drop the last closing paren
            end (- (.length code) 1)
            code (.substring code beginning end)]
        `(devcards.core/markdown->react
