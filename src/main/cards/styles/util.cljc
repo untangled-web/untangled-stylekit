@@ -33,7 +33,8 @@
      "Define a DOM example. The body may reference `this` as if in the body of
      an Om component `(render [this] ...)`"
      [sym doc body]
-     (let [root (gensym "Example")
+     (let [basename (str sym "-")
+           root (gensym basename)
            symfn (symbol (str (name sym) "-code"))]
        `(do
           (defn ~symfn [~'this] ~body)
@@ -49,10 +50,13 @@
           (def ~sym (om.next/factory ~root {:keyfn (fn [] ~(name root))}))))))
 
 (def attr-renames {
-                   :class    :className
-                   :for      :htmlFor
-                   :tabindex :tabIndex
-                   :viewbox  :viewBox
+                   :class        :className
+                   :for          :htmlFor
+                   :tabindex     :tabIndex
+                   :viewbox      :viewBox
+                   :spellcheck   :spellcheck
+                   :autocorrect  :autoCorrect
+                   :autocomplete :autoComplete
                    })
 #?(:cljs
    (defn elem-to-cljs [elem]
@@ -91,9 +95,9 @@
      (render [this]
        (let [{:keys [html cljs]} (om/props this)]
          (dom/div #js {:className ""}
-           (dom/textarea #js {:cols  80 :rows 10 :onChange (fn [evt]
-                                                             (m/set-string! this :html :event evt))
-                              :value html})
+           (dom/textarea #js {:cols     80 :rows 10
+                              :onChange (fn [evt] (m/set-string! this :html :event evt))
+                              :value    html})
            (dom/div #js {} (edn/html-edn cljs))
            (dom/button #js {:className "c-button" :onClick (fn [evt]
                                                              (om/transact! this '[(convert)]))} "Convert"))))))
@@ -125,7 +129,9 @@
            (dom/h1 nil title))
          (when documentation
            (dom/div nil (dc/markdown->react documentation)))
-         (map #(%) examples)))))
+         (map-indexed (fn [idx render]
+                        (dom/div #js {:key (str "section-" idx)}
+                          (render))) examples)))))
 
 #?(:cljs
    (defn section-index

@@ -325,7 +325,7 @@
   (dom/div nil
     (dom/input #js {:type "text" :className "c-input" :required "true" :placeholder "Required field"})
     (dom/input #js {:type "text" :placeholder "Optional field" :className "c-input"})
-    (mapv (fn [typ] (dom/input #js {:type typ :placeholder typ :className "c-input"}))
+    (mapv (fn [typ] (dom/input #js {:key typ :type typ :placeholder typ :className "c-input"}))
           ["text" "password" "date" "datetime" "datetime-local" "month" "week" "email" "number" "search" "tel" "time" "url" "color"])))
 
 (defexample input-states
@@ -338,7 +338,7 @@
 (defexample input-round
   "# Rounded Input with Icons"
   (dom/div #js {:className "u-wrapper"}
-    (dom/input #js {:type "text" :className "c-input c-input--round c-input--inset" :placeholder "Search..." :autocorrect "off" :autocapitalize "off" :autocomplete "off" :spellcheck "false"})
+    (dom/input #js {:type "text" :className "c-input c-input--round c-input--inset" :placeholder "Search..." :autoCorrect "off" :autoCapitalize "off" :autoComplete "off" :spellCheck "false"})
     (dom/button #js {:type "submit" :className "c-button c-button--icon u-absolute--top-left" :disabled "" :aria-label "Submit"}
       (dom/span #js {:className "c-icon c-icon--search"}
         (icons/material-icon :search)))
@@ -390,33 +390,41 @@
     (icons/material-icon :timer)))
 
 (defexample icon-sizes
-  "# Icon Sizes"
+  "# Icon Sizes
+
+  NOTE: If you would like to include states on the icon itself, you can use
+  the helper function `(untangled.icons/icon :icon-name :modifiers [:xlarge])`
+  "
   (let [sizes ["--small" "" "--medium" "--large" "--xlarge" "--huge"]]
     (dom/div #js {}
       (mapv (fn [sz]
-              (dom/figure #js {}
+              (dom/figure #js {:key (str "a" sz)}
                 (dom/span #js {:className (str "c-icon c-icon" sz)}
                   (icons/material-icon :alarm))
                 (dom/figcaption #js {} (str ".c-icon" sz)))
               ) sizes))))
 
 (defexample icon-colors
-  "# Icon Colors"
+  "# Icon Colors "
   (let [colors ["positive" "informative" "neutral" "live" "alterable" "negative"]]
     (dom/div #js {}
       (mapv (fn [color]
-              (dom/figure #js {}
+              (dom/figure #js {:key color}
                 (dom/span #js {:className (str "c-icon is-" color)}
                   (icons/material-icon :alarm))
                 (dom/figcaption #js {} (str "is-" color)))
               ) colors))))
 
 (defexample icon-states
-  "# Icon States"
+  "# Icon States
+
+  NOTE: If you would like to include states on the icon itself, you can use
+  the helper function `(untangled.icons/icon :icon-name :state [:positive])`
+  "
   (let [states ["active" "passive" "selectable" "disabled"]]
     (dom/div #js {}
       (mapv (fn [state]
-              (dom/figure #js {}
+              (dom/figure #js {:key state}
                 (dom/span #js {:className (str "c-icon c-icon--large is-" state)}
                   (icons/material-icon :alarm))
                 (dom/figcaption #js {} (str "is-" state)))
@@ -429,7 +437,7 @@
   is recommended that you wrap icons with c-icon-{iconname}."
   (dom/div #js {}
     (mapv (fn [nm]
-            (dom/figure #js {}
+            (dom/figure #js {:key nm}
               (dom/span #js {:className (str "c-icon c-icon-" nm)}
                 (icons/material-icon nm))
               (dom/figcaption #js {} (str nm)))
@@ -501,12 +509,302 @@
     (dom/div #js {:className "c-message--success"} "This is a successful message")
     (dom/div #js {:className "c-message--warning"} "This is a warning message")))
 
+(defexample info-notification
+  "# Informational Notification"
+  (dom/div #js {:className "c-notification"}
+    (icons/icon :info)
+    (dom/div #js {:className "c-notification_content"}
+      (dom/h1 #js {:className "c-notification_heading"} "Info Notification")
+      (dom/p #js {} "Communicate a meaningful message."))
+    (dom/button #js {:className "c-button c-button--icon"}
+      (icons/icon :close))))
+
+(defexample success-notification
+  "# Success Notification"
+  (dom/div #js {:className "c-notification"}
+    (icons/icon :check_circle :states [:positive])
+    (dom/div #js {:className "c-notification_content"}
+      (dom/h1 #js {:className "c-notification_heading"} "Successful Notification")
+      (dom/p #js {} "Communicate a meaningful message."))
+    (dom/button #js {:className "c-button c-button--icon"}
+      (icons/icon :close))))
+
+(defexample warning-notification
+  "# Warning Notification"
+  (dom/div #js {:className "c-notification c-notification--warning"}
+    (icons/icon :warning)
+    (dom/div #js {:className "c-notification_content"}
+      (dom/h1 #js {:className "c-notification_heading"} "Warning Notification")
+      (dom/p #js {} "Communicate a meaningful message."))
+    (dom/button #js {:className "c-button c-button--icon"}
+      (icons/icon :close))))
+
+(defexample error-notification
+  "# Error Notification"
+  (dom/div #js {:className "c-notification c-notification--error"}
+    (icons/icon :error)
+    (dom/div #js {:className "c-notification_content"}
+      (dom/h1 #js {:className "c-notification_heading"} "Error Notification")
+      (dom/p #js {} "Communicate a meaningful message."))
+    (dom/button #js {:className "c-button c-button--icon"}
+      (icons/icon :close))))
+
+(defexample wide-notification
+  "# Wide Notification"
+  (dom/div #js {:className "c-notification c-notification--wide c-notification--informative"}
+    (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--info" :viewBox "0 0 24 24"}
+      (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"}))
+    (dom/div #js {:className "c-notification_content"}
+      (dom/h1 #js {:className "c-notification_heading"} "Wide Notification")
+      (dom/p #js {} "Communicate a meaningful message."))
+    (dom/button #js {:className "c-button c-button--icon"}
+      (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--close" :viewBox "0 0 24 24"}
+        (dom/path #js {:d "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"})))))
+
+(defexample radio
+  "# Radio Buttons"
+  (let [selection (or (om/get-state this :selection) 1)
+        select (fn [n] (om/update-state! this assoc :selection n))]
+    (dom/div #js {}
+      (dom/input #js {:id      "r1" :type "radio" :className "c-radio" :name "radiogroup"
+                      :checked (= 1 selection) :onClick #(select 1)})
+      (dom/label #js {:id "r1l" :htmlFor "r1"} "A")
+      (dom/input #js {:id      "r2" :type "radio" :className "c-radio" :name "radiogroup"
+                      :checked (= 2 selection) :onClick #(select 2)})
+      (dom/label #js {:id "r2l" :htmlFor "r2"} "B")
+      (dom/input #js {:id      "r3" :type "radio" :className "c-radio" :name "radiogroup"
+                      :checked (= 3 selection) :onClick #(select 3)})
+      (dom/label #js {:htmlFor "r3"} "C"))))
+
+(defexample radio-informative
+  "# Consumer Blue Radio Buttons"
+  (let [selection (or (om/get-state this :selection) 1)
+        select (fn [n] (om/update-state! this assoc :selection n))]
+    (dom/div #js {}
+      (dom/input #js {:id      "r1i" :type "radio" :className "c-radio c-radio--informative" :name "radiogroupi"
+                      :checked (= 1 selection) :onClick #(select 1)})
+      (dom/label #js {:htmlFor "r1i"} "A")
+      (dom/input #js {:id      "r2i" :type "radio" :className "c-radio c-radio--informative" :name "radiogroupi"
+                      :checked (= 2 selection) :onClick #(select 2)})
+      (dom/label #js {:htmlFor "r2i"} "B")
+      (dom/input #js {:id      "r3i" :type "radio" :className "c-radio c-radio--informative" :name "radiogroupi"
+                      :checked (= 3 selection) :onClick #(select 3)})
+      (dom/label #js {:htmlFor "r3i"} "C"))))
+
+(defexample radio-stacked
+  "# Stacked Radio Buttons"
+  (let [selection (or (om/get-state this :selection) 1)
+        select (fn [n] (om/update-state! this assoc :selection n))]
+    (dom/div #js {}
+      (dom/input #js {:id      "sr1" :type "radio" :className "c-radio c-radio--informative c-radio--stacked" :name "stackedradio"
+                      :checked (= 1 selection) :onClick #(select 1)})
+      (dom/label #js {:id "sr1l" :htmlFor "sr1"} "1")
+      (dom/input #js {:id      "sr2" :type "radio" :className "c-radio c-radio--informative c-radio--stacked" :name "stackedradio"
+                      :checked (= 2 selection) :onClick #(select 2)})
+      (dom/label #js {:id "sr2l" :htmlFor "sr2"} "2")
+      (dom/input #js {:id      "sr3" :type "radio" :className "c-radio c-radio--informative c-radio--stacked" :name "stackedradio"
+                      :checked (= 3 selection) :onClick #(select 3)})
+      (dom/label #js {:htmlFor "sr3"} "3")
+      (dom/input #js {:id      "sr4" :type "radio" :className "c-radio c-radio--informative c-radio--stacked" :name "stackedradio"
+                      :checked (= 4 selection) :onClick #(select 4)})
+      (dom/label #js {:htmlFor "sr4"} "4")
+      (dom/input #js {:id      "sr5" :type "radio" :className "c-radio c-radio--informative c-radio--stacked" :name "stackedradio"
+                      :checked (= 5 selection) :onClick #(select 5)})
+      (dom/label #js {:htmlFor "sr5"} "5"))))
+
+(defexample tables
+  "# Table Example"
+  (let [kind (or (om/get-state this :kind))
+        set-kind (fn [k] (om/update-state! this assoc :kind k))]
+    (dom/div #js {}
+      (dom/div #js {:className "o-button-group"}
+        (dom/button #js {:aria-label "Swipe View" :onClick #(set-kind "swipe")
+                         :className  (str "c-button c-button--small " (when (= kind "swipe") "is-active"))}
+          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
+            (dom/path #js {:d "M4 15h16v-2H4v2zm0 4h16v-2H4v2zm0-8h16V9H4v2zm0-6v2h16V5H4z"})))
+        (dom/button #js {:aria-label "Toggle View" :onClick #(set-kind "toggle")
+                         :className  (str "c-button c-button--small " (when (= kind "toggle") "is-active"))}
+          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
+            (dom/path #js {:d "M10 18h5V5h-5v13zm-6 0h5V5H4v13zM16 5v13h5V5h-5z"})))
+        (dom/button #js {:aria-label "Stacked View" :onClick #(set-kind "stacked")
+                         :className  (str "c-button c-button--small " (when (= kind "stacked") "is-active"))}
+          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
+            (dom/path #js {:d "M4 18h17v-6H4v6zM4 5v6h17V5H4z"}))))
+      (dom/table #js {:className (str "c-table c-table--" kind)}
+                 (dom/thead #js {}
+                            (dom/tr #js {}
+                                    (dom/th #js {:scope "col"})
+                                    (dom/th #js {:scope "col" :className "c-table__priority-3"} "Opens")
+                                    (dom/th #js {:scope "col" :className "c-table__priority-2"} "Open %")
+                                    (dom/th #js {:scope "col" :className "c-table__priority-1"} "Clicks")
+                                    (dom/th #js {:scope "col" :className "c-table__priority-4"} "Click %")
+                                    (dom/th #js {:scope "col" :className "c-table__priority-5"} "Booked")
+                                    (dom/th #js {:scope "col" :className "c-table__priority-6"} "Attr Rev")
+                                    (dom/th #js {:scope "col" :className "c-table__priority-6"} "Bounce %")
+                                    (dom/th #js {:scope "col" :className "c-table__priority-6"} "Share %")
+                                    (dom/th #js {:scope "col" :className "c-table__priority-6"} "Unsub %")))
+                 (dom/tbody #js {}
+                            (dom/tr #js {}
+                                    (dom/td #js {} "Auto Agent")
+                                    (dom/td #js {:className "c-table__priority-3"}
+                                            (dom/span #js {:className "c-table__label"} "Opens")
+                                            (dom/span #js {:className "c-table__content"} "300"))
+                                    (dom/td #js {:className "c-table__priority-2"}
+                                            (dom/span #js {:className "c-table__label"} "Open %")
+                                            (dom/span #js {:className "c-table__content"} "60"))
+                                    (dom/td #js {:className "c-table__priority-1"}
+                                            (dom/span #js {:className "c-table__label"} "Clicks")
+                                            (dom/span #js {:className "c-table__content"} "3000"))
+                                    (dom/td #js {:className "c-table__priority-4"}
+                                            (dom/span #js {:className "c-table__label"} "Click %")
+                                            (dom/span #js {:className "c-table__content"} "32"))
+                                    (dom/td #js {:className "c-table__priority-5"}
+                                            (dom/span #js {:className "c-table__label"} "Booked")
+                                            (dom/span #js {:className "c-table__content"} "12000"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Attr Rev")
+                                            (dom/span #js {:className "c-table__content"} "32800"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Bounce %")
+                                            (dom/span #js {:className "c-table__content"} "32"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Share %")
+                                            (dom/span #js {:className "c-table__content"} "32"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Unsub %")
+                                            (dom/span #js {:className "c-table__content"} "32")))
+                            (dom/tr #js {}
+                                    (dom/td #js {} "First child entry")
+                                    (dom/td #js {:className "c-table__priority-3"}
+                                            (dom/span #js {:className "c-table__label"} "Opens")
+                                            (dom/span #js {:className "c-table__content"} "100"))
+                                    (dom/td #js {:className "c-table__priority-2"}
+                                            (dom/span #js {:className "c-table__label"} "Open %")
+                                            (dom/span #js {:className "c-table__content"} "54"))
+                                    (dom/td #js {:className "c-table__priority-1"}
+                                            (dom/span #js {:className "c-table__label"} "Clicks")
+                                            (dom/span #js {:className "c-table__content"} "1200"))
+                                    (dom/td #js {:className "c-table__priority-4"}
+                                            (dom/span #js {:className "c-table__label"} "Click %")
+                                            (dom/span #js {:className "c-table__content"} "18"))
+                                    (dom/td #js {:className "c-table__priority-5"}
+                                            (dom/span #js {:className "c-table__label"} "Booked")
+                                            (dom/span #js {:className "c-table__content"} "6000"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Attr Rev")
+                                            (dom/span #js {:className "c-table__content"} "24000"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Bounce %")
+                                            (dom/span #js {:className "c-table__content"} "18"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Share %")
+                                            (dom/span #js {:className "c-table__content"} "18"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Unsub %")
+                                            (dom/span #js {:className "c-table__content"} "18")))
+                            (dom/tr #js {}
+                                    (dom/td #js {} "Second child entry")
+                                    (dom/td #js {:className "c-table__priority-3"}
+                                            (dom/span #js {:className "c-table__label"} "Opens")
+                                            (dom/span #js {:className "c-table__content"} "600"))
+                                    (dom/td #js {:className "c-table__priority-2"}
+                                            (dom/span #js {:className "c-table__label"} "Open %")
+                                            (dom/span #js {:className "c-table__content"} "72"))
+                                    (dom/td #js {:className "c-table__priority-1"}
+                                            (dom/span #js {:className "c-table__label"} "Clicks")
+                                            (dom/span #js {:className "c-table__content"} "960"))
+                                    (dom/td #js {:className "c-table__priority-4"}
+                                            (dom/span #js {:className "c-table__label"} "Click %")
+                                            (dom/span #js {:className "c-table__content"} "42"))
+                                    (dom/td #js {:className "c-table__priority-5"}
+                                            (dom/span #js {:className "c-table__label"} "Booked")
+                                            (dom/span #js {:className "c-table__content"} "3000"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Attr Rev")
+                                            (dom/span #js {:className "c-table__content"} "1200"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Bounce %")
+                                            (dom/span #js {:className "c-table__content"} "42"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Share %")
+                                            (dom/span #js {:className "c-table__content"} "42"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Unsub %")
+                                            (dom/span #js {:className "c-table__content"} "42")))
+                            (dom/tr #js {}
+                                    (dom/td #js {} "Third child entry")
+                                    (dom/td #js {:className "c-table__priority-3"}
+                                            (dom/span #js {:className "c-table__label"} "Opens")
+                                            (dom/span #js {:className "c-table__content"} "300"))
+                                    (dom/td #js {:className "c-table__priority-2"}
+                                            (dom/span #js {:className "c-table__label"} "Open %")
+                                            (dom/span #js {:className "c-table__content"} "60"))
+                                    (dom/td #js {:className "c-table__priority-1"}
+                                            (dom/span #js {:className "c-table__label"} "Clicks")
+                                            (dom/span #js {:className "c-table__content"} "840"))
+                                    (dom/td #js {:className "c-table__priority-4"}
+                                            (dom/span #js {:className "c-table__label"} "Click %")
+                                            (dom/span #js {:className "c-table__content"} "32"))
+                                    (dom/td #js {:className "c-table__priority-5"}
+                                            (dom/span #js {:className "c-table__label"} "Booked")
+                                            (dom/span #js {:className "c-table__content"} "12000"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Attr Rev")
+                                            (dom/span #js {:className "c-table__content"} "30800"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Bounce %")
+                                            (dom/span #js {:className "c-table__content"} "32"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Share %")
+                                            (dom/span #js {:className "c-table__content"} "32"))
+                                    (dom/td #js {:className "c-table__priority-6"}
+                                            (dom/span #js {:className "c-table__label"} "Unsub %")
+                                            (dom/span #js {:className "c-table__content"} "32"))))))))
+
+(defexample tooltip-directions
+  "# Directional Tool Tips"
+  (dom/div #js {}
+    (dom/div #js {:className "u-text-center"}
+      (dom/button #js {:data-tooltip "Hey!" :data-tooltip-pos "up" :className "c-button c-button--large"} "Hover me!"))
+    (dom/div #js {:className "u-text-center"}
+      (dom/button #js {:data-tooltip "Hey!" :data-tooltip-pos "left" :className "c-button c-button--large"} "Hover me!"))
+    (dom/div #js {:className "u-text-center"}
+      (dom/button #js {:data-tooltip "Hey!" :data-tooltip-pos "right" :className "c-button c-button--large"} "Hover me!"))
+    (dom/div #js {:className "u-text-center"}
+      (dom/button #js {:data-tooltip "Hey!" :data-tooltip-pos "down" :className "c-button c-button--large"} "Hover me!"))))
+
+(defexample tooltip-sizes
+  "# Tooltip Sizes"
+  (dom/div #js {}
+    (dom/div #js {:className "u-text-center"} " "
+      (dom/button #js {:data-tooltip "Hey!" :data-tooltip-length "small" :className "c-button c-button--large"} "Small") " ") " "
+    (dom/div #js {:className "u-text-center"} " "
+      (dom/button #js {:data-tooltip "Now that's a super big text we have over here right? Lorem ipsum dolor sit I'm done." :data-tooltip-length "medium" :className "c-button c-button--large"} "Medium") " ") " "
+    (dom/div #js {:className "u-text-center"} " "
+      (dom/button #js {:data-tooltip "What about something really big? This may surpass your window dimensions. Imagine you're on that boring class with that boring teacher and you didn't slept so well last night. Suddenly you're sleeping in class. Can you believe it?!" :data-tooltip-length "large" :className "c-button c-button--large"} "Large") " ") " "
+    (dom/div #js {:className "u-text-center"} " "
+      (dom/button #js {:data-tooltip "What about something really big? This may surpass your window dimensions. Imagine you're on that boring class with that boring teacher and you didn't slept so well last night. Suddenly you're sleeping in class. Can you believe it?!" :data-tooltip-length "xlarge" :className "c-button c-button--large"} "X-Large") " ") " "
+    (dom/div #js {:className "u-text-center"} " "
+      (dom/button #js {:data-tooltip "What about something really big? This may surpass your window dimensions. Imagine you're on that boring class with that boring teacher and you didn't slept so well last night. Suddenly you're sleeping in class. Can you believe it?!" :data-tooltip-length "fit" :className "c-button c-button--large"} "My width will fit to element") " ") " "))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; START OF SECTIONS (within a feature set...e.g. components)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; NOTE: This is where you add the sections for index
 (def sections [
                ; NOTE: :examples is a list of example names, rendered in order given
+               {:id :tooltip :title "Tool Tips" :examples [tooltip-directions tooltip-sizes]
+                :documentation
+                    "Tool tips are based on `data` attributes. "}
+               {:id :table :title "Tables" :examples [tables]}
+               {:id :radio :title "Radio Buttons" :examples [radio radio-informative radio-stacked]}
+               {:id :notifications :examples [info-notification success-notification warning-notification error-notification wide-notification] :title "Notifications"
+                :documentation
+                    "Used to communicate the state of your user's interactions as well as system status.
+
+                    In general, use the positioning classes (e.g. `u-absolute--middle-center`) to place these in
+                    the UI.
+                    "}
                {:id :messages :title "Messages" :examples [messages]}
                {:id :menus :title "Menus" :examples [block-menu inline-menu]}
                {:id            :loader :title "Loader" :examples [loader]
@@ -544,5 +842,5 @@
   (render [this]
     (dom/div nil
       (util/section-index sections)
-      (mapv (fn [k] (util/section k sections)) (map :id sections)))))
+      (mapv (fn [k] (dom/div #js {:key k} (util/section k sections))) (map :id sections)))))
 
