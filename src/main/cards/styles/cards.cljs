@@ -2,8 +2,10 @@
   (:require-macros user)
   (:require [om.next :as om :refer-macros [defui]]
             [untangled.client.core :as uc]
-            ;; NOTE: This is where the interesting macros and such are at:
-            [styles.util :as util :refer [source->react to-cljs defexample]]
+    ;; NOTE: This is where the interesting macros and such are at:
+            [styles.util :as util
+             :refer [to-cljs]
+             :refer-macros [source->react defexample]]
             [om.dom :as dom]
             [devcards.util.edn-renderer :as edn]
             [untangled.client.mutations :as m]))
@@ -173,7 +175,7 @@
                  (dom/button #js {:className "c-dropdown__link"} s))) selections)))))
 
 (defexample dropdown-large
-  "## Large Dropdown" ; NOTE: markdown format doc string. Do not include cljs in it.
+  "## Large Dropdown"                                       ; NOTE: markdown format doc string. Do not include cljs in it.
   (let [open (boolean (om/get-state this :open))
         menu-class (str "c-dropdown__menu" (if open " is-active" ""))
         selections ["Apples" "Oranges" "Banannas"]
