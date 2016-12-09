@@ -73,9 +73,68 @@
     (dom/button #js {:className "c-button c-button--text"} "Text")
     (dom/button #js {:className "c-button c-button--anchor"} "Anchor")))
 
+(defexample button-postfix
+  "## Button Postfix"
+  (dom/div #js {:className "u-row u-row--collapse"}
+    (dom/div #js {:className "u-column--9"}
+      (dom/input #js {:type "text" :placeholder "Search for..." :className "c-input"}))
+    (dom/div #js {:className "u-column--2"}
+      (dom/button #js {:className "c-button c-button--postfix"} "Search"))))
+
+(defexample card-example
+  "## Cards"
+  (dom/div #js {:className "c-card"}
+    (dom/h1 #js {} "Title")
+    (dom/p #js {} "Card paragraph text goes here.")))
+
+(defexample rounded-card
+  "## Rounded Card"
+  (dom/div #js {:className "c-card c-card--round"}
+    (dom/h1 #js {} "Title")
+    (dom/p #js {} "This is just a monolithic class that rounds off any card you apply it to.")))
+
+(defexample transparent-card
+  "## Transparent Card"
+  (dom/div #js {:className "c-card c-card--transparent"}
+    (dom/h1 #js {} "Title")
+    (dom/p #js {} "This gives you the basic box properties without any background color or text color.")))
+
+(defexample ruled-card
+  "## Ruled Card"
+  (dom/div #js {:className "u-wrapper"}
+    (dom/div #js {:className "c-card c-card--ruled"}
+      (dom/h1 #js {} "Title")
+      (dom/p #js {} "A simple card, horizontal ruled."))))
+
+(defexample card-with-titlebar
+  "## Title Bar Card"
+  (dom/div #js {:className "c-card"}
+    (dom/div #js {:className "c-card__title"}
+      (dom/h1 #js {:className "c-card__heading"} "Title"))
+    (dom/p #js {} "Add these title and heading modifiers to your card to get a titlebar.")))
+
+(defexample active-card
+  "## Active Card"
+  (dom/div nil
+    (dom/div #js {:className "c-card c-card--row is-active"}
+      (dom/h1 #js {} "Title")
+      (dom/p #js {} "I could have used lorem ipsum, but what's the fun in that?"))))
+
+(defexample inactive-card
+  "## Inactive Card"
+  (dom/div nil
+    (dom/div #js {:className "c-card c-card--row is-inactive"}
+      (dom/h1 #js {} "Title")
+      (dom/p #js {} "I could have used lorem ipsum, but what's the fun in that?"))))
+
+(defexample drop-card
+  "## Drop Zone Card"
+  (dom/div #js {:className "c-card c-card--zone"} "This is a Card Zone component! Drop things on me!"))
+
 (def sections [
                {:id :badges :title "Badges" :examples [badge-example-1 badge-on-button badge-with-icon]}
-               {:id :buttons :title "Buttons" :examples [button-size-and-shape button-color button-state]}
+               {:id :buttons :title "Buttons" :examples [button-size-and-shape button-color button-state button-postfix]}
+               {:id :card :title "Card" :examples [drop-card active-card inactive-card card-with-titlebar card-example rounded-card transparent-card ruled-card]}
                ])
 
 (defn section
@@ -95,6 +154,7 @@
   (render [this]
     (dom/div nil
       (section-index sections)
+      (section :card sections)
       (section :badges sections)
       (section :buttons sections))))
 
