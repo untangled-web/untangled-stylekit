@@ -26,11 +26,14 @@
             ~(or code (str "Source not found")))))))
 
 #?(:clj
-   (defmacro defexample [sym doc body]
+   (defmacro defexample
+     "Define a DOM example. The body may reference `this` as if in the body of
+     an Om component `(render [this] ...)`"
+     [sym doc body]
      (let [root (gensym "Example")
            symfn (symbol (str (name sym) "-code"))]
        `(do
-          (defn ~symfn [] ~body)
+          (defn ~symfn [~'this] ~body)
           (om.next/defui ~root
             ~'Object
             (~'render [this#]
@@ -39,7 +42,7 @@
                 (om.dom/div (cljs.core/clj->js {:className "u-row"})
                   (om.dom/div (cljs.core/clj->js {:className ""}) (styles.util/source->react ~symfn ~body)))
                 (om.dom/div (cljs.core/clj->js {:className "u-row"})
-                  (om.dom/div (cljs.core/clj->js {:className ""}) (~symfn))))))
+                  (om.dom/div (cljs.core/clj->js {:className ""}) (~symfn this#))))))
           (def ~sym (om.next/factory ~root {:keyfn (fn [] ~(name root))}))))))
 
 #?(:cljs

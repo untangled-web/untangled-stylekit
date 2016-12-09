@@ -131,10 +131,47 @@
   "## Drop Zone Card"
   (dom/div #js {:className "c-card c-card--zone"} "This is a Card Zone component! Drop things on me!"))
 
+(defexample checkboxes
+  "# Checkboxes"
+  (dom/div #js {}
+    (dom/input #js {:id "checkbox-1" :type "checkbox" :className "c-checkbox"})
+    (dom/label #js {:for "checkbox-1"} "Checkbox")
+    (dom/input #js {:id "checkbox-2" :type "checkbox" :checked true :className "c-checkbox"})
+    (dom/label #js {:for "checkbox-2"} "Checked Checkbox")
+    (dom/input #js {:id "checkbox-3" :type "checkbox" :className "c-checkbox is-indeterminate"})
+    (dom/label #js {:for "checkbox-3"} "Indeterminate Checkbox")
+
+    (dom/input #js {:id "checkbox-5" :type "checkbox" :className "c-checkbox c-checkbox--informative"})
+    (dom/label #js {:for "checkbox-5"} "Checkbox")
+    (dom/input #js {:id "checkbox-6" :type "checkbox" :checked true :className "c-checkbox c-checkbox--informative"})
+    (dom/label #js {:for "checkbox-6"} "Checked Checkbox")
+    (dom/input #js {:id "checkbox-7" :type "checkbox" :className "c-checkbox c-checkbox--informative is-indeterminate"})
+    (dom/label #js {:for "checkbox-7"} "Indeterminate Checkbox")))
+
+(defexample dropdown
+  "# Dropdown
+
+  This example uses component local state to toggle the is-active class to open/close the dropdown."
+  (let [open (boolean (om/get-state this :open))
+        selections ["Apples" "Oranges" "Banannas"]
+        current (or (om/get-state this :selection) "Not Selected")]
+    (dom/div #js {:className "c-dropdown"}
+      (dom/button #js {:onClick   #(om/update-state! this update :open not)
+                       :className "c-dropdown__select js-dropdown-toggle"} current)
+      (dom/ul #js {:id        "test-dropdown" :tabindex "-1" :aria-hidden "true"
+                   :className (str "c-dropdown__menu " (if open "is-active" ""))}
+        (map (fn [s]
+               (dom/li #js {:key s :onClick (fn [evt]
+                                              (om/update-state! this assoc :open false)
+                                              (om/update-state! this assoc :selection s))}
+                 (dom/button #js {:className "c-dropdown__link"} s))) selections)))))
+
 (def sections [
                {:id :badges :title "Badges" :examples [badge-example-1 badge-on-button badge-with-icon]}
                {:id :buttons :title "Buttons" :examples [button-size-and-shape button-color button-state button-postfix]}
                {:id :card :title "Card" :examples [drop-card active-card inactive-card card-with-titlebar card-example rounded-card transparent-card ruled-card]}
+               {:id :checkboxes :title "Checkboxes" :examples [checkboxes]}
+               {:id :dropdowns :title "Dropdowns" :examples [dropdown]}
                ])
 
 (defn section
@@ -154,6 +191,8 @@
   (render [this]
     (dom/div nil
       (section-index sections)
+      (section :dropdowns sections)
+      (section :checkboxes sections)
       (section :card sections)
       (section :badges sections)
       (section :buttons sections))))
