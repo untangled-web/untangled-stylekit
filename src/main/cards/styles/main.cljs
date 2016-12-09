@@ -1,5 +1,6 @@
 (ns styles.main
   (:require [styles.cards]
+            [styles.utilities]
             [untangled.client.core :as uc]
             [styles.util :as util]))
 
@@ -10,5 +11,9 @@
 ;; NOTE: Mount the main UI on div with ID example-2
 (def Client2 (uc/new-untangled-client))
 (uc/mount Client2 styles.cards/UI "example-2")
+
+;; NOTE: Mount the main UI on div with ID example-2
+(def Client-utilities (uc/new-untangled-client))
+(uc/mount Client-utilities styles.utilities/UI "example-utilities")
 
 
