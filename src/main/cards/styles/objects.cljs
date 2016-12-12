@@ -8,21 +8,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; START OF EXAMPLES
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defn toggle-accordion [this] (om/update-state! this update :accordion not))
 
 (defexample accordion
   "# Accordion Example"
   (dom/div #js {}
            (let [accordion (or (om/get-state this :accordion) 0)
-                 accordion-select (fn [a] (om/update-state! this assoc :accordion a))
-                 ]
+                 accordion-select (fn [a] (if (not (= accordion a)) (om/update-state! this assoc :accordion a) (om/update-state! this assoc :accordion 0)))
+                 accordion-active (fn [a] (if (= accordion a) " is-active" ""))]
              (dom/div #js {}
                       (dom/div #js {:className "o-accordion"}
                                (dom/div #js {:id        "a1"
-                                             :className (str "o-accordion__title is-nested " (if (= accordion 1) "is-active" ""))
+                                             :className (str "o-accordion__title is-nested " (accordion-active 1))
                                              :onClick   #(accordion-select 1)}
                                         (dom/span #js {:className " c-badge c-badge--informative "} " 2 ") " Contacts ")
-                               (dom/div #js {:className (str " o-accordion__content " (if (= accordion 1) "is-active " ""))}
+                               (dom/div #js {:className (str " o-accordion__content " (accordion-active 1))}
                                         (dom/div #js {:className " o-accordion__group "}
                                                  (dom/div #js {:className " o-accordion__info o-accordion__info--critical "}
                                                           (dom/svg #js {:xmlns " http:// www.w3.org /2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
@@ -58,26 +57,26 @@
                                                                     (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
                                                                              (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"}))))))
                                (dom/div #js {:id        "a2"
-                                             :className (str "o-accordion__title is-nested" (if (= accordion 2) " is-active" ""))
+                                             :className (str "o-accordion__title is-nested" (accordion-active 2))
                                              :onClick   #(accordion-select 2)} " What kinds of dogs are there? ")
-                               (dom/div #js {:className (str "o-accordion__content" (if (= accordion 2) " is-active" ""))}
+                               (dom/div #js {:className (str "o-accordion__content" (accordion-active 2))}
                                         (dom/p #js {} "There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion."))
                                (dom/div #js {:id        "a3"
-                                             :className (str "o-accordion__title is-nested" (if (= accordion 3) " is-active" ""))
-                                             :onClick #(accordion-select 3)} " How do you acquire a dog? ")
-                               (dom/div #js {:className (str "o-accordion__content" (if (= accordion 3) " is-active" ""))}
+                                             :className (str "o-accordion__title is-nested" (accordion-active 3))
+                                             :onClick   #(accordion-select 3)} " How do you acquire a dog? ")
+                               (dom/div #js {:className (str "o-accordion__content" (accordion-active 3))}
                                         (dom/p #js {} "Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.")
                                         (dom/p #js {:className "is-nested"} "A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily."))
                                (dom/div #js {:id        "a4"
-                                             :className (str "o-accordion__title is-nested" (if (= accordion 4) " is-active" ""))
-                                             :onClick #(accordion-select 4)} " How do you acquire a dog? ")
-                               (dom/div #js {:className (str "o-accordion__content" (if (= accordion 4) " is-active" ""))}
+                                             :className (str "o-accordion__title is-nested" (accordion-active 4))
+                                             :onClick   #(accordion-select 4)} " How do you acquire a dog? ")
+                               (dom/div #js {:className (str "o-accordion__content" (accordion-active 4))}
                                         (dom/p #js {} "Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.")
                                         (dom/p #js {:className "is-nested"} "A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily."))
                                (dom/div #js {:id        "a5"
-                                             :className (str "o-accordion__title is-nested" (if (= accordion 5) " is-active" ""))
-                                             :onClick #(accordion-select 5)} " How do you acquire a dog? ")
-                               (dom/div #js {:className (str "o-accordion__content" (if (= accordion 5) " is-active" ""))}
+                                             :className (str "o-accordion__title is-nested" (accordion-active 5))
+                                             :onClick   #(accordion-select 5)} " How do you acquire a dog? ")
+                               (dom/div #js {:className (str "o-accordion__content" (accordion-active 5))}
                                         (dom/p #js {} "Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.")
                                         (dom/p #js {:className "is-nested"} "A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily."))
                                (dom/div #js {:className "o-accordion__title"} " Non-nested title ")))
@@ -85,47 +84,55 @@
 
 (defexample accordion-nested
   "# Nested Accordion Example"
-  (dom/div #js {}
-           (dom/div #js {:className "o-accordion"}
-                    (dom/div #js {:className "o-accordion__title"} "Recent notes")
-                    (dom/div #js {:className "o-accordion__content is-active"}
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"}
-                                               (dom/div #js {:className "o-accordion__meta"}
-                                                        (dom/div #js {:className "o-accordion__meta-item"}
-                                                                 (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
-                                                                          (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"})) " Agent Name ")
-                                                        (dom/div #js {:className "o-accordion__meta-item"}
-                                                                 (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
-                                                                          (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"})) " 3 days ago "))
-                                               (dom/p #js {:className "is-nested"} "So strongly and metaphysically did I conceive of my situation then, that while earnestly watching his motions, I seemed distinctly to perceive in the tumultuous business of cutting-in and attending to a whale, there is much running backwards and forwards among the crew.")))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"}
-                                               (dom/div #js {:className "o-accordion__meta"}
-                                                        (dom/div #js {:className "o-accordion__meta-item"}
-                                                                 (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
-                                                                          (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"})) " Agent Name ")
-                                                        (dom/div #js {:className "o-accordion__meta-item"}
-                                                                 (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
-                                                                          (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"})) " 3 days ago "))
-                                               (dom/p #js {:className "is-nested"} "So strongly and metaphysically did I conceive of my situation then, that while earnestly watching his motions, I seemed distinctly to perceive in the tumultuous business of cutting-in and attending to a whale, there is much running backwards and forwards among the crew.")))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"}
-                                               (dom/div #js {:className "o-accordion__meta"}
-                                                        (dom/div #js {:className "o-accordion__meta-item"}
-                                                                 (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
-                                                                          (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"})) " Agent Name ")
-                                                        (dom/div #js {:className "o-accordion__meta-item"}
-                                                                 (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
-                                                                          (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"})) " 3 days ago "))
-                                               (dom/p #js {:className "is-nested"} "So strongly and metaphysically did I conceive of my situation then, that while earnestly watching his motions, I seemed distinctly to perceive in the tumultuous business of cutting-in and attending to a whale, there is much running backwards and forwards among the crew.")))))))
+  (let [accordion (or (om/get-state this :accordion) 1)
+        accordion-select (fn [a] (if (not (= accordion a)) (om/update-state! this assoc :accordion a) (om/update-state! this assoc :accordion 0)))
+        accordion-active (fn [a] (if (= accordion a) " is-active" ""))]
+    (dom/div #js {}
+             (dom/div #js {:className "o-accordion"}
+                      (dom/div #js {:className "o-accordion__title"} "Recent notes")
+                      (dom/div #js {:className "o-accordion__content is-active"}
+                               (dom/div #js {:className "o-accordion__group"}
+                                        (dom/div #js {:className "o-accordion__info"}
+                                                 (dom/div #js {:className "o-accordion__meta"}
+                                                          (dom/div #js {:className "o-accordion__meta-item"}
+                                                                   (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
+                                                                            (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"})) " Agent Name ")
+                                                          (dom/div #js {:className "o-accordion__meta-item"}
+                                                                   (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
+                                                                            (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"})) " 3 days ago "))
+                                                 (dom/p #js {:id        "a1"
+                                                             :className (str "is-nested" (accordion-active 1))
+                                                             :onClick #(accordion-select 1)} "So strongly and metaphysically did I conceive of my situation then, that while earnestly watching his motions, I seemed distinctly to perceive in the tumultuous business of cutting-in and attending to a whale, there is much running backwards and forwards among the crew.")))
+                               (dom/div #js {:className "o-accordion__group"}
+                                        (dom/div #js {:className "o-accordion__info"}
+                                                 (dom/div #js {:className "o-accordion__meta"}
+                                                          (dom/div #js {:className "o-accordion__meta-item"}
+                                                                   (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
+                                                                            (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"})) " Agent Name ")
+                                                          (dom/div #js {:className "o-accordion__meta-item"}
+                                                                   (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
+                                                                            (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"})) " 3 days ago "))
+                                                 (dom/p #js {:className "is-nested"} "So strongly and metaphysically did I conceive of my situation then, that while earnestly watching his motions, I seemed distinctly to perceive in the tumultuous business of cutting-in and attending to a whale, there is much running backwards and forwards among the crew.")))
+                               (dom/div #js {:className "o-accordion__group"}
+                                        (dom/div #js {:className "o-accordion__info"}
+                                                 (dom/div #js {:className "o-accordion__meta"}
+                                                          (dom/div #js {:className "o-accordion__meta-item"}
+                                                                   (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
+                                                                            (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"})) " Agent Name ")
+                                                          (dom/div #js {:className "o-accordion__meta-item"}
+                                                                   (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
+                                                                            (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"})) " 3 days ago "))
+                                                 (dom/p #js {:id        "a2"
+                                                             :className (str "is-nested" (accordion-active 2))
+                                                             :onClick #(accordion-select 2)} "So strongly and metaphysically did I conceive of my situation then, that while earnestly watching his motions, I seemed distinctly to perceive in the tumultuous business of cutting-in and attending to a whale, there is much running backwards and forwards among the crew."))))))
+    ))
 
 (defexample accordion-sidebar
-  "# Accordion inside a Sidebar"
+  "# Accordion inside a Sidebar Example"
   (dom/div #js {}
            (dom/nav #js {:className "o-sidebar [is-collapsed]"}
                     (dom/div #js {:className "o-accordion o-accordion--small"}
-                             (dom/div #js {:className "o-accordion__title is-nested is-active"})
+                             (dom/div #js {:className "o-accordion__title is-nested is-active"} " Title 1 ")
                              (dom/div #js {:className "o-accordion__content is-active"}
                                       (dom/div #js {:className "o-accordion__group"}
                                                (dom/div #js {:className "o-accordion__info"} "View 1")
@@ -210,82 +217,82 @@
                                       (dom/button #js {:className "c-button c-button--postfix u-hide@sm"} "Start"))))))
 
 #_(defexample calendar-example
-  "# Calendar Example"
-  (dom/div #js {}
-           (dom/div #js {:className "u-wrapper"}
-                    (dom/span #js {:className "o-button-group-label"} " X Date")
-                    (dom/div #js {:className "o-calendar-wrapper"}
-                             (dom/input #js {:read-only "true" :value "" :className "o-claendar-date"}))
-                    (dom/div #js {:className "o-calendar c-card"}
-                             (dom/header #js {:className "o-calendar__control u-middle"}
-                                         (dom/div #js {:className "u-column--2"}
-                                                  (dom/button #js {:title "Last Month" :className "o-calendar__button"}
-                                                              (dom/span #js {:className "c-icon c-icon__arrow-back"}
-                                                                        (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
-                                                                                 (dom/path #js {:d "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"})))))
-                                         (dom/div #js {:className "u-column--8"}
-                                                  (dom/button #js {:title "Today" :className "c-button c-button--icon"}
-                                                              (dom/span #js {:className "c-icon c-icon__today"}
-                                                                        (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
-                                                                                 (dom/path #js {:d "M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"})))))
-                                         (dom/div #js {:className "u-column--2"}
-                                                  (dom/button #js {:title "Next Month" :className "o-calendar__button"}
-                                                              (dom/span #js {:className "c-icon c-icon__arrow-forward"}
-                                                                        (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
-                                                                                 (dom/path #js {:d "M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"}))))))
-                             (dom/div #js {:className "o-calendar__month o-overlay"}
-                                      (dom/hr #js {})
-                                      (dom/table #js {}
-                                                 (dom/thead #js {}
-                                                            (dom/tr #js {}
-                                                                    (dom/th #js {:className "o-day-name"} "Su")
-                                                                    (dom/th #js {:className "o-day-name"} "M")
-                                                                    (dom/th #js {:className "o-day-name"} "Tu")
-                                                                    (dom/th #js {:className "o-day-name"} "W")
-                                                                    (dom/th #js {:className "o-day-name"} "Th")
-                                                                    (dom/th #js {:className "o-day-name"} "F")
-                                                                    (dom/th #js {:className "o-day-name"} "Sa")))
-                                                 (dom/tbody #js {}
-                                                            (dom/tr #js {}
-                                                                    (dom/td #js {:className "o-day is-inactive"} "27")
-                                                                    (dom/td #js {:className "o-day is-inactive"} "28")
-                                                                    (dom/td #js {:className "o-day is-inactive"} "29")
-                                                                    (dom/td #js {:className "o-day is-inactive"} "30")
-                                                                    (dom/td #js {:className "o-day is-inactive"} "31")
-                                                                    (dom/td #js {:className "o-day"} "1")
-                                                                    (dom/td #js {:className "o-day"} "2"))
-                                                            (dom/tr #js {}
-                                                                    (dom/td #js {:className "o-day"} "3")
-                                                                    (dom/td #js {:className "o-day"} "4")
-                                                                    (dom/td #js {:className "o-day"} "5")
-                                                                    (dom/td #js {:className "o-day"} "6")
-                                                                    (dom/td #js {:className "o-day"} "7")
-                                                                    (dom/td #js {:className "o-day"} "8")
-                                                                    (dom/td #js {:className "o-day"} "9"))
-                                                            (dom/tr #js {}
-                                                                    (dom/td #js {:className "o-day"} "10")
-                                                                    (dom/td #js {:className "o-day"} "11")
-                                                                    (dom/td #js {:className "o-day"} "12")
-                                                                    (dom/td #js {:className "o-day"} "13")
-                                                                    (dom/td #js {:className "o-day"} "14")
-                                                                    (dom/td #js {:className "o-day"} "15")
-                                                                    (dom/td #js {:className "o-day"} "16"))
-                                                            (dom/tr #js {}
-                                                                    (dom/td #js {:className "o-day"} "17")
-                                                                    (dom/td #js {:className "o-day"} "18")
-                                                                    (dom/td #js {:className "o-day is-active"} "19")
-                                                                    (dom/td #js {:className "o-day"} "20")
-                                                                    (dom/td #js {:className "o-day"} "21")
-                                                                    (dom/td #js {:className "o-day"} "22")
-                                                                    (dom/td #js {:className "o-day"} "23"))
-                                                            (dom/tr #js {}
-                                                                    (dom/td #js {:className "o-day"} "24")
-                                                                    (dom/td #js {:className "o-day"} "25")
-                                                                    (dom/td #js {:className "o-day"} "26")
-                                                                    (dom/td #js {:className "o-day"} "27")
-                                                                    (dom/td #js {:className "o-day"} "28")
-                                                                    (dom/td #js {:className "o-day"} "29")
-                                                                    (dom/td #js {:className "o-day"} "30")))))))))
+    "# Calendar Example"
+    (dom/div #js {}
+             (dom/div #js {:className "u-wrapper"}
+                      (dom/span #js {:className "o-button-group-label"} " X Date")
+                      (dom/div #js {:className "o-calendar-wrapper"}
+                               (dom/input #js {:read-only "true" :value "" :className "o-claendar-date"}))
+                      (dom/div #js {:className "o-calendar c-card"}
+                               (dom/header #js {:className "o-calendar__control u-middle"}
+                                           (dom/div #js {:className "u-column--2"}
+                                                    (dom/button #js {:title "Last Month" :className "o-calendar__button"}
+                                                                (dom/span #js {:className "c-icon c-icon__arrow-back"}
+                                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
+                                                                                   (dom/path #js {:d "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"})))))
+                                           (dom/div #js {:className "u-column--8"}
+                                                    (dom/button #js {:title "Today" :className "c-button c-button--icon"}
+                                                                (dom/span #js {:className "c-icon c-icon__today"}
+                                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
+                                                                                   (dom/path #js {:d "M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"})))))
+                                           (dom/div #js {:className "u-column--2"}
+                                                    (dom/button #js {:title "Next Month" :className "o-calendar__button"}
+                                                                (dom/span #js {:className "c-icon c-icon__arrow-forward"}
+                                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
+                                                                                   (dom/path #js {:d "M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"}))))))
+                               (dom/div #js {:className "o-calendar__month o-overlay"}
+                                        (dom/hr #js {})
+                                        (dom/table #js {}
+                                                   (dom/thead #js {}
+                                                              (dom/tr #js {}
+                                                                      (dom/th #js {:className "o-day-name"} "Su")
+                                                                      (dom/th #js {:className "o-day-name"} "M")
+                                                                      (dom/th #js {:className "o-day-name"} "Tu")
+                                                                      (dom/th #js {:className "o-day-name"} "W")
+                                                                      (dom/th #js {:className "o-day-name"} "Th")
+                                                                      (dom/th #js {:className "o-day-name"} "F")
+                                                                      (dom/th #js {:className "o-day-name"} "Sa")))
+                                                   (dom/tbody #js {}
+                                                              (dom/tr #js {}
+                                                                      (dom/td #js {:className "o-day is-inactive"} "27")
+                                                                      (dom/td #js {:className "o-day is-inactive"} "28")
+                                                                      (dom/td #js {:className "o-day is-inactive"} "29")
+                                                                      (dom/td #js {:className "o-day is-inactive"} "30")
+                                                                      (dom/td #js {:className "o-day is-inactive"} "31")
+                                                                      (dom/td #js {:className "o-day"} "1")
+                                                                      (dom/td #js {:className "o-day"} "2"))
+                                                              (dom/tr #js {}
+                                                                      (dom/td #js {:className "o-day"} "3")
+                                                                      (dom/td #js {:className "o-day"} "4")
+                                                                      (dom/td #js {:className "o-day"} "5")
+                                                                      (dom/td #js {:className "o-day"} "6")
+                                                                      (dom/td #js {:className "o-day"} "7")
+                                                                      (dom/td #js {:className "o-day"} "8")
+                                                                      (dom/td #js {:className "o-day"} "9"))
+                                                              (dom/tr #js {}
+                                                                      (dom/td #js {:className "o-day"} "10")
+                                                                      (dom/td #js {:className "o-day"} "11")
+                                                                      (dom/td #js {:className "o-day"} "12")
+                                                                      (dom/td #js {:className "o-day"} "13")
+                                                                      (dom/td #js {:className "o-day"} "14")
+                                                                      (dom/td #js {:className "o-day"} "15")
+                                                                      (dom/td #js {:className "o-day"} "16"))
+                                                              (dom/tr #js {}
+                                                                      (dom/td #js {:className "o-day"} "17")
+                                                                      (dom/td #js {:className "o-day"} "18")
+                                                                      (dom/td #js {:className "o-day is-active"} "19")
+                                                                      (dom/td #js {:className "o-day"} "20")
+                                                                      (dom/td #js {:className "o-day"} "21")
+                                                                      (dom/td #js {:className "o-day"} "22")
+                                                                      (dom/td #js {:className "o-day"} "23"))
+                                                              (dom/tr #js {}
+                                                                      (dom/td #js {:className "o-day"} "24")
+                                                                      (dom/td #js {:className "o-day"} "25")
+                                                                      (dom/td #js {:className "o-day"} "26")
+                                                                      (dom/td #js {:className "o-day"} "27")
+                                                                      (dom/td #js {:className "o-day"} "28")
+                                                                      (dom/td #js {:className "o-day"} "29")
+                                                                      (dom/td #js {:className "o-day"} "30")))))))))
 
 (defexample drawer
   "# Drawer Example"
@@ -389,7 +396,7 @@
                                                       (dom/button #js {:className "c-button c-button--large"}
                                                                   (dom/span #js {:className "c-icon"}
                                                                             (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
-                                                                                     (dom/path #js {:d "M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"})) )))))
+                                                                                     (dom/path #js {:d "M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"})))))))
                         (dom/div #js {:className "o-editor__content"}
                                  (dom/input #js {:value "Hello, I'm content inside an editor! :)" :className "c-input"}))
                         (dom/footer #js {:className "o-editor__toolbar o-editor__toolbar--small"}
@@ -402,7 +409,7 @@
                                                          (dom/span #js {:className "c-icon c-icon--small"}
                                                                    (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
                                                                             (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"})))
-                                                         (dom/span #js {:className "c-button__content"} "Add Conditions") ))
+                                                         (dom/span #js {:className "c-button__content"} "Add Conditions")))
                                     (dom/div #js {:className "u-column u-end"}
                                              (dom/input #js {:type "checkbox" :id "c-checkbox-1" :checked "true" :className "c-checkbox"})
                                              (dom/label #js {:htmlFor "c-checkbox-1"} " Required")))
@@ -438,7 +445,7 @@
                                                                                  (dom/path #js {:d "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" :data-reactid ".0.2.$survey$ui$screens$surveys$Surveys_[=2panel].1.0.$survey$ui$screens$surveys$EditorCanvas_[=2panel =2editor =2survey-to-edit].2.0.0.0.1.0:$17592186045874.4:$condition-block-17592186045876.$17592186045876.1.0.0.1"})))
                                                             (dom/button #js {:className "c-button c-button--icon is-positive"}
                                                                         (dom/svg #js {:http "" :www.w3.org "" :2000 "" :svg "" :width "24" :height "24" :className "c-icon c-icon--done-all xmlns=" :viewBox "0 0 24 24"}
-                                                                        (dom/path #js {:d "M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"})))
+                                                                                 (dom/path #js {:d "M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"})))
                                                             (dom/button #js {:className "c-button c-button--icon"}
                                                                         (dom/svg #js {:version "1.1" :width "24" :height "24" :aria-labelledby "title" :role "img" :data-reactid ".0.2.$survey$ui$screens$surveys$Surveys_[=2panel].1.0.$survey$ui$screens$surveys$EditorCanvas_[=2panel =2editor =2survey-to-edit].2.0.0.0.1.0:$17592186045874.4:$condition-block-17592186045876.$17592186045876.1.2" :className "c-icon c-icon--open-with " :viewBox "0 0 24 24"}
                                                                                  (dom/title #js {:data-reactid ".0.2.$survey$ui$screens$surveys$Surveys_[=2panel].1.0.$survey$ui$screens$surveys$EditorCanvas_[=2panel =2editor =2survey-to-edit].2.0.0.0.1.0:$17592186045874.4:$condition-block-17592186045876.$17592186045876.1.2.0"} "Open With")
@@ -560,7 +567,7 @@
                     (dom/button #js {:className "o-iconbar__item"}
                                 (dom/span #js {:className "c-icon"}
                                           (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
-                                                   (dom/path #js {:d "M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"})) )
+                                                   (dom/path #js {:d "M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"})))
                                 (dom/span #js {:className "o-iconbar__label"} "Support"))
                     (dom/button #js {:className "o-iconbar__item"}
                                 (dom/span #js {:className "c-icon"}
@@ -652,20 +659,20 @@
 (defexample modal-example
   "# Modal Example"
   (dom/div #js {}
-  (dom/div #js {:className "o-modal is-active"}
-           (dom/div #js {:className "o-modal__card"}
-                    (dom/div #js {:className "o-modal__title"}
-                             (dom/span #js {} "Modal Title")
-                             (dom/div #js {:className "o-modal__actions"}
-                                      (dom/button #js {:className "o-modal__action"}
-                                                  (dom/span #js {:className "c-icon"}
-                                                            (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
-                                                                     (dom/path #js {:d "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"}))))))
-                    (dom/div #js {:className "o-modal__content u-row u-row--colapse"}
-                             (dom/p #js {} "This is a card in a modal, what will they think of next?")
-                             (dom/div #js {:className "o-modal__row"}
-                                      (dom/button #js {:className "c-button c-button--anchor c-button--small"} "Close")))))
-  (dom/div #js {:className "c-backdrop is-active"})))
+           (dom/div #js {:className "o-modal is-active"}
+                    (dom/div #js {:className "o-modal__card"}
+                             (dom/div #js {:className "o-modal__title"}
+                                      (dom/span #js {} "Modal Title")
+                                      (dom/div #js {:className "o-modal__actions"}
+                                               (dom/button #js {:className "o-modal__action"}
+                                                           (dom/span #js {:className "c-icon"}
+                                                                     (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
+                                                                              (dom/path #js {:d "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"}))))))
+                             (dom/div #js {:className "o-modal__content u-row u-row--colapse"}
+                                      (dom/p #js {} "This is a card in a modal, what will they think of next?")
+                                      (dom/div #js {:className "o-modal__row"}
+                                               (dom/button #js {:className "c-button c-button--anchor c-button--small"} "Close")))))
+           (dom/div #js {:className "c-backdrop is-active"})))
 
 (defexample modal-small
   "# Small Modal Example"
@@ -837,8 +844,8 @@
                                       (dom/ul #js {:className "c-dropdown__menu is-active" :tabIndex "-1"}
                                               (dom/li #js {}
                                                       (dom/button #js {:className "c-dropdown__link"}
-                                                                         (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
-                                                                                  (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"})) " App "))
+                                                                  (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
+                                                                           (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"})) " App "))
                                               (dom/li #js {}
                                                       (dom/button #js {:className "c-dropdown__link"}
                                                                   (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
@@ -932,7 +939,7 @@
                     ;;"<!-- View Info for Mobile -->"
                     (dom/div #js {:className "o-toolbar__info u-hide@md-up"}
                              (dom/h1 #js {} "View Name"))
-                     ;;"<!-- View Actions for Mobile -->"
+                    ;;"<!-- View Actions for Mobile -->"
                     (dom/div #js {:className "u-column u-hide@md-up u-end"}
                              (dom/button #js {:title "Filter by tag" :className "c-button c-button--icon u-hide@md-up"}
                                          (dom/svg #js {:className "c-icon c-icon--filter_list"} " ... "))
@@ -978,45 +985,45 @@
                     ``` shell\n.o-accordion [ --inline | --right | --small ]\n   __title   [ is-active | is-nested | is-selected ]\n   __content [ is-active ]\n     __group\n       __info\n       __actions\n         __action [ --informative | --success ]\n         __meta\n           __meta-item\n```"}
                {:id :accordion-nested :title " Nested Accordion " :examples [accordion-nested]
                 :documentation
-                "Notice how you can add `.is-nested` to any element and it collapses and expands with `.is-active`"}
-               ;;  {:id :accordion-sidebar :title " Accordion Side Bar" :examples [accordion-sidebar]}
+                    "Notice how you can add `.is-nested` to any element and it collapses and expands with `.is-active`"}
+                 {:id :accordion-sidebar :title " Accordion Side Bar" :examples [accordion-sidebar]}
                ;; {:id :aside :title " Aside " :examples [aside]
                ;; :documentation
                ;;     "**NEW!** A simple sliding card that displays lists of links and other various content. The simplified markup resembles this node list:"}
 
                #_{:id :aside :title " Aside " :examples [aside]
+                  :documentation
+                      "**NEW!** A simple sliding card that displays lists of links and other various content. The simplified markup resembles this node list:"}
+              #_ {:id :button-group :examples [button-group button-stacked button-toggle]}
+              #_ {:id :postfix-group :examples [postfix-group]
                 :documentation
-                     "**NEW!** A simple sliding card that displays lists of links and other various content. The simplified markup resembles this node list:"}
-               {:id :button-group  :examples [button-group button-stacked button-toggle]}
-               {:id :postfix-group :examples [postfix-group]
-                :documentation
-                "**Please Note** This does not work well on mobile with multiple buttons. To fix this we hacked out the second button. Use at your own risk."}
+                    "**Please Note** This does not work well on mobile with multiple buttons. To fix this we hacked out the second button. Use at your own risk."}
                #_{:id :calendar-example :title "Calendar" :examples [calendar-example]
-                :documentation
-                "This is a month view calendar for overlaying on input fields that control date selection."}
+                  :documentation
+                      "This is a month view calendar for overlaying on input fields that control date selection."}
                #_{:id :drawer :title "Drawer" :examples [drawer]}
-               {:id :editor-inactive :title "Editor" :examples [editor-inactive]}
-               {:id :icon-bar :title "Icon Bar" :examples [icon-bar]}
-               {:id :icon-rail :title "Icon Rail" :examples [icon-rail]
+               #_{:id :editor-inactive :title "Editor" :examples [editor-inactive]}
+              #_ {:id :icon-bar :title "Icon Bar" :examples [icon-bar]}
+              #_ {:id :icon-rail :title "Icon Rail" :examples [icon-rail]
                 :documentation
-                "Just add an extra modifier class `.o-iconbar--rail` and you'll get this effect."}
-               {:id :icon-bar-shifting :title "Icon Bar Shifting" :examples [icon-bar-shifting]
+                    "Just add an extra modifier class `.o-iconbar--rail` and you'll get this effect."}
+              #_ {:id :icon-bar-shifting :title "Icon Bar Shifting" :examples [icon-bar-shifting]
                 :documentation
-                "Just add an extra modifier class `.o-iconbar--shifting` and you'll get this effect."}
-               {:id :listing :title "Listing" :examples [listing-begin listing]}
-               {:id :modal :title "Modal" :examples []}
-               {:id :sidebar :title "Sidebar" :examples []}
-               {:id :toolbar :title "Toolbar" :example []}
-               {:id :small-toolbar :title "Small Toolbar" :example []
+                    "Just add an extra modifier class `.o-iconbar--shifting` and you'll get this effect."}
+               #_{:id :listing :title "Listing" :examples [listing-begin listing]}
+               #_{:id :modal :title "Modal" :examples []}
+               #_{:id :sidebar :title "Sidebar" :examples []}
+               #_{:id :toolbar :title "Toolbar" :example []}
+               #_{:id :small-toolbar :title "Small Toolbar" :example []
                 :documentation
-                "This toolbar is mainly used for specific operations and navigation for the current app you are using."}
-               {:id :secondary-toolbar :title "Secondary Toolbar" :examples [ ]
+                    "This toolbar is mainly used for specific operations and navigation for the current app you are using."}
+               #_{:id :secondary-toolbar :title "Secondary Toolbar" :examples []
                 :documentation
-                "The secondary toolbar is intended to only provide operations for the current view of the app your in."}
+                    "The secondary toolbar is intended to only provide operations for the current view of the app your in."}
                ])
 
 
-               ;; NOTE: Rendering of the main guide UI
+;; NOTE: Rendering of the main guide UI
 (defui UI
   Object
   (render [this]
