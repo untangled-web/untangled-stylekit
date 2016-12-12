@@ -1,10 +1,7 @@
 (ns styles.utilities
   (:require-macros user)
   (:require [om.next :as om :refer-macros [defui]]
-    ;; NOTE: This is where the interesting macros and such are at:
-            [styles.util :as util
-             :refer [to-cljs]
-             :refer-macros [source->react defexample]]
+            [styles.util :as util :refer [to-cljs] :refer-macros [source->react defexample]]
             [om.dom :as dom]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -13,13 +10,10 @@
 
 ;; Grid Examples
 
-(def grid-header (devcards.core/markdown->react "Grids are the bread and butter of web design, this one is based on flexbox. Needless to say you will find this grid system a joy to use. [Flexbox Mythbusting](http://jonyablonski.com/2015/flexbox-myth-busting/)\n\n
-#### New to grids?\n\n
-Check out my presentation on CSS Grids can help you, complete with a [slide deck](https://speakerdeck.com/stephenway/css-grids-can-help-you), and a [CodePen](http://codepen.io/stephenway/pen/dMKzvy) to play with complex grid layouts."))
+(defexample grid-example-12-column
+  "#### 12 Columns
 
-
-(defexample grid-example-1
-  "## A 12 column grid"
+  We compose our grid off 12 vertical columns that are equal in space, and can span from one to all twelve columns in length."
   (dom/div #js {:className "u-row"}
            (dom/div #js {:className "u-column--1"}
                     (dom/div #js {:className "box-row box-tall"} "1"))
@@ -46,11 +40,11 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
            (dom/div #js {:className "u-column--1"}
                     (dom/div #js {:className "box-row box-tall"} "12"))))
 
-(def learn-header (devcards.core/markdown->react "This group of select boxes will show you how columns adapt to their siblings when they occupy more or less columns."))
+;TODO: learn switchers are not working as included here. Need to add actions or verify CSS.
+(defexample grid-example-learn
+  "#### Learn
 
-;TODO: learn switchers are not working as included here. Need to add actions.
-(defexample learn-example
-  ""                                                        ;"## Learn"
+  This group of select boxes will show you how columns adapt to their siblings when they occupy more or less columns."
   (dom/div #js {:className "u-row o-column-switcher-row"}
            (dom/div #js {:className "u-column--4"}
                     (dom/select #js {:className "o-column-switcher"}
@@ -81,8 +75,10 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                 (dom/option #js {} "u-column--11")
                                 (dom/option #js {} "u-column--12")))))
 
-(defexample grid-example-3
-  "## Autopilot"
+(defexample grid-example-autopilot
+  "### Autopilot
+
+  If you don't have time to think about how wide things should be, don't specify, just say `.u-column`."
   (dom/div #js {}
            (dom/div #js {:className "u-row"}
                     (dom/div #js {:className "u-column"}
@@ -97,8 +93,10 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                     (dom/div #js {:className "u-column"}
                              (dom/div #js {:className "box-row"} "auto")))))
 
-(defexample grid-example-4
-  "## Responsive"
+(defexample grid-example-responsive
+  "## Responsive
+
+  Media appended classes let you create simple or complex grid systems."
   (dom/div #js {}
            (dom/div #js {:className "u-row"}
                     (dom/div #js {:className "u-column--3@sm u-column--2@md u-column--1@lg"}
@@ -139,7 +137,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                       (dom/span #js {:className "u-show@md"} "4")
                                       (dom/span #js {:className "u-show@lg"} "2"))))))
 
-(defexample grid-example-5
+(defexample grid-example-fluid
   "## Fluid"
   (dom/div #js {}
            (dom/div #js {:className "u-row"}
@@ -224,8 +222,10 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                              (dom/div #js {:className "box-row"}
                                       (dom/span #js {} "1"))))))
 
-(defexample grid-example-6
-  "## Column Push"
+(defexample grid-example-column-push
+  "### Column Push
+
+  Move back and forth any number of columns wide you need to push the position of your column within the grid."
   (dom/div #js {}
            (dom/div #js {:className "u-row"}
                     (dom/div #js {:className "u-column--1 u-push--11"}
@@ -283,8 +283,10 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                       (dom/span #js {}
                                                 (dom/i #js {:className "c-icon-right-dir"}) " 1"))))))
 
-(defexample grid-example-7
-  "## Column Pull"
+(defexample grid-example-column-pull
+  "### Column Pull
+
+  Move back and forth any number of columns wide you need to pull the position of your column within the grid."
   (dom/div #js {}
            (dom/div #js {:className "u-row"}
                     (dom/div #js {:className "u-column--1 u-pull--11"}
@@ -342,8 +344,8 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                       (dom/span #js {}
                                                 (dom/i #js {:className "c-icon-right-dir"}) " 1"))))))
 
-(defexample grid-example-8
-  "## Column Push/Pull"
+(defexample grid-example-column-push-pull
+  "### Column Push/Pull"
   (dom/div #js {:className "u-row"}
            (dom/div #js {:className "u-column--2 u-push--5 u-pull--5"}
                     (dom/div #js {:className "box-row"} ".u-column--2"
@@ -359,8 +361,10 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
            (dom/div #js {:className "u-column--10 u-push--1 u-pull--1"}
                     (dom/div #js {:className "box-row"} ".u-column--10.u-push--1.u-pull--1"))))
 
-(defexample grid-example-9
-  "## Nesting"
+(defexample grid-example-column-nesting
+  "### Nesting
+
+  You can setup any number of levels of grids deep you would like."
   (dom/div #js {}
            (dom/div #js {:className "u-row"}
                     (dom/div #js {:className "u-column--4"}
@@ -387,7 +391,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                                                                    (dom/div #js {:className "box-nested"})))))))))))
 
 (defexample grid-example-align-start
-  "## Align - Start"
+  "###### START"
   (dom/div #js {:className "u-row"}
            (dom/div #js {:className "u-column--12"}
                     (dom/div #js {:className "box box-container"}
@@ -396,7 +400,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                                (dom/div #js {:className "box-nested"} " .u-row.u-start ")))))))
 
 (defexample grid-example-align-center
-  "## Align - Center"
+  "###### CENTER"
   (dom/div #js {:className "u-row"}
            (dom/div #js {:className "u-column--12"}
                     (dom/div #js {:className "box box-container"}
@@ -405,7 +409,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                                (dom/div #js {:className "box-nested"} " .u-row.u-center ")))))))
 
 (defexample grid-example-align-end
-  "## Align - End"
+  "###### END"
   (dom/div #js {:className "u-row"}
            (dom/div #js {:className "u-column--12"}
                     (dom/div #js {:className "box box-container"}
@@ -414,7 +418,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                                (dom/div #js {:className "box-nested"} " .u-row.u-end ")))))))
 
 (defexample grid-example-align-top
-  "## Align - Top"
+  "###### TOP"
   (dom/div #js {:className "u-row u-top"}
            (dom/div #js {:className "u-column--6"}
                     (dom/div #js {:className "box--large"} ".u-row.u-top"))
@@ -422,7 +426,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                     (dom/div #js {:className "box"}))))
 
 (defexample grid-example-align-middle
-  "## Align - Middle"
+  "###### MIDDLE"
   (dom/div #js {:className "u-row u-middle"}
            (dom/div #js {:className "u-column--6"}
                     (dom/div #js {:className "box--large"} ".u-row.u-middle"))
@@ -430,7 +434,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                     (dom/div #js {:className "box"}))))
 
 (defexample grid-example-align-bottom
-  "## Align - Bottom"
+  "###### BOTTOM"
   (dom/div #js {:className "u-row u-bottom"}
            (dom/div #js {:className "u-column--6"}
                     (dom/div #js {:className "box--large"} ".u-row.u-bottom"))
@@ -438,7 +442,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                     (dom/div #js {:className "box"}))))
 
 (defexample grid-example-distributed-around
-  "## Distributed - Around"
+  "##### AROUND"
   (dom/div #js {:className "u-row"}
            (dom/div #js {:className "u-column--12"}
                     (dom/div #js {:className "box box-container"}
@@ -451,7 +455,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                                (dom/div #js {:className "box-nested"} "2")))))))
 
 (defexample grid-example-distributed-between
-  "## Distributed - Between"
+  "##### BETWEEN"
   (dom/div #js {:className "u-row"}
            (dom/div #js {:className "u-column--12"}
                     (dom/div #js {:className "box box-container"}
@@ -464,7 +468,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                                (dom/div #js {:className "box-nested"} "2")))))))
 
 (defexample grid-example-ordering-first
-  "## Ordering - First"
+  "###### FIRST"
   (dom/div #js {:className "u-row"}
            (dom/div #js {:className "u-column--12"}
                     (dom/div #js {:className "box box-container"}
@@ -483,7 +487,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                                (dom/div #js {:className "box-nested"} "6")))))))
 
 (defexample grid-example-ordering-last
-  "## Ordering - Last"
+  "###### LAST"
   (dom/div #js {:className "u-row"}
            (dom/div #js {:className "u-column--12"}
                     (dom/div #js {:className "box box-container"}
@@ -502,7 +506,7 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                                (dom/div #js {:className "box-first"} "6")))))))
 
 (defexample grid-example-ordering-reverse
-  "## Ordering - Reverse"
+  "###### REVERSE"
   (dom/div #js {:className "u-row"}
            (dom/div #js {:className "u-column--12"}
                     (dom/div #js {:className "box box-container"}
@@ -520,27 +524,86 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
                                       (dom/div #js {:className "u-column--2"}
                                                (dom/div #js {:className "box-first"} "6")))))))
 
-;TODO: What can we do something with these css "@media" items?
-(defexample media-example-breakpoints-flexible
-  "## Media - Flexible Breakpoints"
-  (dom/div nil nil))
 
-(defexample media-example-breakpoints-fixed
-  "## Media - Fixed Breakpoints"
-  (dom/div nil nil))
+(def docs-media "Responsive breakpoints for styling for different devices and groups of devices. We divide devices up by `14em` units starting at `34em`. Using the `em` unit has been a proven browser compatible method of rendering media queries consistently.
 
-(defexample media-example-breakpoints-orientation
-  "## Media - Orientation Breakpoints"
-  (dom/div nil nil))
+                    #### Flexible Breakpoints
 
-(defexample media-example-breakpoints-media-type
-  "## Media - Media Type Breakpoints"
-  (dom/div nil nil))
+                    Target devices of a certain minimum width and everything larger than. If your writing mobile-first, then you would need to specify your desktop styles in a `@media (--lg-up)` breakpoint.
+
+                    ```css
+                    /* For tiny devices you don't need to specify a media query. */
+
+                    /* Small devices (phones, 34em and up) */
+                    @media (--sm-up) { ... }
+
+                    /* Medium devices (tablets, 48em and up) */
+                    @media (--md-up) { ... }
+
+                    /* Large devices (computers, 62em and up) */
+                    @media (--lg-up) { ... }
+
+                    /* X-Large devices (large computers, 75em and up) */
+                    @media (--xl-up) { ... }
+                    ```
+
+                    #### Fixed Breakpoints
+
+                    Target just one device breakpoint at a time. These should be used sparingly for fine tuned adjustments.
+
+                    ```css
+                    /* Small devices (phones, 0em to 48em) */
+                    @media (--sm) { ... }
+
+                    /* Medium devices (tablets, 48em to 62em) */
+                    @media (--md) { ... }
+
+                    /* Large devices (computers, 62em to 75em) */
+                    @media (--lg) { ... }
+
+                    /* X-Large devices (large computers, 75em to 90em) */
+                    @media (--xl) { ... }
+                    ```
+
+                    #### Orientation Breakpoints
+
+                    Target devices that have been rotated into a particular screen orientation.
+
+                    ```css
+                    /* Devices in landscape orientation */
+                    @media (--landscape) { ... }
+
+                    /* Devices in portrait orientation */
+                    @media (--portrait) { ... }
+                    ```
+
+                    #### Media Type Breakpoints
+
+                    Target special media types including:
+
+                    `all | aural | braille | handheld | print | projection | screen | tty | tv | embossed`
+
+                    ```css
+                    /* Screens */
+                    @media only screen { ... }
+
+                    /* Printers */
+                    @media print { ... }
+                    ```
+
+                    More on this over at Mozilla Developer Network's [Using media queries](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries)
+
+                    #### Classnames
+
+                    You will also notice some classes are appended with `@sm`, `@md`, `@lg`, and `@print` for the same purposes.
+
+                    See [syntax](#syntax) and [responsive-suffixes](#responsive-suffixes) sections for more info.
+                    ")
 
 ;; Positioning Examples
 
 (defexample positioning-example-fixed
-  "## Positioning - Fixed Classes"
+  "#### Fixed Classes"
   (dom/div #js {}
            (dom/div #js {:className "u-fixed--top"})
            (dom/div #js {:className "u-fixed--top-center"})
@@ -553,16 +616,220 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
            (dom/div #js {:className "u-fixed--middle-center"})))
 
 (defexample positioning-example-absolute
-  "## Positioning - Absolute Classes"
-(dom/div #js {}
-(dom/div #js {:className "u-absolute--top"})
-(dom/div #js {:className "u-absolute--top-right"})
-(dom/div #js {:className "u-absolute--top-left"})
-(dom/div #js {:className "u-absolute--bottom"})
-(dom/div #js {:className "u-absolute--bottom-right"})
-(dom/div #js {:className "u-absolute--bottom-left"})
-(dom/div #js {:className "u-absolute--middle"})
-(dom/div #js {:className "u-absolute--middle-center"})))
+  "#### Absolute Classes"
+  (dom/div #js {}
+           (dom/div #js {:className "u-absolute--top"})
+           (dom/div #js {:className "u-absolute--top-right"})
+           (dom/div #js {:className "u-absolute--top-left"})
+           (dom/div #js {:className "u-absolute--bottom"})
+           (dom/div #js {:className "u-absolute--bottom-right"})
+           (dom/div #js {:className "u-absolute--bottom-left"})
+           (dom/div #js {:className "u-absolute--middle"})
+           (dom/div #js {:className "u-absolute--middle-center"})))
+
+(def docs-positioning-position
+  "You can directionally express which position you want to specify using these conventions:
+
+  `bottom | bottom-left | bottom-right | middle | top | top-left | top-right`
+
+  ``` css
+  /* position [ attachment, type ] */
+  @apply --position-top;
+  position: fixed;
+  ```")
+
+;TODO: Need to fix how rotated elements overlap with other examples.
+(defexample positioning-example-rotate
+  ""
+  (dom/div #js {}
+           (dom/div #js {:className "u-rotate--cw"} "Rotate right 90 degrees")
+           (dom/div #js {:className "u-rotate--ccw"} "Rotate left -90 degrees")))
+
+;; Size Examples
+
+(def docs-size
+  "```css
+  --global-duration: .1s;
+  --global-margin: 8px;
+  --global-rounded: 4px;
+  --global-line-height: 32px;
+  --global-z-index: 100;
+  --frame-quarter: calc(var(--global-line-height) / 4); /* 8px */
+  --frame-third: calc(var(--global-line-height) / 3); /* 10.6px */
+  --frame-half: calc(var(--global-line-height) / 2); /* 16px */
+  --frame: var(--global-line-height); /* 32px */
+  --frame-double: calc(var(--global-line-height) * 2); /* 64px */
+  --frame-triple: calc(var(--global-line-height) * 3); /* 96px */
+  ```
+  ")
+
+;; Typography Examples
+
+(defexample typography-font-scale
+  "#### Font Scale"
+  (dom/div #js {}
+           (dom/div #js {:font-size "4.7rem;"} "X-Large (75.2px)")
+           (dom/br #js {})
+           (dom/code #js {} ".u-font-size--xlarge")
+           (dom/p #js {})
+           (dom/div #js {:font-size "3rem;"} "Large (48px)")
+           (dom/br #js {})
+           (dom/code #js {} ".u-font-size--large")
+           (dom/p #js {})
+           (dom/div #js {:font-size "2.5rem;"} "Semi-Large (40px)")
+           (dom/br #js {})
+           (dom/code #js {} ".u-font-size--semi-large")
+           (dom/p #js {})
+           (dom/div #js {:font-size "2rem;"} "Medium (32px)")
+           (dom/br #js {})
+           (dom/code #js {} ".u-font-size--medium")
+           (dom/p #js {})
+           (dom/div #js {:font-size "1.5rem;"} "Semi-Medium (24px)")
+           (dom/br #js {})
+           (dom/code #js {} ".u-font-size--semi-medium")
+           (dom/p #js {})
+           (dom/div #js {:font-size "1.25rem;"} "Normal Plus (20px)")
+           (dom/br #js {})
+           (dom/code #js {} ".u-font-size--normal-plus")
+           (dom/p #js {})
+           (dom/div #js {:font-size "1.125rem;"} "Normal (18px)")
+           (dom/br #js {})
+           (dom/code #js {} ".u-font-size--normal")
+           (dom/p #js {})
+           (dom/div #js {:font-size "1rem;"} "Semi-Normal (16px)")
+           (dom/br #js {})
+           (dom/code #js {} ".u-font-size--semi-normal")
+           (dom/p #js {})
+           (dom/div #js {:font-size ".875rem;"} "Small (14px)")
+           (dom/br #js {})
+           (dom/code #js {} ".u-font-size--small")
+           (dom/p #js {})
+           (dom/div #js {:font-size ".75rem;"} "Tiny (12px)")
+           (dom/br #js {})
+           (dom/code #js {} ".u-font-size--tiny")))
+
+(defexample typography-no-bullet
+  "#### No Bullet
+
+  You can remove your list bullet from any `<li>` element."
+  (dom/div #js {:className "u-row"}
+           (dom/div #js {:className "u-column u-push--1"}
+                    (dom/h1 #js {} "Before")
+                    (dom/ul #js {:className "is-negative"}
+                            (dom/li #js {} "Bullet")
+                            (dom/li #js {} "Bullet")
+                            (dom/li #js {} "Bullet")))
+           (dom/div #js {:className "u-column"}
+                    (dom/h1 #js {} "After")
+                    (dom/ul #js {:className "is-positive"}
+                            (dom/li #js {} "Bullet")
+                            (dom/li #js {} "Bullet")
+                            (dom/li #js {:className "u-no-bullet"} "No Bullet")))))
+
+(defexample typography-no-bullets
+  "#### No Bullets
+
+  Display a list without bullets in any `<ul>` or `<ol>` element."
+  (dom/div #js {}
+           (dom/div #js {:className "u-row"}
+                    (dom/div #js {:className "u-column u-push--1"}
+                             (dom/h1 #js {} "Before")
+                             (dom/ul #js {:className "is-negative"}
+                                     (dom/li #js {} "Item 1")
+                                     (dom/li #js {} "Item 2")
+                                     (dom/li #js {} "Item 3")))
+                    (dom/div #js {:className "u-column"}
+                             (dom/h1 #js {} "After")
+                             (dom/ul #js {:className "u-no-bullets is-positive"}
+                                     (dom/li #js {} "Item 1")
+                                     (dom/li #js {} "Item 2")
+                                     (dom/li #js {} "Item 3"))))))
+
+(defexample typography-ellipsis
+  "#### Ellipsis"
+  (dom/div #js {}
+           (dom/h1 #js {} "Before")
+           (dom/p #js {:className "is-negative"} "This is a very long string of text that will get cut off by exactly three dots forming an ellipsis character to truncate this text.")
+           (dom/h1 #js {} "After")
+           (dom/p #js {:className "u-ellipsis is-positive"} "This is a very long string of text that will get cut off by exactly three dots forming an ellipsis character to truncate this text.")))
+
+(defexample typography-break-word
+  "#### Break Word"
+  (dom/div #js {}
+           (dom/h1 #js {} "Before")
+           (dom/p #js {:className "is-negative"} "SupercalifragalisticexpialadoshiousSupercalifragalisticexpialadoshiousSupercalifragalisticexpialadoshiousSupercalifragalisticexpialadoshious")
+           (dom/h1 #js {} "After")
+           (dom/p #js {:className "u-break-word is-positive"} "SupercalifragalisticexpialadoshiousSupercalifragalisticexpialadoshiousSupercalifragalisticexpialadoshiousSupercalifragalisticexpialadoshious")))
+
+(def docs-typography-customize
+  "``` css
+  --fontFamily--sans: 'Source Sans Pro', sans-serif;
+  --fontFamily--monospaced: Consolas, \"Andale Mono WT\", \"Andale Mono\", \"Lucida Console\", \"Lucida Sans Typewriter\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Liberation Mono\", \"Nimbus Mono L\", Monaco, \"Courier New\", Courier, monospace;
+  --fontFamily-page: var(--fontFamily--sans);
+  --fontSize--tiny: .75rem;
+  --fontSize--small: .875rem;
+  --fontSize--semiNormal: 1rem;
+  --fontSize--normal: 1.125rem;
+  --fontSize--normalPlus: 1.25rem;
+  --fontSize--semiMedium: 1.5rem;
+  --fontSize--medium: 2rem;
+  --fontSize--semiLarge: 2.5rem;
+  --fontSize--large: 3rem;
+  --fontSize--xlarge: 4.7rem;
+  --fontSize-page: 100%;
+  --fontSize-heading: var(--fontSize--normalPlus);
+  --fontWeight-page: 400;
+  --fontWeight-page--bold: 800;
+  --lineHeight-page: 1;
+  --lineHeight-paragraph: 1.4;
+  --lineHeight-heading: 1.3;
+  ```")
+
+;; Visibility Examples
+
+(defexample visibility-show
+  "### Show
+
+  This set of classes let you expose any element to the desired device(s). Just add one of the following classes and you will see your element on it's respective device."
+  (dom/div #js {}
+           (dom/div #js {} "+ Shown All The Time")
+           (dom/div #js {:className "u-show@sm"} "+ Shown for Small Only")
+           (dom/div #js {:className "u-show@md"} "+ Shown for Medium Only")
+           (dom/div #js {:className "u-show@md-up"} "+ Shown for Medium Up")
+           (dom/div #js {:className "u-show@lg"} "+ Shown for Large Only")
+           (dom/div #js {:className "u-show@lg-up"} "+ Shown for Large Up")
+           (dom/div #js {:className "u-show@landscape"} "+ Shown for Landscape")
+           (dom/div #js {:className "u-show@portrait"} "+ Shown for Portrait")
+           (dom/div #js {:className "u-show@reader"} "+ Read by Screen Readers but Visually Hidden")))
+
+(defexample visibility-hide
+  "### Hide
+
+  Use these special classes to hide an element from any device as follows:"
+  (dom/div #js {}
+           (dom/div #js {:hidden ""} "- Hidden All The Time via Native Attribute")
+           (dom/div #js {:className "u-hide"} "- Hidden All The Time")
+           (dom/div #js {:className "u-hide@sm"} "- Hidden for Small Only")
+           (dom/div #js {:className "u-hide@md"} "- Hidden for Medium Only")
+           (dom/div #js {:className "u-hide@md-up"} "- Hidden for Medium Up")
+           (dom/div #js {:className "u-hide@lg"} "- Hidden for Large Only")
+           (dom/div #js {:className "u-hide@lg-up"} "- Hidden for Large Up")
+           (dom/div #js {:className "u-hide@landscape"} "- Hidden for Landscape")
+           (dom/div #js {:className "u-hide@portrait"} "- Hidden for Portrait")
+           (dom/div #js {:aria-hidden "true"} "- Not read by Screen Readers and visually shown")))
+
+(defexample visibility-fade
+  "### Fade
+
+  To show smoother interactions we can utilize these fade classes and mixins.
+
+  This example shows how you can utilize the `.u-fade-[in/out]` classes to toggle visibility with a smooth transition."
+  (dom/div #js {}
+           (dom/button #js {:className "c-button c-button--large js-fade-control"} "Fade toggle")
+           (dom/span #js {:className "c-icon c-icon--xlarge is-positive u-fade-out js-fade-example"}
+                     (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
+                              (dom/path #js {:d "M15 17v2h2v-2h2v-2h-2v-2h-2v2h-2v2h2zm5-15H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM5 5h6v2H5V5zm15 15H4L20 4v16z"})))))
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -570,52 +837,80 @@ Check out my presentation on CSS Grids can help you, complete with a [slide deck
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; NOTE: This is where you add the sections for index
 
-;TODO: Need to determine how markup should be added if Stephen's layout with text under the titles and multiple
-; levels are desired. The below shows a couple ideas based upon the "header" idea, but this isn't a good match so
-; I'm waiting to modify the rest until we decide our target.
-
 (def sections [
                ; NOTE: :examples is a list of example names, rendered in order given
-               {:id :grids :title "Grid" :header grid-header :examples [grid-example-1]}
-               {:id :grids-learn :title "Learn" :header learn-header :examples [learn-example
-                                                                                grid-example-3 grid-example-4
-                                                                                grid-example-5 grid-example-6 grid-example-7 grid-example-8
-                                                                                grid-example-9
-                                                                                grid-example-align-start grid-example-align-center
-                                                                                grid-example-align-end grid-example-align-top
-                                                                                grid-example-align-middle grid-example-align-bottom
-                                                                                grid-example-distributed-around grid-example-distributed-between
-                                                                                grid-example-ordering-first grid-example-ordering-last
-                                                                                grid-example-ordering-reverse]}
-               {:id :positioning :title "Positioning" :header nil :examples [positioning-example-fixed
-                                                                       positioning-example-absolute]}
+               {:id       :grids
+                :title "Grids"
+                :documentation
+                          "Grids are the bread and butter of web design, this one is based on flexbox. Needless to say you will find this grid system a joy to use. [Flexbox Mythbusting](http://jonyablonski.com/2015/flexbox-myth-busting/)\n\n
+                          #### New to grids?\n\n
+                          Check out my presentation on CSS Grids can help you, complete with a [slide deck](https://speakerdeck.com/stephenway/css-grids-can-help-you), and a [CodePen](http://codepen.io/stephenway/pen/dMKzvy) to play with complex grid layouts.
+                          "
+                :examples [grid-example-12-column grid-example-learn grid-example-autopilot grid-example-responsive
+                           grid-example-fluid grid-example-column-push grid-example-column-pull
+                           grid-example-column-push-pull grid-example-column-nesting]}
+               {:id       :align
+                :title "Align"
+                :documentation
+                          "Shortcuts to placing your elements left or right."
+                :examples [grid-example-align-start grid-example-align-center
+                           grid-example-align-end grid-example-align-top
+                           grid-example-align-middle grid-example-align-bottom]
+                }
+               {:id       :distributed
+                :title "Distributed"
+                :documentation
+                          "Evenly distribute objects into a row or column."
+                :examples [grid-example-distributed-around grid-example-distributed-between]
+                }
+               {:id       :ordering
+                :title "Ordering"
+                :documentation
+                          "Manipulate the order of objects with special column classes."
+                :examples [grid-example-ordering-first grid-example-ordering-last
+                           grid-example-ordering-reverse]
+                }
+               {:id       :media
+                :title "Media"
+                :documentation
+                    docs-media
+                :examples []}
+               {:id       :positioning
+                :title "Positioning"
+                :examples [positioning-example-fixed positioning-example-absolute]}
+               {:id       :positioning2
+                :title "Position"
+                :documentation
+                    docs-positioning-position
+                :examples []}
+               {:id       :positioning3
+                :title "Rotate"
+                :examples [positioning-example-rotate]}
+               {:id       :size
+                :title "Elements - Size"
+                :documentation
+                    docs-size
+                :examples []}
+               {:id       :typography
+                :title "Typography"
+                :examples [typography-font-scale typography-no-bullet typography-no-bullets
+                           typography-ellipsis typography-break-word]}
+               {:id :typography-customize
+                :title "Customize"
+                :documentation
+                    docs-typography-customize
+                :examples []}
+               {:id       :visibility
+                :title "Visibility"
+                :documentation
+                    "Use simple utilities to hide or show elements across any span of devices"
+                :examples [visibility-show visibility-hide visibility-fade]}
                ])
-
-;; NOTE: How to render a section (with all examples) including hyperlink target anchor
-(defn section
-  [id sections]
-  (let [{:keys [title examples header]} (first (filter #(= id (:id %)) sections))]
-    (dom/div nil
-             (dom/a #js {:id id}
-                    (dom/h1 nil title))
-             (dom/p nil header)
-             (map #(%) examples))))
-
-
-;; NOTE: Rendering of the clickable index
-(defn section-index [sections]
-  (dom/ul nil
-          (map #(dom/li nil (dom/a #js {:href (str "#" (:id %))} (:title %))) sections)))
 
 ;; NOTE: Rendering of the main guide UI
 (defui UI
   Object
   (render [this]
     (dom/div nil
-             (section-index sections)
-             (section :grids sections)
-             (section :grids-learn sections)
-             (section :positioning sections)
-             )))
-
-
+             (util/section-index sections)
+             (mapv (fn [k] (dom/div #js {:key k} (util/section k sections))) (map :id sections)))))
