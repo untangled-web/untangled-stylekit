@@ -13,71 +13,75 @@
 (defexample accordion
   "# Accordion Example"
   (dom/div #js {}
-           (let [accordion (boolean (om/get-state this :accordion))
-                 accordion-menu (str "o-accordion__title is-nested" (if accordion " is-active " ""))
-                 content-menu (str "o-accordion__content " (if accordion " is-active " ""))
-                 ;;active-menu (fn [a] str("o-accordion__title is-nested " active) )
+           (let [accordion (or (om/get-state this :accordion) 0)
+                 accordion-select (fn [a] (om/update-state! this assoc :accordion a))
                  ]
-             (dom/div #js {:className "o-accordion"}
-                     (dom/div #js {:id "a1"
-                                   :className accordion-menu
-                                   :onClick #(toggle-accordion this)}
-                              (dom/span #js {:className "c-badge c-badge--informative"} "2") " Contacts ")
-                     (dom/div #js {:id "a2" :className content-menu}
-                              (dom/div #js {:className "o-accordion__group"}
-                                       (dom/div #js {:className "o-accordion__info o-accordion__info--critical"}
-                                                (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
-                                                         (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"})) " Kennee ")
-                                       (dom/div #js {:className "o-accordion__info"}
-                                                (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
-                                                         (dom/path #js {:d "M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"})) " ilovemicrosoft@yahoo.com ")
-                                       (dom/div #js {:className "o-accordion__info"}
-                                                (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
-                                                         (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"})) " 2m ago ")
-                                       (dom/div #js {:className "o-accordion__actions"}
-                                                (dom/span #js {:className "o-accordion__action"}
-                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
-                                                                   (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"})))
-                                                (dom/span #js {:className "o-accordion__action o-accordion__action--informative"}
-                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
-                                                                   (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"})))
-                                                (dom/span #js {:className "o-accordion__action o-accordion__action--success"}
-                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
-                                                                   (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"})))))
-                              (dom/div #js {:className "o-accordion__group"}
-                                       (dom/div #js {:className "o-accordion__info o-accordion__info--critical"}
-                                                (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
-                                                         (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"})) " Krassy Pants ")
-                                       (dom/div #js {:className "o-accordion__info"}
-                                                (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
-                                                         (dom/path #js {:d "M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"})) " krass@pants.com ")
-                                       (dom/div #js {:className "o-accordion__info"}
-                                                (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
-                                                         (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"})) " 2m ago ")
-                                       (dom/div #js {:className "o-accordion__actions"}
-                                                (dom/span #js {:className "o-accordion__action"}
-                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
-                                                                   (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"}))))))
-                     (dom/div #js {:id "a3" :className accordion-menu
-                                   :onClick #(toggle-accordion this)} " What kinds of dogs are there? ")
-                     (dom/div #js {:className content-menu}
-                              (dom/p #js {} "There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion."))
-                     (dom/div #js {:id "a4" :className accordion-menu
-                                   :onClick #(toggle-accordion this)} " How do you acquire a dog? ")
-                     (dom/div #js {:className content-menu}
-                              (dom/p #js {} "Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.")
-                              (dom/p #js {:className "is-nested"} "A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily."))
-                     (dom/div #js {:id "a5" :className accordion-menu
-                                   :onClick #(toggle-accordion this)} " How do you acquire a dog? ")
-                     (dom/div #js {:className content-menu}
-                              (dom/p #js {} "Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.")
-                              (dom/p #js {:className "is-nested"} "A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily."))
-                     (dom/div #js {:id "a6" :className accordion-menu
-                                   :onClick #(toggle-accordion this)} " How do you acquire a dog? ")
-                     (dom/div #js {:className content-menu}
-                              (dom/p #js {} "Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.")
-                              (dom/p #js {:className "is-nested"} "A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily."))
-                     (dom/div #js {:className "o-accordion__title"} " Non-nested title ")))))
+             (dom/div #js {}
+                      (dom/div #js {:className "o-accordion"}
+                               (dom/div #js {:id        "a1"
+                                             :className (str "o-accordion__title is-nested " (if (= accordion 1) "is-active" ""))
+                                             :onClick   #(accordion-select 1)}
+                                        (dom/span #js {:className " c-badge c-badge--informative "} " 2 ") " Contacts ")
+                               (dom/div #js {:className (str " o-accordion__content " (if (= accordion 1) "is-active " ""))}
+                                        (dom/div #js {:className " o-accordion__group "}
+                                                 (dom/div #js {:className " o-accordion__info o-accordion__info--critical "}
+                                                          (dom/svg #js {:xmlns " http:// www.w3.org /2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
+                                                                   (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"})) " Kennee ")
+                                                 (dom/div #js {:className "o-accordion__info"}
+                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
+                                                                   (dom/path #js {:d "M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"})) " ilovemicrosoft@yahoo.com ")
+                                                 (dom/div #js {:className "o-accordion__info"}
+                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
+                                                                   (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"})) " 2m ago ")
+                                                 (dom/div #js {:className "o-accordion__actions"}
+                                                          (dom/span #js {:className "o-accordion__action"}
+                                                                    (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
+                                                                             (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"})))
+                                                          (dom/span #js {:className "o-accordion__action o-accordion__action--informative"}
+                                                                    (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
+                                                                             (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"})))
+                                                          (dom/span #js {:className "o-accordion__action o-accordion__action--success"}
+                                                                    (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
+                                                                             (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"})))))
+                                        (dom/div #js {:className "o-accordion__group"}
+                                                 (dom/div #js {:className "o-accordion__info o-accordion__info--critical"}
+                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
+                                                                   (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"})) " Krassy Pants ")
+                                                 (dom/div #js {:className "o-accordion__info"}
+                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
+                                                                   (dom/path #js {:d "M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"})) " krass@pants.com ")
+                                                 (dom/div #js {:className "o-accordion__info"}
+                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-neutral" :viewBox "0 0 24 24"}
+                                                                   (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"})) " 2m ago ")
+                                                 (dom/div #js {:className "o-accordion__actions"}
+                                                          (dom/span #js {:className "o-accordion__action"}
+                                                                    (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
+                                                                             (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"}))))))
+                               (dom/div #js {:id        "a2"
+                                             :className (str "o-accordion__title is-nested" (if (= accordion 2) " is-active" ""))
+                                             :onClick   #(accordion-select 2)} " What kinds of dogs are there? ")
+                               (dom/div #js {:className (str "o-accordion__content" (if (= accordion 2) " is-active" ""))}
+                                        (dom/p #js {} "There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion."))
+                               (dom/div #js {:id        "a3"
+                                             :className (str "o-accordion__title is-nested" (if (= accordion 3) " is-active" ""))
+                                             :onClick #(accordion-select 3)} " How do you acquire a dog? ")
+                               (dom/div #js {:className (str "o-accordion__content" (if (= accordion 3) " is-active" ""))}
+                                        (dom/p #js {} "Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.")
+                                        (dom/p #js {:className "is-nested"} "A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily."))
+                               (dom/div #js {:id        "a4"
+                                             :className (str "o-accordion__title is-nested" (if (= accordion 4) " is-active" ""))
+                                             :onClick #(accordion-select 4)} " How do you acquire a dog? ")
+                               (dom/div #js {:className (str "o-accordion__content" (if (= accordion 4) " is-active" ""))}
+                                        (dom/p #js {} "Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.")
+                                        (dom/p #js {:className "is-nested"} "A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily."))
+                               (dom/div #js {:id        "a5"
+                                             :className (str "o-accordion__title is-nested" (if (= accordion 5) " is-active" ""))
+                                             :onClick #(accordion-select 5)} " How do you acquire a dog? ")
+                               (dom/div #js {:className (str "o-accordion__content" (if (= accordion 5) " is-active" ""))}
+                                        (dom/p #js {} "Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.")
+                                        (dom/p #js {:className "is-nested"} "A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily."))
+                               (dom/div #js {:className "o-accordion__title"} " Non-nested title ")))
+             )))
 
 (defexample accordion-nested
   "# Nested Accordion Example"
@@ -116,7 +120,7 @@
                                                                           (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"})) " 3 days ago "))
                                                (dom/p #js {:className "is-nested"} "So strongly and metaphysically did I conceive of my situation then, that while earnestly watching his motions, I seemed distinctly to perceive in the tumultuous business of cutting-in and attending to a whale, there is much running backwards and forwards among the crew.")))))))
 
-#_(defexample accordion-sidebar
+(defexample accordion-sidebar
   "# Accordion inside a Sidebar"
   (dom/div #js {}
            (dom/nav #js {:className "o-sidebar [is-collapsed]"}
@@ -970,7 +974,8 @@
                ; NOTE: :examples is a list of example names, rendered in order given
                {:id :accordion :title "Accordion" :examples [accordion]
                 :documentation
-                    "**NEW!** This object is redesigned to be un-opinionated and flexible for almost any interactive list you might need in your app. The simplified markup resembles this node list:"}
+                    "**NEW!** This object is redesigned to be un-opinionated and flexible for almost any interactive list you might need in your app. The simplified markup resembles this node list:
+                    ``` shell\n.o-accordion [ --inline | --right | --small ]\n   __title   [ is-active | is-nested | is-selected ]\n   __content [ is-active ]\n     __group\n       __info\n       __actions\n         __action [ --informative | --success ]\n         __meta\n           __meta-item\n```"}
                {:id :accordion-nested :title " Nested Accordion " :examples [accordion-nested]
                 :documentation
                 "Notice how you can add `.is-nested` to any element and it collapses and expands with `.is-active`"}
