@@ -847,23 +847,36 @@
 
 (defexample toolbar
   "# Toolbar Example"
-  (dom/div #js {}
+  (let [changed-menu (om/get-state this :changed-menu)
+        ui-menu-open (if (= (:id changed-menu) :ui) (:open-state changed-menu) nil)
+        lang-menu-open (if (= (:id changed-menu) :lang) (:open-state changed-menu) nil)
+        ui-menu-class (str "c-dropdown__menu" (if ui-menu-open " is-active" ""))
+        lang-menu-class (str "c-dropdown__content" (if lang-menu-open " is-active" ""))
+        lang-item-selected (or (if (= (:id changed-menu) :lang) (:selected-item changed-menu) nil) "English-US")
+        menu-action (fn[menu opened item]
+                      (om/update-state! this assoc :changed-menu {:id menu :open-state opened :selected-item item}))
+        ]
+    (dom/div #js {}
            (dom/div #js {:className "o-toolbar"}
                     (dom/nav #js {:className "u-column--bar"}
                              (dom/h1 #js {:className "o-toolbar__brand"} "Name")
                              (dom/div #js {:className "c-dropdown"}
-                                      (dom/button #js {:className "c-dropdown__select c-dropdown__select--right js-dropdown-toggle"} "UI")
-                                      (dom/ul #js {:className "c-dropdown__menu is-active" :tabIndex "-1"}
+                                      (dom/button #js {:className "c-dropdown__select js-dropdown-toggle"
+                                                       :onClick   #(menu-action :ui (not ui-menu-open) nil)} "UI")
+                                      (dom/ul #js {:className ui-menu-class :tabIndex "-1"}
                                               (dom/li #js {}
-                                                      (dom/button #js {:className "c-dropdown__link"}
+                                                      (dom/button #js {:className "c-dropdown__link"
+                                                                       :onClick   #(menu-action :ui false 1)}
                                                                   (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
                                                                            (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"})) " App "))
                                               (dom/li #js {}
-                                                      (dom/button #js {:className "c-dropdown__link"}
+                                                      (dom/button #js {:className "c-dropdown__link"
+                                                                       :onClick   #(menu-action :ui false 2)}
                                                                   (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
                                                                            (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"})) " App "))
                                               (dom/li #js {}
-                                                      (dom/button #js {:className "c-dropdown__link"}
+                                                      (dom/button #js {:className "c-dropdown__link"
+                                                                       :onClick   #(menu-action :ui false 3)}
                                                                   (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
                                                                            (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"})) " App ")))))
                     (dom/ul #js {:className "u-column--bar"}
@@ -872,11 +885,14 @@
                                              (dom/button #js {:className "c-button c-button--icon u-hide@md-up"}
                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
                                                                   (dom/path #js {:d "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"})))
-                                             (dom/button #js {:className "c-button c-button--text c-button--dropdown u-hide@sm"} "English-US")
-                                             (dom/ul #js {:className "c-dropdown__content" :tabIndex "-1"}
+                                             (dom/button #js {:className "c-button c-button--text c-button--dropdown u-hide@sm"
+                                                              :onClick   #(menu-action :lang (not lang-menu-open) lang-item-selected)} lang-item-selected)
+                                             (dom/ul #js {:className lang-menu-class :tabIndex "-1"}
                                                      (dom/li #js {}
-                                                             (dom/button #js {:className "c-dropdown__link"} "English-US"))
-                                                     (dom/li #js {} (dom/button #js {:className "c-dropdown__link"} "Español")))))
+                                                             (dom/button #js {:className "c-dropdown__link"
+                                                                              :onClick   #(menu-action :lang false "English-US")} "English-US"))
+                                                     (dom/li #js {} (dom/button #js {:className "c-dropdown__link"
+                                                                                     :onClick   #(menu-action :lang false "Español")} "Español")))))
                             (dom/li #js {:className "o-toolbar__link"}
                                     (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--person" :viewBox "0 0 24 24"}
                                              (dom/path #js {:d "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"}))
@@ -884,7 +900,7 @@
                             (dom/li #js {:className "o-toolbar__link"}
                                     (dom/button #js {:className "c-button c-button--icon"}
                                                 (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
-                                                         (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"}))))))))
+                                                         (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"})))))))))
 
 (defexample toolbar-small
   "# Small Toolbar Example"
@@ -1021,11 +1037,11 @@
                #_{:id :listing :title "Listing" :examples [listing-begin listing]}
                #_{:id :modal :title "Modal" :examples []}
                #_{:id :sidebar :title "Sidebar" :examples []}
-               #_{:id :toolbar :title "Toolbar" :example []}
-               #_{:id :small-toolbar :title "Small Toolbar" :example []
+               {:id :toolbar :title "Toolbar" :examples [toolbar]}
+               #_{:id :small-toolbar :title "Small Toolbar" :examples [toolbar-small]
                 :documentation
                     "This toolbar is mainly used for specific operations and navigation for the current app you are using."}
-               #_{:id :secondary-toolbar :title "Secondary Toolbar" :examples []
+               #_{:id :secondary-toolbar :title "Secondary Toolbar" :examples [toolbar-secondary]
                 :documentation
                     "The secondary toolbar is intended to only provide operations for the current view of the app your in."}
                ])
