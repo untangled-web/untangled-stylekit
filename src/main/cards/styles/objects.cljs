@@ -127,6 +127,7 @@
                                                              :onClick #(accordion-select 2)} "So strongly and metaphysically did I conceive of my situation then, that while earnestly watching his motions, I seemed distinctly to perceive in the tumultuous business of cutting-in and attending to a whale, there is much running backwards and forwards among the crew."))))))
     ))
 
+;; TODO Fix, accordion sidebar is not appearing
 (defexample accordion-sidebar
   "# Accordion inside a Sidebar Example"
   (dom/div #js {}
@@ -153,32 +154,39 @@
                                                (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"})) " Action 1 "))
                     (dom/div #js {:className "o-sidebar__toggle"}))))
 
+(defn toggle-aside [this] (om/update-state! this update :aside not))
 
 (defexample aside
   "# Aside Example"
-  (dom/div #js {}
-           (dom/aside #js {:className "o-aside o-aside--right is-active"}
-                      (dom/h1 #js {:className "o-aside__title"} "Favorites")
-                      (dom/span #js {:className "o-aside__close"}
-                                (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
-                                         (dom/path #js {:d "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"})))
-                      (dom/h2 #js {:className "o-aside__title o-aside__title--section"} "Reveal")
-                      (dom/ul #js {:className "o-aside__list"}
-                              (dom/li #js {}
-                                      (dom/a #js {:href "#" :className "o-aside__item"} "Segment analysis"))
-                              (dom/li #js {}
-                                      (dom/a #js {:href "#" :className "o-aside__item"} "Source of business report")))
-                      (dom/h2 #js {:className "o-aside__title o-aside__title--section"} "Narrowcast")
-                      (dom/ul #js {:className "o-aside__list"}
-                              (dom/li #js {}
-                                      (dom/a #js {:href "#" :className "o-aside__item"} "Agent performance report"))
-                              (dom/li #js {}
-                                      (dom/a #js {:href "#" :className "o-aside__item"} "Roll-up report")))
-                      (dom/h2 #js {:className "o-aside__title o-aside__title--section"} "Reach")
-                      (dom/ul #js {:className "o-aside__list"}
-                              (dom/li #js {}
-                                      (dom/a #js {:href "#" :className "o-aside__item"} "Create new list")))
-                      (dom/div #js {:className "o-aside__backdrop"}))))
+  (let [aside (boolean (om/get-state this :aside))]
+    (dom/div #js {}
+             (dom/button #js {:className "c-button"
+                              :onClick #(toggle-aside this)} "Show/Hide Aside")
+             (dom/aside #js {:id "a1"
+                             :className (str "o-aside o-aside--right " (if aside "is-active" ""))}
+                        (dom/h1 #js {:className "o-aside__title"} "Favorites")
+                        (dom/span #js {
+                                       :className "o-aside__close"
+                                       :onClick #(toggle-aside this)}
+                                  (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
+                                           (dom/path #js {:d "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"})))
+                        (dom/h2 #js {:className "o-aside__title o-aside__title--section"} "Reveal")
+                        (dom/ul #js {:className "o-aside__list"}
+                                (dom/li #js {}
+                                        (dom/a #js {:href "#" :className "o-aside__item"} "Segment analysis"))
+                                (dom/li #js {}
+                                        (dom/a #js {:href "#" :className "o-aside__item"} "Source of business report")))
+                        (dom/h2 #js {:className "o-aside__title o-aside__title--section"} "Narrowcast")
+                        (dom/ul #js {:className "o-aside__list"}
+                                (dom/li #js {}
+                                        (dom/a #js {:href "#" :className "o-aside__item"} "Agent performance report"))
+                                (dom/li #js {}
+                                        (dom/a #js {:href "#" :className "o-aside__item"} "Roll-up report")))
+                        (dom/h2 #js {:className "o-aside__title o-aside__title--section"} "Reach")
+                        (dom/ul #js {:className "o-aside__list"}
+                                (dom/li #js {}
+                                        (dom/a #js {:href "#" :className "o-aside__item"} "Create new list")))
+                        (dom/div #js {:className "o-aside__backdrop"})))))
 
 
 (defexample button-group
@@ -197,13 +205,17 @@
                     (dom/button #js {:className "c-button"} "Pause")
                     (dom/button #js {:className "c-button"} "Stop"))))
 
+(defn toggle-pause [this] (om/update-state! this update :pause not))
 (defexample button-toggle
   "# Button Group Toggle Example"
-  (dom/div #js {}
-           (dom/span #js {:className "o-button-group__label"} "Control")
-           (dom/div #js {:className "o-button-group--toggle"}
-                    (dom/button #js {:className "c-button c-button--small"} "Play")
-                    (dom/button #js {:className "c-button c-button--small c-button--text"} "Pause"))))
+  (let [pause (boolean (om/get-state this :pause))]
+    (dom/div #js {}
+             (dom/span #js {:className "o-button-group__label"} "Control")
+             (dom/div #js {:className "o-button-group--toggle"}
+                      (dom/button #js {:className (str "c-button c-button--small" (if pause " c-button--text" ""))
+                                       :onClick   #(toggle-pause this)} "Play")
+                      (dom/button #js {:className (str "c-button c-button--small" (if (not pause) " c-button--text" "" ))
+                                       :onClick   #(toggle-pause this)} "Pause")))))
 
 (defexample postfix-group
   "# Button Group Postfix Example"
@@ -216,7 +228,7 @@
                                       (dom/button #js {:className "c-button c-button--postfix"} "Go")
                                       (dom/button #js {:className "c-button c-button--postfix u-hide@sm"} "Start"))))))
 
-#_(defexample calendar-example
+(defexample calendar-example
     "# Calendar Example"
     (dom/div #js {}
              (dom/div #js {:className "u-wrapper"}
@@ -987,15 +999,11 @@
                 :documentation
                     "Notice how you can add `.is-nested` to any element and it collapses and expands with `.is-active`"}
                  {:id :accordion-sidebar :title " Accordion Side Bar" :examples [accordion-sidebar]}
-               ;; {:id :aside :title " Aside " :examples [aside]
-               ;; :documentation
-               ;;     "**NEW!** A simple sliding card that displays lists of links and other various content. The simplified markup resembles this node list:"}
-
-               #_{:id :aside :title " Aside " :examples [aside]
-                  :documentation
-                      "**NEW!** A simple sliding card that displays lists of links and other various content. The simplified markup resembles this node list:"}
-              #_ {:id :button-group :examples [button-group button-stacked button-toggle]}
-              #_ {:id :postfix-group :examples [postfix-group]
+                {:id :aside :title " Aside " :examples [aside]
+                :documentation
+                    "**NEW!** A simple sliding card that displays lists of links and other various content. The simplified markup resembles this node list:"}
+              {:id :button-group :examples [button-group button-stacked button-toggle]}
+              {:id :postfix-group :examples [postfix-group]
                 :documentation
                     "**Please Note** This does not work well on mobile with multiple buttons. To fix this we hacked out the second button. Use at your own risk."}
                #_{:id :calendar-example :title "Calendar" :examples [calendar-example]
