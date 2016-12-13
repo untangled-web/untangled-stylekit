@@ -904,17 +904,25 @@
 
 (defexample toolbar-small
   "# Small Toolbar Example"
-  (dom/div #js {}
-           (dom/div #js {:className "o-toolbar o-toolbar--small"}
-                    (dom/ul #js {:className "c-menu c-menu--block"}
-                            (dom/li #js {}
-                                    (dom/button #js {:className "c-menu__link is-active"} "Widgets"))
-                            (dom/li #js {}
-                                    (dom/button #js {:className "c-menu__link"} "Doodads"))
-                            (dom/li #js {}
-                                    (dom/button #js {:className "c-menu__link"} "Apparatuses"))
-                            (dom/li #js {}
-                                    (dom/button #js {:className "c-menu__link"} "Things"))))))
+  (let [selected-item (or (om/get-state this :selected-item) :widgets)
+        get-class (fn [item] (str "c-menu__link" (if(= item selected-item) " is-active" "")))
+        select-item (fn [item] (om/update-state! this assoc :selected-item item))
+        ]
+    (dom/div #js {}
+             (dom/div #js {:className "o-toolbar o-toolbar--small"}
+                      (dom/ul #js {:className "c-menu c-menu--block"}
+                              (dom/li #js {}
+                                      (dom/button #js {:className (get-class :widgets)
+                                                       :onClick #(select-item :widgets)} "Widgets"))
+                              (dom/li #js {}
+                                      (dom/button #js {:className (get-class :doodads)
+                                                       :onClick #(select-item :doodads)} "Doodads"))
+                              (dom/li #js {}
+                                      (dom/button #js {:className (get-class :apparatuses)
+                                                       :onClick #(select-item :apparatuses)} "Apparatuses"))
+                              (dom/li #js {}
+                                      (dom/button #js {:className (get-class :things)
+                                                       :onClick #(select-item :things)} "Things")))))))
 
 
 (defexample toolbar-secondary
@@ -1038,7 +1046,7 @@
                #_{:id :modal :title "Modal" :examples []}
                #_{:id :sidebar :title "Sidebar" :examples []}
                {:id :toolbar :title "Toolbar" :examples [toolbar]}
-               #_{:id :small-toolbar :title "Small Toolbar" :examples [toolbar-small]
+               {:id :small-toolbar :title "Small Toolbar" :examples [toolbar-small]
                 :documentation
                     "This toolbar is mainly used for specific operations and navigation for the current app you are using."}
                #_{:id :secondary-toolbar :title "Secondary Toolbar" :examples [toolbar-secondary]
