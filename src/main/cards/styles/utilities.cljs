@@ -45,35 +45,50 @@
   "#### Learn
 
   This group of select boxes will show you how columns adapt to their siblings when they occupy more or less columns."
-  (dom/div #js {:className "u-row o-column-switcher-row"}
-           (dom/div #js {:className "u-column--4"}
-                    (dom/select #js {:className "o-column-switcher"}
-                                (dom/option #js {} "u-column--1")
-                                (dom/option #js {} "u-column--2")
-                                (dom/option #js {} "u-column--3")
-                                (dom/option #js {} "u-column--4")
-                                (dom/option #js {} "u-column--5")
-                                (dom/option #js {} "u-column--6")
-                                (dom/option #js {} "u-column--7")
-                                (dom/option #js {} "u-column--8")
-                                (dom/option #js {} "u-column--9")
-                                (dom/option #js {} "u-column--10")
-                                (dom/option #js {} "u-column--11")
-                                (dom/option #js {} "u-column--12")))
-           (dom/div #js {:className "u-column--8"}
-                    (dom/select #js {:className "o-column-switcher"}
-                                (dom/option #js {} "u-column--1")
-                                (dom/option #js {} "u-column--2")
-                                (dom/option #js {} "u-column--3")
-                                (dom/option #js {} "u-column--4")
-                                (dom/option #js {} "u-column--5")
-                                (dom/option #js {} "u-column--6")
-                                (dom/option #js {} "u-column--7")
-                                (dom/option #js {} "u-column--8")
-                                (dom/option #js {} "u-column--9")
-                                (dom/option #js {} "u-column--10")
-                                (dom/option #js {} "u-column--11")
-                                (dom/option #js {} "u-column--12")))))
+  (let [left-value (or (om/get-state this :left-value) 4)
+        right-value (or (om/get-state this :right-value) 8)
+        left-class (str "u-column--" left-value)
+        right-class (str "u-column--" right-value)
+        ]
+    (dom/div #js {:className "u-row o-column-switcher-row"}
+           (dom/div #js {:className left-class}
+                    (dom/select #js {:id :left-selector
+                                     :className "o-column-switcher"
+                                     :onChange (fn [evt]
+                                                 (om/update-state! this assoc
+                                                                   :left-value (.-value (.-target evt))
+                                                                   :right-value (- 12 (.-value (.-target evt)))))}
+                                (dom/option #js {:value 1 :selected (= left-value 1)} "u-column--1")
+                                (dom/option #js {:value 2 :selected (= left-value 2)} "u-column--2")
+                                (dom/option #js {:value 3 :selected (= left-value 3)} "u-column--3")
+                                (dom/option #js {:value 4 :selected (= left-value 4)} "u-column--4")
+                                (dom/option #js {:value 5 :selected (= left-value 5)} "u-column--5")
+                                (dom/option #js {:value 6 :selected (= left-value 6)} "u-column--6")
+                                (dom/option #js {:value 7 :selected (= left-value 7)} "u-column--7")
+                                (dom/option #js {:value 8 :selected (= left-value 8)} "u-column--8")
+                                (dom/option #js {:value 9 :selected (= left-value 9)} "u-column--9")
+                                (dom/option #js {:value 10 :selected (= left-value 10)} "u-column--10")
+                                (dom/option #js {:value 11 :selected (= left-value 11)} "u-column--11")
+                                (dom/option #js {:value 12 :selected (= left-value 12)} "u-column--12")))
+           (dom/div #js {:className right-class}
+                    (dom/select #js {:id :right-selector
+                                     :className "o-column-switcher"
+                                     :onChange (fn [evt]
+                                                 (om/update-state! this assoc
+                                                                   :left-value (- 12 (.-value (.-target evt)))
+                                                                   :right-value (.-value (.-target evt))))}
+                                (dom/option #js {:value 1 :selected (= right-value 1)} "u-column--1")
+                                (dom/option #js {:value 2 :selected (= right-value 2)} "u-column--2")
+                                (dom/option #js {:value 3 :selected (= right-value 3)} "u-column--3")
+                                (dom/option #js {:value 4 :selected (= right-value 4)} "u-column--4")
+                                (dom/option #js {:value 5 :selected (= right-value 5)} "u-column--5")
+                                (dom/option #js {:value 6 :selected (= right-value 6)} "u-column--6")
+                                (dom/option #js {:value 7 :selected (= right-value 7)} "u-column--7")
+                                (dom/option #js {:value 8 :selected (= right-value 8)} "u-column--8")
+                                (dom/option #js {:value 9 :selected (= right-value 9)} "u-column--9")
+                                (dom/option #js {:value 10 :selected (= right-value 10)} "u-column--10")
+                                (dom/option #js {:value 11 :selected (= right-value 11)} "u-column--11")
+                                (dom/option #js {:value 12 :selected (= right-value 12)} "u-column--12"))))))
 
 (defexample grid-example-autopilot
   "### Autopilot
