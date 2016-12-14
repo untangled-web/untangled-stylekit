@@ -40,7 +40,6 @@
            (dom/div #js {:className "u-column--1"}
                     (dom/div #js {:className "box-row box-tall"} "12"))))
 
-;TODO: learn switchers are not working as included here. Need to add actions or verify CSS.
 (defexample grid-example-learn
   "#### Learn
 
@@ -58,18 +57,8 @@
                                                  (om/update-state! this assoc
                                                                    :left-value (.-value (.-target evt))
                                                                    :right-value (- 12 (.-value (.-target evt)))))}
-                                (dom/option #js {:value 1 :selected (= left-value 1)} "u-column--1")
-                                (dom/option #js {:value 2 :selected (= left-value 2)} "u-column--2")
-                                (dom/option #js {:value 3 :selected (= left-value 3)} "u-column--3")
-                                (dom/option #js {:value 4 :selected (= left-value 4)} "u-column--4")
-                                (dom/option #js {:value 5 :selected (= left-value 5)} "u-column--5")
-                                (dom/option #js {:value 6 :selected (= left-value 6)} "u-column--6")
-                                (dom/option #js {:value 7 :selected (= left-value 7)} "u-column--7")
-                                (dom/option #js {:value 8 :selected (= left-value 8)} "u-column--8")
-                                (dom/option #js {:value 9 :selected (= left-value 9)} "u-column--9")
-                                (dom/option #js {:value 10 :selected (= left-value 10)} "u-column--10")
-                                (dom/option #js {:value 11 :selected (= left-value 11)} "u-column--11")
-                                (dom/option #js {:value 12 :selected (= left-value 12)} "u-column--12")))
+                                (map (fn [n] (dom/option #js {:value n :selected (= left-value n)} (str "u-column--" n)))
+                                     (range 1 13))))
            (dom/div #js {:className right-class}
                     (dom/select #js {:id :right-selector
                                      :className "o-column-switcher"
@@ -77,18 +66,8 @@
                                                  (om/update-state! this assoc
                                                                    :left-value (- 12 (.-value (.-target evt)))
                                                                    :right-value (.-value (.-target evt))))}
-                                (dom/option #js {:value 1 :selected (= right-value 1)} "u-column--1")
-                                (dom/option #js {:value 2 :selected (= right-value 2)} "u-column--2")
-                                (dom/option #js {:value 3 :selected (= right-value 3)} "u-column--3")
-                                (dom/option #js {:value 4 :selected (= right-value 4)} "u-column--4")
-                                (dom/option #js {:value 5 :selected (= right-value 5)} "u-column--5")
-                                (dom/option #js {:value 6 :selected (= right-value 6)} "u-column--6")
-                                (dom/option #js {:value 7 :selected (= right-value 7)} "u-column--7")
-                                (dom/option #js {:value 8 :selected (= right-value 8)} "u-column--8")
-                                (dom/option #js {:value 9 :selected (= right-value 9)} "u-column--9")
-                                (dom/option #js {:value 10 :selected (= right-value 10)} "u-column--10")
-                                (dom/option #js {:value 11 :selected (= right-value 11)} "u-column--11")
-                                (dom/option #js {:value 12 :selected (= right-value 12)} "u-column--12"))))))
+                                (map (fn [n] (dom/option #js {:value n :selected (= right-value n)} (str "u-column--" n)))
+                                     (range 1 13)))))))
 
 (defexample grid-example-autopilot
   "### Autopilot
@@ -653,12 +632,15 @@
   position: fixed;
   ```")
 
-;TODO: Need to fix how rotated elements overlap with other examples.
 (defexample positioning-example-rotate
   ""
+  (let [example-class-modifier (if (om/get-state this :rotate-visible) "" " u-hide")]
   (dom/div #js {}
-           (dom/div #js {:className "u-rotate--cw"} "Rotate right 90 degrees")
-           (dom/div #js {:className "u-rotate--ccw"} "Rotate left -90 degrees")))
+           (dom/button #js {:className "c-button"
+                            :onClick   #(om/update-state! this update :rotate-visible not)} "Show/Hide Examples")
+           (dom/div #js {:className example-class-modifier}
+                    (dom/div #js {:className "u-rotate--cw"} "Rotate right 90 degrees")
+                    (dom/div #js {:className "u-rotate--ccw"} "Rotate left -90 degrees")))))
 
 ;; Size Examples
 
