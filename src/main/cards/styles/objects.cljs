@@ -597,18 +597,24 @@
 
 (defexample listing-begin
   "# Listing Beginner Example"
-  (dom/div #js {}
-           (dom/div #js {:className "u-fixed--middle-center"}
+  (let [example-class-modifier (if (om/get-state this :listing-visible) "" " u-hide")]
+    (dom/div #js {}
+             (dom/button #js {:className "c-button"
+                              :onClick   #(om/update-state! this update :listing-visible not)} "Show/Hide Example")
+             (dom/div #js {:className (str "u-fixed--middle-center" example-class-modifier)}
                     (dom/span #js {:className "c-icon c-icon--huge is-passive"}
                               (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
                                        (dom/path #js {:d "M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm13.66-1.31L11 7.34 16.66 13l5.66-5.66-5.66-5.65z"})))
                     (dom/h1 #js {} "No widgets yet")
-                    (dom/p #js {:className "c-message--neutral"} "Create a widget to get started"))))
+                    (dom/p #js {:className "c-message--neutral"} "Create a widget to get started")))))
 
 (defexample listing
   "# List View Example"
-  (dom/div #js {}
-           (dom/div #js {:className "o-listing"}
+  (let [example-class-modifier (if (om/get-state this :listing-visible) "" " u-hide")]
+    (dom/div #js {}
+             (dom/button #js {:className "c-button"
+                              :onClick   #(om/update-state! this update :listing-visible not)} "Show/Hide Example")
+             (dom/div #js {:className (str "o-listing" example-class-modifier)}
                     (dom/div #js {:className "o-listing__status"}
                              (dom/span #js {:className "o-listing__status-indicator c-icon is-positive"}
                                        (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
@@ -674,7 +680,7 @@
                                                                         (dom/button #js {:title "Delete" :className "c-dropdown__link"}
                                                                                     (dom/span #js {:className "c-icon"}
                                                                                               (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
-                                                                                                       (dom/path #js {:d "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"}))) " Delete "))))))))))
+                                                                                                       (dom/path #js {:d "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"}))) " Delete ")))))))))))
 
 (defexample modal-example
   "# Modal Example"
@@ -1059,7 +1065,7 @@
               {:id :icon-bar-shifting :title "Icon Bar Shifting" :examples [icon-bar-shifting]
                 :documentation
                     "Just add an extra modifier class `.o-iconbar--shifting` and you'll get this effect."}
-               #_{:id :listing :title "Listing" :examples [listing-begin listing]}
+               {:id :listing :title "Listing" :examples [listing-begin listing]}
                {:id :modal :title "Modal" :examples [modal-example modal-small modal-large modal-primary modal-success modal-warning]}
                {:id :sidebar :title "Sidebar" :examples [sidebar sidebar-right]}
                {:id :toolbar :title "Toolbar" :examples [toolbar]}
