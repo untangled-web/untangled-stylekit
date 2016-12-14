@@ -670,180 +670,187 @@
 
 (defexample modal-example
   "# Modal Example"
-  (dom/div #js {}
-           (dom/div #js {:className "o-modal is-active"}
+  (let [example-class-modifier (if (om/get-state this :modal-visible) " is-active" "")]
+    (dom/div #js {}
+             (dom/button #js {:className "c-button"
+                              :onClick   #(om/update-state! this assoc :modal-visible true)} "Show Example")
+             (dom/div #js {:className (str "o-modal" example-class-modifier)}
                     (dom/div #js {:className "o-modal__card"}
                              (dom/div #js {:className "o-modal__title"}
                                       (dom/span #js {} "Modal Title")
                                       (dom/div #js {:className "o-modal__actions"}
-                                               (dom/button #js {:className "o-modal__action"}
+                                               (dom/button #js {:className "o-modal__action"
+                                                                :onClick #(om/update-state! this assoc :modal-visible false)}
                                                            (dom/span #js {:className "c-icon"}
                                                                      (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
                                                                               (dom/path #js {:d "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"}))))))
                              (dom/div #js {:className "o-modal__content u-row u-row--colapse"}
                                       (dom/p #js {} "This is a card in a modal, what will they think of next?")
                                       (dom/div #js {:className "o-modal__row"}
-                                               (dom/button #js {:className "c-button c-button--anchor c-button--small"} "Close")))))
-           (dom/div #js {:className "c-backdrop is-active"})))
+                                               (dom/button #js {:className "c-button c-button--anchor c-button--small"
+                                                                :onClick #(om/update-state! this assoc :modal-visible false)} "Close")))))
+           (dom/div #js {:className (str "c-backdrop" example-class-modifier)}))))
 
 (defexample modal-small
   "# Small Modal Example"
-  (dom/div #js {}
-           (dom/div #js {:className "o-modal o-modal--small is-active"}
+  (let [example-class-modifier (if (om/get-state this :modal-visible) " is-active" "")]
+    (dom/div #js {}
+             (dom/button #js {:className "c-button"
+                              :onClick   #(om/update-state! this assoc :modal-visible true)} "Show Example")
+             (dom/div #js {:className (str "o-modal o-modal--small" example-class-modifier)}
                     (dom/div #js {:className "o-modal__card"}
                              (dom/div #js {:className "o-modal__title"}
                                       (dom/span #js {} "Modal Title")
                                       (dom/div #js {:className "o-modal__actions"}
                                                (dom/button #js {:className "o-modal__action"}
                                                            (dom/span #js {:className "c-icon"} " ... "))))
+                             (dom/span #js {
+                                            :className "o-modal__close"
+                                            :onClick #(om/update-state! this assoc :modal-visible false)}
+                                       (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon" :viewBox "0 0 24 24"}
+                                                (dom/path #js {:d "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"})))
                              (dom/div #js {:className "o-modal__content"}
                                       (dom/p #js {} "This is a card in a modal, what will they think of next?"))))
-           (dom/div #js {:className "c-backdrop is-active"})))
+           (dom/div #js {:className (str "c-backdrop" example-class-modifier)}))))
 
 
 (defexample modal-large
   "# Large Modal Example"
-  (dom/div #js {}
-           (dom/div #js {:className "o-modal o-modal--large is-active"}
+  (let [example-class-modifier (if (om/get-state this :modal-visible) " is-active" "")]
+    (dom/div #js {}
+             (dom/button #js {:className "c-button"
+                              :onClick   #(om/update-state! this assoc :modal-visible true)} "Show Example")
+             (dom/div #js {:className (str "o-modal o-modal--large" example-class-modifier)}
                     (dom/div #js {:className "o-modal__card"}
                              (dom/div #js {:className "o-modal__title"}
                                       (dom/span #js {} "Modal Title")
                                       (dom/div #js {:className "o-modal__actions"}
-                                               (dom/button #js {:className "o-modal__action"}
+                                               (dom/button #js {:className "o-modal__action"
+                                                                :onClick #(om/update-state! this assoc :modal-visible false)}
                                                            (dom/span #js {:className "c-icon"}
                                                                      (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
                                                                               (dom/path #js {:d "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"}))))))
                              (dom/div #js {:className "o-modal__content u-row u-row--colapse"}
                                       (dom/p #js {} "This is a card in a modal, what will they think of next?")
                                       (dom/div #js {:className "o-modal__row"}
-                                               (dom/button #js {:className "c-button c-button--anchor c-button--small"} "Close")))))
-           (dom/div #js {:className "c-backdrop is-active"})))
+                                               (dom/button #js {:className "c-button c-button--anchor c-button--small"
+                                                                :onClick #(om/update-state! this assoc :modal-visible false)} "Close")))))
+           (dom/div #js {:className (str "c-backdrop" example-class-modifier)}))))
 
 (defexample modal-primary
   "# Primary Modal Example"
-  (dom/div #js {}
-           (dom/div #js {:className "o-modal o-modal--primary is-active"}
+  (let [example-class-modifier (if (om/get-state this :modal-visible) " is-active" "")]
+    (dom/div #js {}
+             (dom/button #js {:className "c-button"
+                              :onClick   #(om/update-state! this assoc :modal-visible true)} "Show Example")
+             (dom/div #js {:className (str "o-modal o-modal--primary" example-class-modifier)}
                     (dom/div #js {:className "o-modal__card"}
+                             (dom/div #js {:className "o-modal__actions"}
+                                      (dom/button #js {:className "o-modal__action"
+                                                       :onClick #(om/update-state! this assoc :modal-visible false)}
+                                                  (dom/span #js {:className "c-icon"}
+                                                            (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
+                                                                     (dom/path #js {:d "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"})))))
                              (dom/div #js {:className "o-modal__content u-row u-row--colapse"}
                                       (dom/p #js {} "This is a card in a modal, what will they think of next?"))))
-           (dom/div #js {:className "c-backdrop is-active"})))
+           (dom/div #js {:className (str "c-backdrop" example-class-modifier)}))))
 
 (defexample modal-success
   "# Success Modal Example"
-  (dom/div #js {}
-           (dom/div #js {:className "o-modal o-modal--success is-active"}
-                    (dom/div #js {:className "o-modal__card"}
-                             (dom/div #js {:className "o-modal__content u-row u-row--colapse"}
-                                      (dom/p #js {} "This is a card in a modal, what will they think of next?"))))
-           (dom/div #js {:className "c-backdrop is-active"})))
+  (let [example-class-modifier (if (om/get-state this :modal-visible) " is-active" "")]
+    (dom/div #js {}
+             (dom/button #js {:className "c-button"
+                              :onClick   #(om/update-state! this assoc :modal-visible true)} "Show Example")
+             (dom/div #js {:className (str "o-modal o-modal--success" example-class-modifier)}
+                      (dom/div #js {:className "o-modal__card"}
+                               (dom/div #js {:className "o-modal__actions"}
+                                        (dom/button #js {:className "o-modal__action"
+                                                         :onClick #(om/update-state! this assoc :modal-visible false)}
+                                                    (dom/span #js {:className "c-icon"}
+                                                              (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
+                                                                       (dom/path #js {:d "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"})))))
+                               (dom/div #js {:className "o-modal__content u-row u-row--colapse"}
+                                        (dom/p #js {} "This is a card in a modal, what will they think of next?"))))
+             (dom/div #js {:className (str "c-backdrop" example-class-modifier)}))))
 
 (defexample modal-warning
   "# Warning Modal Example"
-  (dom/div #js {}
-           (dom/div #js {:className "o-modal o-modal--warning is-active"}
-                    (dom/div #js {:className "o-modal__card"}
-                             (dom/div #js {:className "o-modal__content u-row u-row--colapse"}
-                                      (dom/p #js {} "This is a card in a modal, what will they think of next?"))))
-           (dom/div #js {:className "c-backdrop is-active"})))
+  (let [example-class-modifier (if (om/get-state this :modal-visible) " is-active" "")]
+    (dom/div #js {}
+             (dom/button #js {:className "c-button"
+                              :onClick   #(om/update-state! this assoc :modal-visible true)} "Show Example")
+             (dom/div #js {:className (str "o-modal o-modal--warning" example-class-modifier)}
+                      (dom/div #js {:className "o-modal__card"}
+                               (dom/div #js {:className "o-modal__actions"}
+                                        (dom/button #js {:className "o-modal__action"
+                                                         :onClick #(om/update-state! this assoc :modal-visible false)}
+                                                    (dom/span #js {:className "c-icon"}
+                                                              (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
+                                                                       (dom/path #js {:d "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"})))))
+                               (dom/div #js {:className "o-modal__content u-row u-row--colapse"}
+                                        (dom/p #js {} "This is a card in a modal, what will they think of next?"))))
+             (dom/div #js {:className (str "c-backdrop" example-class-modifier)}))))
 
 (defexample sidebar
   "# Sidebar Example"
-  (dom/div #js {}
-           (dom/nav #js {;; :style "width: 16.25em; height: 300px;"
-                         :className "o-sidebar o-sidebar--large [is-collapsed]"}
-                    (dom/div #js {:className "o-sidebar__controls"}
-                             (dom/input #js {:placeholder "Search library..." :className "c-input"})
-                             (dom/button #js {:className "c-button c-button--icon u-absolute--top-right"}
-                                         (dom/svg #js {:version "1.1" :width "24" :height "24" :aria-labelledby "title" :role "img" :className "c-icon c-icon--search " :viewBox "0 0 24 24"}
-                                                  (dom/title #js {} "Search")
-                                                  (dom/path #js {:d "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"})))
-                             (dom/div #js {:className "c-dropdown c-dropdown--picker"}
-                                      (dom/button #js {:className "c-button c-button--small"} " Filter items "
-                                                  (dom/svg #js {:version "1.1" :width "24" :height "24" :aria-labelledby "title" :role "img" :className "c-icon c-icon--arrow-drop-down" :viewBox "0 0 24 24"}
-                                                           (dom/title #js {} "Arrow Drop Down")
-                                                           (dom/path #js {:d "M7 10l5 5 5-5z"}))))
-                             (dom/button #js {:className "c-button c-button--anchor c-button--small"}
-                                         (dom/svg #js {:version "1.1" :width "24" :height "24" :aria-labelledby "title" :role "img" :className "c-icon c-icon--remove-circle " :viewBox "0 0 24 24"}
-                                                  (dom/title #js {} "Remove Circle")
-                                                  (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"})) " Clear "))
-                    (dom/div #js {:className "o-accordion o-accordion--small"}
-                             (dom/div #js {:className "o-accordion__title is-nested is-active"} "Title 1")
-                             (dom/div #js {:className "o-accordion__content"}
-                                      (dom/div #js {:className "o-accordion__group"}
-                                               (dom/div #js {:className "o-accordion__info"} "View 1")
-                                               (dom/div #js {:className "o-accordion__action"}
-                                                        (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
-                                                                 (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"}))))
-                                      (dom/div #js {:className "o-accordion__group"}
-                                               (dom/div #js {:className "o-accordion__info"} "View 2.1")
-                                               (dom/div #js {:className "o-accordion__action"}
-                                                        (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
-                                                                 (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"})))))
-                             (dom/div #js {:className "o-accordion__title is-selected"} "Title 2")
-                             (dom/div #js {:className "o-accordion__title"} "Title 3")
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 3"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 4"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 5"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 6"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 7"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 8"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 9"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 10"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 11"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 12"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 13"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 14"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 15"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 16"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 17"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 18"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 19"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 20"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 21"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 22"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 23"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 24"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 25"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 26"))
-                             (dom/div #js {:className "o-accordion__group"}
-                                      (dom/div #js {:className "o-accordion__info"} "View 27"))
-                             (dom/div #js {:className "o-accordion__title is-informative"}
-                                      (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
-                                               (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"})) " Action 1 "))
-                    (dom/div #js {:className "o-sidebar__toggle"}))))
+  (let [example-class-modifier (str (if (om/get-state this :sidebar-visible) "" " u-hide")
+                                    (if (om/get-state this :sidebar-collapsed) " is-collapsed" ""))]
+    (dom/div #js {}
+             (dom/button #js {:className "c-button"
+                              :onClick   #(om/update-state! this update :sidebar-visible not)} "Show/Hide Example")
+             (dom/nav #js {:style #js {:left "50" :top "200" :width "16.25em" :height "300px"}
+                           :className (str "o-sidebar o-sidebar--large" example-class-modifier)}
+                      (dom/div #js {:className "o-sidebar__controls"}
+                               (dom/input #js {:placeholder "Search library..." :className "c-input"})
+                               (dom/button #js {:className "c-button c-button--icon u-absolute--top-right"}
+                                           (dom/svg #js {:version "1.1" :width "24" :height "24" :aria-labelledby "title" :role "img" :className "c-icon c-icon--search " :viewBox "0 0 24 24"}
+                                                    (dom/title #js {} "Search")
+                                                    (dom/path #js {:d "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"})))
+                               (dom/div #js {:className "c-dropdown c-dropdown--picker"}
+                                        (dom/button #js {:className "c-button c-button--small"} " Filter items "
+                                                    (dom/svg #js {:version "1.1" :width "24" :height "24" :aria-labelledby "title" :role "img" :className "c-icon c-icon--arrow-drop-down" :viewBox "0 0 24 24"}
+                                                             (dom/title #js {} "Arrow Drop Down")
+                                                             (dom/path #js {:d "M7 10l5 5 5-5z"}))))
+                               (dom/button #js {:className "c-button c-button--anchor c-button--small"}
+                                           (dom/svg #js {:version "1.1" :width "24" :height "24" :aria-labelledby "title" :role "img" :className "c-icon c-icon--remove-circle " :viewBox "0 0 24 24"}
+                                                    (dom/title #js {} "Remove Circle")
+                                                    (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"})) " Clear "))
+                      (dom/div #js {:className "o-accordion o-accordion--small"}
+                               (dom/div #js {:className "o-accordion__title is-nested is-active"} "Title 1")
+                               (dom/div #js {:className "o-accordion__content"}
+                                        (dom/div #js {:className "o-accordion__group"}
+                                                 (dom/div #js {:className "o-accordion__info"} "View 1")
+                                                 (dom/div #js {:className "o-accordion__action"}
+                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
+                                                                   (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"}))))
+                                        (dom/div #js {:className "o-accordion__group"}
+                                                 (dom/div #js {:className "o-accordion__info"} "View 2.1")
+                                                 (dom/div #js {:className "o-accordion__action"}
+                                                          (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon is-informative" :viewBox "0 0 24 24"}
+                                                                   (dom/path #js {:d "M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"})))))
+                               (dom/div #js {:className "o-accordion__title is-selected"} "Title 2")
+                               (dom/div #js {:className "o-accordion__title"} "Title 3")
+                               (map (fn [n] (dom/div #js {:className "o-accordion__group"}
+                                                     (dom/div #js {:className "o-accordion__info"} (str "View " n))))
+                                    (range 3 20))
 
+                               (dom/div #js {:className "o-accordion__title is-informative"}
+                                        (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--small" :viewBox "0 0 24 24"}
+                                                 (dom/path #js {:d "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"})) " Action 1 "))
+                      (dom/div #js {:className "o-sidebar__toggle"})))))
 
 (defexample sidebar-right
   "# Sidebar Right side and inline example"
-  (dom/div #js {}
-           (dom/nav #js {:className "o-sidebar o-sidebar--right o-sidebar--inline [is-collapsed]"}
-                    (dom/textarea #js {:placeholder "Start typing here..." :className "c-input c-input--multi-line c-input--note"})
-                    (dom/button #js {:className "c-button"} "Save")
-                    (dom/div #js {:className "o-sidebar__toggle o-sidebar__toggle--alt"}))))
+  (let [example-class-modifier (str (if (om/get-state this :sidebar-visible) "" " u-hide")
+                                    (if (om/get-state this :sidebar-collapsed) " is-collapsed" ""))]
+    (dom/div #js {}
+         (dom/button #js {:className "c-button"
+                 :onClick #(om/update-state! this update :sidebar-visible not)} "Show/Hide Example")
+             (dom/nav #js {:className (str "o-sidebar o-sidebar--right o-sidebar--inline" example-class-modifier)}
+                      (dom/textarea #js {:placeholder "Start typing here..." :className "c-input c-input--multi-line c-input--note"})
+                      (dom/button #js {:className "c-button"} "Save")
+                      (dom/div #js {:className "o-sidebar__toggle o-sidebar__toggle--alt"
+                                    :onClick #(om/update-state! this update :sidebar-collapsed not)})))))
 
 (defexample toolbar
   "# Toolbar Example"
@@ -854,8 +861,7 @@
         lang-menu-class (str "c-dropdown__content" (if lang-menu-open " is-active" ""))
         lang-item-selected (or (if (= (:id changed-menu) :lang) (:selected-item changed-menu) nil) "English-US")
         menu-action (fn[menu opened item]
-                      (om/update-state! this assoc :changed-menu {:id menu :open-state opened :selected-item item}))
-        ]
+                      (om/update-state! this assoc :changed-menu {:id menu :open-state opened :selected-item item}))]
     (dom/div #js {}
            (dom/div #js {:className "o-toolbar"}
                     (dom/nav #js {:className "u-column--bar"}
@@ -927,46 +933,49 @@
 
 (defexample toolbar-secondary
   "# Secondary Toolbar Example"
-  (dom/div #js {}
-           (dom/div #js {:className "o-toolbar o-toolbar--secondary"}
-                    ;;"<!-- View Info for Mobile -->"
-                    (dom/div #js {:className "o-toolbar__info u-hide@md-up"}
-                             (dom/h1 #js {} "View Name"))
-                    ;;"<!-- View Actions for Mobile -->"
-                    (dom/div #js {:className "u-column u-hide@md-up u-end"}
-                             (dom/button #js {:title "Filter by tag" :className "c-button c-button--icon u-hide@md-up"}
-                                         (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--filter_list" :viewBox "0 0 24 24"}
-                                                  (dom/path #js {:d "M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"})))
-                             (dom/button #js {:title "Search widgets" :className "c-button c-button--icon u-hide@md-up"}
-                                         (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--search" :viewBox "0 0 24 24"}
-                                                  (dom/path #js {:d "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"})))
-                             (dom/button #js {:title "List view" :className "c-button c-button--icon u-hide@md-up"}
-                                         (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--list" :viewBox "0 0 24 24"}
-                                                  (dom/path #js {:d "M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"})))
-                             (dom/button #js {:title "Create widgets" :className "c-button c-button--icon u-hide@md-up"}
-                                         (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--create" :viewBox "0 0 24 24"}
-                                                  (dom/path #js {:d "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"}))))
-                    ;;"<!-- View Actions for Tablets and Computers -->"
-                    (dom/div #js {:className "u-column--bar u-hide@sm"}
-                             (dom/div #js {:className "c-dropdown"}
-                                      (dom/button #js {:className "c-button c-button--dropdown"} "Filter by tag")
-                                      (dom/ul #js {:id "test-dropdown" :aria-hidden "true" :className "c-dropdown__content [is-active]" :tabIndex "-1"}
-                                              (dom/li #js {}
-                                                      (dom/button #js {:className "c-dropdown__link"} "Water"))
-                                              (dom/li #js {}
-                                                      (dom/button #js {:className "c-dropdown__link"} "Coffee"))
-                                              (dom/li #js {}
-                                                      (dom/button #js {:className "c-dropdown__link"} "Tea"))))
-                             (dom/div #js {:className "u-wrapper"}
-                                      (dom/input #js {:type "text" :placeholder "Search your widgets" :autocapitalize "off" :className "c-input c-input--inset" :spellcheck "false" :autoCorrect "off" :autoComplete "off"})
-                                      (dom/button #js {:type "submit" :disabled "" :aria-label "Submit" :className "c-button c-button--icon u-absolute--top-left"}
-                                                  (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--search" :viewBox "0 0 24 24"}
-                                                           (dom/path #js {:d "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"})))))
-                    (dom/div #js {:className "u-column--bar u-hide@sm"}
-                             (dom/div #js {:className "o-button-group--toggle"}
-                                      (dom/button #js {:className "c-button"} "List")
-                                      (dom/button #js {:className "c-button c-button--text"} "Detail"))
-                             (dom/button #js {:className "c-button c-button--secondary c-button--large c-button--dropdown"} "Create widgets")))))
+  (let [example-class-modifier (str (if (om/get-state this :toolbar-secondary-visible) "" " u-hide"))]
+    (dom/div #js {}
+             (dom/button #js {:className "c-button"
+                              :onClick #(om/update-state! this update :toolbar-secondary-visible not)} "Show/Hide Example")
+             (dom/div #js {:className (str "o-toolbar o-toolbar--secondary" example-class-modifier)}
+                        ;;"<!-- View Info for Mobile -->"
+                        (dom/div #js {:className "o-toolbar__info u-hide@md-up"}
+                                 (dom/h1 #js {} "View Name"))
+                        ;;"<!-- View Actions for Mobile -->"
+                        (dom/div #js {:className "u-column u-hide@md-up u-end"}
+                                 (dom/button #js {:title "Filter by tag" :className "c-button c-button--icon u-hide@md-up"}
+                                             (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--filter_list" :viewBox "0 0 24 24"}
+                                                      (dom/path #js {:d "M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"})))
+                                 (dom/button #js {:title "Search widgets" :className "c-button c-button--icon u-hide@md-up"}
+                                             (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--search" :viewBox "0 0 24 24"}
+                                                      (dom/path #js {:d "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"})))
+                                 (dom/button #js {:title "List view" :className "c-button c-button--icon u-hide@md-up"}
+                                             (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--list" :viewBox "0 0 24 24"}
+                                                      (dom/path #js {:d "M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"})))
+                                 (dom/button #js {:title "Create widgets" :className "c-button c-button--icon u-hide@md-up"}
+                                             (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--create" :viewBox "0 0 24 24"}
+                                                      (dom/path #js {:d "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"}))))
+                        ;;"<!-- View Actions for Tablets and Computers -->"
+                        (dom/div #js {:className "u-column--bar u-hide@sm"}
+                                 (dom/div #js {:className "c-dropdown"}
+                                          (dom/button #js {:className "c-button c-button--dropdown"} "Filter by tag")
+                                          (dom/ul #js {:id "test-dropdown" :aria-hidden "true" :className "c-dropdown__content [is-active]" :tabIndex "-1"}
+                                                  (dom/li #js {}
+                                                          (dom/button #js {:className "c-dropdown__link"} "Water"))
+                                                  (dom/li #js {}
+                                                          (dom/button #js {:className "c-dropdown__link"} "Coffee"))
+                                                  (dom/li #js {}
+                                                          (dom/button #js {:className "c-dropdown__link"} "Tea"))))
+                                 (dom/div #js {:className "u-wrapper"}
+                                          (dom/input #js {:type "text" :placeholder "Search your widgets" :autocapitalize "off" :className "c-input c-input--inset" :spellcheck "false" :autoCorrect "off" :autoComplete "off"})
+                                          (dom/button #js {:type "submit" :disabled "" :aria-label "Submit" :className "c-button c-button--icon u-absolute--top-left"}
+                                                      (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--search" :viewBox "0 0 24 24"}
+                                                               (dom/path #js {:d "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"})))))
+                        (dom/div #js {:className "u-column--bar u-hide@sm"}
+                                 (dom/div #js {:className "o-button-group--toggle"}
+                                          (dom/button #js {:className "c-button"} "List")
+                                          (dom/button #js {:className "c-button c-button--text"} "Detail"))
+                                 (dom/button #js {:className "c-button c-button--secondary c-button--large c-button--dropdown"} "Create widgets"))))))
 
 (defexample toolbar-secondary-example2
   "# Toolbar Secondary Example 2"
@@ -1043,13 +1052,13 @@
                 :documentation
                     "Just add an extra modifier class `.o-iconbar--shifting` and you'll get this effect."}
                #_{:id :listing :title "Listing" :examples [listing-begin listing]}
-               #_{:id :modal :title "Modal" :examples []}
-               #_{:id :sidebar :title "Sidebar" :examples []}
+               {:id :modal :title "Modal" :examples [modal-example modal-small modal-large modal-primary modal-success modal-warning]}
+               {:id :sidebar :title "Sidebar" :examples [sidebar sidebar-right]}
                {:id :toolbar :title "Toolbar" :examples [toolbar]}
                {:id :small-toolbar :title "Small Toolbar" :examples [toolbar-small]
                 :documentation
                     "This toolbar is mainly used for specific operations and navigation for the current app you are using."}
-               #_{:id :secondary-toolbar :title "Secondary Toolbar" :examples [toolbar-secondary]
+               {:id :secondary-toolbar :title "Secondary Toolbar" :examples [toolbar-secondary]
                 :documentation
                     "The secondary toolbar is intended to only provide operations for the current view of the app your in."}
                ])
