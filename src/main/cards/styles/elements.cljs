@@ -23,10 +23,10 @@
 (defexample image
   "# a simple image"
   (dom/div #js {}
-    (dom/img #js {:src "/img/candy.jpeg"
-                  :alt "generic image"
+    (dom/img #js {:src    "/img/candy.jpeg"
+                  :alt    "generic image"
                   :height "80"
-                  :width "10"})))
+                  :width  "10"})))
 
 (def image-header "This section covers how we handle images. By default all `<img>` tags are 100% wide.")
 
@@ -70,17 +70,11 @@
       (dom/li #js {} "I am struggling to say anything more about them.")
       (dom/li #js {} "That brings us to tiny copy…"))))
 
-(def sections [
-               ; NOTE: :examples is a list of example names, rendered in order given
-               {:id :forms :title "Forms" :examples [form] :documentation form-header}
-               {:id :images :title "Images" :examples [image] :documentation image-header}
-               {:id :layouts :title "Layouts" :examples [layout] :documentation layout-header}
-               {:id :typographies :title "Typography" :examples [typography-example-1 typography-example-2 typography-example-3] :documentation typography-header-1}
-               ])
-
-(defui UI
-  Object
-  (render [this]
-    (dom/div nil
-      (util/section-index sections)
-             (mapv (fn [k] (dom/div #js {:key k} (util/section k sections))) (map :id sections)))))
+(def sections (vec (sort-by :title
+                            [
+                             ; NOTE: :examples is a list of example names, rendered in order given
+                             {:id :forms :title "Forms" :examples [form] :documentation form-header}
+                             {:id :images :title "Images" :examples [image] :documentation image-header}
+                             {:id :layouts :title "Layouts" :examples [layout] :documentation layout-header}
+                             {:id :typographies :title "Typography" :examples [typography-example-1 typography-example-2 typography-example-3] :documentation typography-header-1}
+                             ])))

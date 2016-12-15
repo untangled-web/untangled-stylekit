@@ -791,56 +791,50 @@
 ;; START OF SECTIONS (within a feature set...e.g. components)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; NOTE: This is where you add the sections for index
-(def sections [
-               ; NOTE: :examples is a list of example names, rendered in order given
-               {:id :tooltip :title "Tool Tips" :examples [tooltip-directions tooltip-sizes]
-                :documentation
-                    "Tool tips are based on `data` attributes. "}
-               {:id :table :title "Tables" :examples [tables]}
-               {:id :radio :title "Radio Buttons" :examples [radio radio-informative radio-stacked]}
-               {:id :notifications :examples [info-notification success-notification warning-notification error-notification wide-notification] :title "Notifications"
-                :documentation
-                    "Used to communicate the state of your user's interactions as well as system status.
+(def sections
+  (vec (sort-by :title
+                [
+                 ; NOTE: :examples is a list of example names, rendered in order given
+                 {:id :tooltip :title "Tool Tips" :examples [tooltip-directions tooltip-sizes]
+                  :documentation
+                      "Tool tips are based on `data` attributes. "}
+                 {:id :table :title "Tables" :examples [tables]}
+                 {:id :radio :title "Radio Buttons" :examples [radio radio-informative radio-stacked]}
+                 {:id :notifications :examples [info-notification success-notification warning-notification error-notification wide-notification] :title "Notifications"
+                  :documentation
+                      "Used to communicate the state of your user's interactions as well as system status.
 
-                    In general, use the positioning classes (e.g. `u-absolute--middle-center`) to place these in
-                    the UI.
-                    "}
-               {:id :messages :title "Messages" :examples [messages]}
-               {:id :menus :title "Menus" :examples [block-menu inline-menu]}
-               {:id            :loader :title "Loader" :examples [loader]
-                :documentation "Webapps often need to provide feedback to the user for when things are loading, so we have a few loader components that are animated using only CSS techniques."}
+                      In general, use the positioning classes (e.g. `u-absolute--middle-center`) to place these in
+                      the UI.
+                      "}
+                 {:id :messages :title "Messages" :examples [messages]}
+                 {:id :menus :title "Menus" :examples [block-menu inline-menu]}
+                 {:id            :loader :title "Loader" :examples [loader]
+                  :documentation "Webapps often need to provide feedback to the user for when things are loading, so we have a few loader components that are animated using only CSS techniques."}
 
-               {:id :labels :title "Labels" :examples [labels label-icons]}
-               {:id            :badges :title "Badges"
-                :documentation "
+                 {:id :labels :title "Labels" :examples [labels label-icons]}
+                 {:id            :badges :title "Badges"
+                  :documentation "
                 ## Badges?
 
                 we don't need no stinkin badges!"
-                :examples      [badge-example-1 badge-on-button badge-with-icon]}
-               {:id :buttons :title "Buttons" :examples [button-size-and-shape button-color button-state button-postfix]}
-               {:id :card :title "Card" :examples [drop-card active-card inactive-card card-with-titlebar card-example rounded-card transparent-card ruled-card]}
-               {:id :checkboxes :title "Checkboxes" :examples [checkboxes]}
-               {:id :dropdowns :title "Dropdowns" :examples [dropdown dropdown-large dropdown-alterable dropdown-negative dropdown-positive dropdown-right-aligned dropdown-button-2 dropdown-button dropdown-search-multi dropdown-data]}
-               {:id :fields :title "Fields" :examples [field-normal field-states field-sizes]}
-               {:id       :inputs :title "Form Inputs"
-                :documentation
-                          "Input class give support for visualizing various kind of interactions.
-                          Supported input types are: `text`, `password`, `date`, `datetime`,
-                          `datetime-local`, `month`, `week`, `email`, `number`, `search`, `tel`, `time`, `url`, `color`.
-                          ```"
-                :examples [input-normal input-states input-round input-collapsable textarea input-validation]}
-               {:id       :icons :title "Icons" :documentation
-                          "The preferred icon library is Google's <a href='https://design.google.com/icons/'>Material icons</a>. We include the entire library in the UI Components project in the form of svg paths that get inlined into your markup.
+                  :examples      [badge-example-1 badge-on-button badge-with-icon]}
+                 {:id :buttons :title "Buttons" :examples [button-size-and-shape button-color button-state button-postfix]}
+                 {:id :card :title "Card" :examples [drop-card active-card inactive-card card-with-titlebar card-example rounded-card transparent-card ruled-card]}
+                 {:id :checkboxes :title "Checkboxes" :examples [checkboxes]}
+                 {:id :dropdowns :title "Dropdowns" :examples [dropdown dropdown-large dropdown-alterable dropdown-negative dropdown-positive dropdown-right-aligned dropdown-button-2 dropdown-button dropdown-search-multi dropdown-data]}
+                 {:id :fields :title "Fields" :examples [field-normal field-states field-sizes]}
+                 {:id       :inputs :title "Form Inputs"
+                  :documentation
+                            "Input class give support for visualizing various kind of interactions.
+                            Supported input types are: `text`, `password`, `date`, `datetime`,
+                            `datetime-local`, `month`, `week`, `email`, `number`, `search`, `tel`, `time`, `url`, `color`.
+                            ```"
+                  :examples [input-normal input-states input-round input-collapsable textarea input-validation]}
+                 {:id       :icons :title "Icons" :documentation
+                            "The preferred icon library is Google's <a href='https://design.google.com/icons/'>Material icons</a>. We include the entire library in the UI Components project in the form of svg paths that get inlined into your markup.
 
-                           Use these icon classes on `<span>` elements wrapping your inline svg icons. Here is a simple icon in it's purest form."
-                :examples [icons icon-sizes icon-colors icon-states available-icons]}
-               ])
-
-;; NOTE: Rendering of the main guide UI
-(defui UI
-  Object
-  (render [this]
-    (dom/div nil
-      (util/section-index sections)
-      (mapv (fn [k] (dom/div #js {:key k} (util/section k sections))) (map :id sections)))))
+                             Use these icon classes on `<span>` elements wrapping your inline svg icons. Here is a simple icon in it's purest form."
+                  :examples [icons icon-sizes icon-colors icon-states available-icons]}
+                 ])))
 
