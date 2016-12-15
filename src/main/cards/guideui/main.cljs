@@ -1,9 +1,10 @@
-(ns styles.main
+(ns guideui.main
   (:require [styles.components]
             [styles.elements]
             [styles.objects]
             [styles.utilities]
             [untangled.client.core :as uc]
+            guideui.ui
             [styles.util :as util]))
 
 (def Client (uc/new-untangled-client))
@@ -21,4 +22,5 @@
 (def Client-utilities (uc/new-untangled-client))
 (uc/mount Client-utilities styles.utilities/UI "example-utilities")
 
+(defonce ui-client (atom (uc/new-untangled-client)))
 
