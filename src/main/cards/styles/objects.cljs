@@ -981,7 +981,7 @@
                                                   (dom/li #js {}
                                                           (dom/button #js {:className "c-dropdown__link"} "Tea"))))
                                  (dom/div #js {:className "u-wrapper"}
-                                          (dom/input #js {:type "text" :placeholder "Search your widgets" :autocapitalize "off" :className "c-input c-input--inset" :spellcheck "false" :autoCorrect "off" :autoComplete "off"})
+                                          (dom/input #js {:type "text" :placeholder "Search your widgets" :autoCapitalize "off" :className "c-input c-input--inset" :spellCheck "false" :autoCorrect "off" :autoComplete "off"})
                                           (dom/button #js {:type "submit" :disabled "" :aria-label "Submit" :className "c-button c-button--icon u-absolute--top-left"}
                                                       (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :className "c-icon c-icon--search" :viewBox "0 0 24 24"}
                                                                (dom/path #js {:d "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"})))))
@@ -1023,7 +1023,7 @@
                                                                         (dom/button #js {:className "c-dropdown__link"} "Tea")))))
                                       (dom/div #js {:className "u-column"}
                                                (dom/div #js {:className "u-wrapper"}
-                                                        (dom/input #js {:type "text" :placeholder "Search your widgets" :autocapitalize "off" :className "c-input c-input--inset" :spellcheck "false" :autoCorrect "off" :autoComplete "off"})
+                                                        (dom/input #js {:type "text" :placeholder "Search your widgets" :autoCapitalize "off" :className "c-input c-input--inset" :spellCheck "false" :autoCorrect "off" :autoComplete "off"})
                                                         (dom/button #js {:type "submit" :disabled "" :aria-label "Submit" :className "c-button c-button--icon u-absolute--top-left"}
                                                                     (dom/svg #js {:className "c-icon c-icon--search"} " ... "))))))
                     (dom/div #js {:className "u-column u-end u-hide@sm"}

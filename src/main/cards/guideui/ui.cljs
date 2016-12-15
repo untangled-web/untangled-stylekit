@@ -4,7 +4,16 @@
             [untangled.client.core :as uc]
             [untangled.icons :as icons]
             [om.dom :as dom]
+            styles.components
+            styles.objects
+            styles.elements
+            styles.utilities
             [untangled.client.mutations :as m]))
+
+(def parts {"Elements"   styles.elements/sections
+            "Components" styles.components/sections
+            "Objects"    styles.objects/sections
+            "Utilities"  styles.utilities/sections})
 
 (defn toolbar [component field options]
   (let [part-names options
@@ -15,33 +24,39 @@
       (dom/div #js {:className "o-toolbar o-toolbar--small"}
         (dom/ul #js {:className "c-menu c-menu--block"}
           (map-indexed (fn [idx nm]
-                         (dom/li #js {:key nm}
+                         (dom/li #js {:key idx}
                            (dom/button #js {:className (get-class idx)
                                             :onClick   #(select-item idx)} nm))) part-names))))))
 
 (defui ^:once Example
   static uc/InitialAppState
-  (initial-state [c {:keys [id title]}] {:example/title title :example/id id})
+  (initial-state [c {:keys [id title part section]}] {:example/title title :example/id id
+                                                      :example/path  [part section :examples id]})
   static om/IQuery
-  (query [this] [:example/id :example/title])
+  (query [this] [:example/id :example/title :example/path])
   static om/Ident
-  (ident [this props] [:example/by-id (:example/id props)])
+  (ident [this {:keys [example/path]}] [:example/by-path path])
   Object
   (render [this]
-    (let [{:keys [example/id example/title]} (om/props this)]
+    (let [{:keys [example/path]} (om/props this)
+          example-renderer (get-in parts (conj path :renderer))]
       (dom/div nil
-        (dom/h4 nil title)
-        (dom/div nil
-          (dom/pre nil (str "Some code and things ..." id)))))))
+        (example-renderer)))))
 
-(def ui-example (om/factory Example {:keyfn :example/title}))
+(def ui-example (om/factory Example {:keyfn :example/id}))
 
 (defui ^:once Section
   static uc/InitialAppState
-  (initial-state [c {:keys [n]}] {:section/title            (str "Section " n)
-                                  :section/selected-example 0
-                                  :section/examples         (mapv #(uc/initial-state Example {:id    (keyword (str "a" n "-" %))
-                                                                                              :title (str "Example " n "-" %)}) (range 1 4))})
+  (initial-state [c {:keys [part n]}]
+    (let [section (get-in parts [part n])
+          raw-examples (:examples section)
+          examples (vec (map-indexed (fn [idx v]
+                                       (let [name (-> v :name)]
+                                         (uc/initial-state Example {:id idx :title name :part part :section n})))
+                                     raw-examples))]
+      {:section/title            (:title section)
+       :section/selected-example 0
+       :section/examples         examples}))
   static om/IQuery
   (query [this] [:section/title :section/selected-example
                  {:section/examples (om/get-query Example)}])
@@ -55,13 +70,15 @@
         (toolbar this :section/selected-example example-names)
         (ui-example (nth examples selected-example))))))
 
-(def ui-section (om/factory Section))
+(def ui-section (om/factory Section {:keyfn :section/title}))
+
 
 (defui ^:once Part
   static uc/InitialAppState
-  (initial-state [c p] {:part/title            "A Part"
-                        :part/selected-section 0
-                        :part/sections         (mapv #(uc/initial-state Section {:n %}) (range 1 5))})
+  (initial-state [c {:keys [title]}] {:part/title            title
+                                      :part/selected-section 0
+                                      :part/sections         (vec (map-indexed (fn [idx s] (uc/initial-state Section {:part title :n idx}))
+                                                                               (get parts title)))})
   static om/IQuery
   (query [this] [:part/title :part/selected-section
                  {:part/sections (om/get-query Section)}])
@@ -75,12 +92,13 @@
         (toolbar this :part/selected-section section-names)
         (ui-section (nth sections selected-section))))))
 
-(def ui-part (om/factory Part))
+(def ui-part (om/factory Part {:keyfn :part/title}))
+
 
 (defui ^:once Parts
   static uc/InitialAppState
   (initial-state [c p] {:parts/selected-part 0
-                        :parts               [(uc/initial-state Part nil)]})
+                        :parts               (mapv (fn [t] (uc/initial-state Part {:title t})) (keys parts))})
   static om/IQuery
   (query [this] [:parts/selected-part {:parts (om/get-query Part)}])
   static om/Ident
