@@ -47,7 +47,10 @@
                   (om.dom/div (cljs.core/clj->js {:className "u-column--12"}) (styles.util/source->react ~symfn ~body)))
                 (om.dom/div (cljs.core/clj->js {:className "u-row"})
                   (om.dom/div (cljs.core/clj->js {:className "u-column--12"}) (~symfn this#))))))
-          (def ~sym {:name ~(name sym) :renderer (om.next/factory ~root {:keyfn (fn [] ~(name root))})})))))
+          (def ~sym {:name          ~(name sym)
+                     :documentation ~doc
+                     :search-terms  ~(str/join " " (map str/lower-case [doc (name sym)]))
+                     :renderer      (om.next/factory ~root {:keyfn (fn [] ~(name root))})})))))
 
 (def attr-renames {
                    :class        :className
