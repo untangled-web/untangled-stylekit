@@ -2,6 +2,8 @@
 logs
 *.log
 npm-debug.log*
+.lein-repl-history
+pom.xml
 
 resources/public/js/*
 resources/public/css/*
