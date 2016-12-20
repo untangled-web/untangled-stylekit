@@ -41,12 +41,19 @@
           (om.next/defui ~root
             ~'Object
             (~'render [this#]
-              (om.dom/div nil
-                (om.dom/div (cljs.core/clj->js {:dangerouslySetInnerHTML (cljs.core/clj->js {:__html (devcards.util.markdown/markdown-to-html ~doc)})}))
-                (om.dom/div (cljs.core/clj->js {:className "u-row"})
-                  (om.dom/div (cljs.core/clj->js {:className "u-column--12"}) (styles.util/source->react ~symfn ~body)))
-                (om.dom/div (cljs.core/clj->js {:className "u-row"})
-                  (om.dom/div (cljs.core/clj->js {:className "u-column--12"}) (~symfn this#))))))
+              (om.dom/div (cljs.core/clj->js {:className "ui-example c-card"})
+                          (om.dom/div (cljs.core/clj->js {:className "ui-example__description u-row"})
+                            (om.dom/div (cljs.core/clj->js {:dangerouslySetInnerHTML (cljs.core/clj->js {:__html (devcards.util.markdown/markdown-to-html ~doc)})})))
+                          (om.dom/hr nil)
+                (om.dom/div (cljs.core/clj->js {:className "ui-example__figure u-row"})
+                  (om.dom/div (cljs.core/clj->js {:className "u-column--12"})
+                              (om.dom/div #js {:className "ui-example"}
+                                          (~symfn this#)
+                                       #_(let [iframe# (.createElement js/document "IFRAME")
+                                             example# (.innerHTML iframe# (om.dom/div nil (~symfn this#)))]
+                                         (.appendChild example# iframe#)))))
+                (om.dom/div (cljs.core/clj->js {:className "ui-example__source u-row"})
+                  (om.dom/div (cljs.core/clj->js {:className "u-column--12"}) (styles.util/source->react ~symfn ~body))))))
           (def ~sym {:name          ~(name sym)
                      :documentation ~doc
                      :search-terms  ~(str/join " " (map str/lower-case [doc (name sym)]))
