@@ -22,20 +22,20 @@
  * Tooltip............Short messages for documenting things
  */
 
-@import 'src/components/backdrop';
-@import 'src/components/badge';
-@import 'src/components/button';
-@import 'src/components/card';
-@import 'src/components/checkbox';
-@import 'src/components/radio';
-@import 'src/components/dropdown';
-@import 'src/components/field';
-@import 'src/components/icon';
-@import 'src/components/input';
-@import 'src/components/label';
-@import 'src/components/loader';
-@import 'src/components/menu';
-@import 'src/components/message';
-@import 'src/components/notification';
-@import 'src/components/table';
-@import 'src/components/tooltip';
+@import 'backdrop';
+@import 'badge';
+@import 'button';
+@import 'card';
+@import 'checkbox';
+@import 'radio';
+@import 'dropdown';
+@import 'field';
+@import 'icon';
+@import 'input';
+@import 'label';
+@import 'loader';
+@import 'menu';
+@import 'message';
+@import 'notification';
+@import 'table';
+@import 'tooltip';

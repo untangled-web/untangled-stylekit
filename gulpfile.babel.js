@@ -52,11 +52,11 @@ import {output as pagespeed} from 'psi';
 import pkg from './package.json';
 
 const $ = gulpLoadPlugins();
+const AUTOPREFIXER_BROWSERS = ['last 2 versions'];
 
-// Compile and automatically prefix stylesheets
+
+// Compile everything and test
 gulp.task('styles', () => {
-  const AUTOPREFIXER_BROWSERS = ['last 2 versions'];
-
   const PROCESSORS = [
     postcssImport({ glob: true }),
     stylelint,
@@ -76,7 +76,6 @@ gulp.task('styles', () => {
     cssnano,
     postcssReporter({clearMessages: true})
   ];
-
   // For best performance, don't add Sass partials to `gulp.src`
   return gulp.src(['src/main/css/include/*.css'])
     .pipe($.sourcemaps.init())
@@ -85,13 +84,41 @@ gulp.task('styles', () => {
     .pipe(gulp.dest('resources/public/css'));
 });
 
+// Compile CSS
+gulp.task('dist', () => {
+  const PROCESSORS = [
+    postcssImport({ glob: true }),
+    postcssEach,
+    postcssApply,
+    postcssSimpleVars,
+    postcssCustomMedia,
+    postcssCustomSelectors,
+    postcssNested,
+    postcssCssVariables,
+    postcssSelectorNot,
+    postcssCalc,
+    postcssLogicalProps,
+    postcssFlexbugsFixes,
+    autoprefixer({browsers: AUTOPREFIXER_BROWSERS}),
+    mqpacker,
+    cssnano,
+    postcssReporter({clearMessages: true})
+  ];
+  return gulp.src(['src/main/css/*.css'])
+    .pipe($.postcss(PROCESSORS)).on('error', gutil.log)
+    .pipe(gulp.dest('dist'));
+})
+
+
 // Clean output directory
 gulp.task('clean', () => del(['.tmp', 'resources/public/*', '!resources/public/.git', '!resources/public/js'], {dot: true}));
+
 
 // Watch files for changes & recompile
 gulp.task('watch', ['styles'], () => {
   gulp.watch(['src/main/css/**/*.css', 'src/main/css/index.css'], ['styles']);
 });
+
 
 // Build production files, the default task
 gulp.task('default', cb =>
@@ -100,6 +127,7 @@ gulp.task('default', cb =>
     cb
   )
 );
+
 
 // Load custom tasks from the `tasks` directory
 // Run: `npm install --save-dev require-dir` from the command-line
