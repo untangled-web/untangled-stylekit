@@ -77,7 +77,7 @@ gulp.task('styles', () => {
     postcssReporter({clearMessages: true})
   ];
   // For best performance, don't add Sass partials to `gulp.src`
-  return gulp.src(['src/main/css/include/*.css'])
+  return gulp.src(['src/main/css/*.css'])
     .pipe($.sourcemaps.init())
     .pipe($.postcss(PROCESSORS)).on('error', gutil.log)
     .pipe($.sourcemaps.write('./'))
@@ -116,7 +116,7 @@ gulp.task('clean', () => del(['.tmp', 'resources/public/*', '!resources/public/.
 
 // Watch files for changes & recompile
 gulp.task('watch', ['styles'], () => {
-  gulp.watch(['src/main/css/**/*.css', 'src/main/css/index.css'], ['styles']);
+  gulp.watch(['src/main/css/**/*.css', 'src/main/css/stylekit.css'], ['styles']);
 });
 
 

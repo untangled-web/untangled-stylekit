@@ -2,7 +2,7 @@
 import: ../README.md
 ---*/
 
-@import '../index';
+@import 'stylekit';
 
 /* stylelint-disable */
 .box-row { margin-bottom: 1rem; }
@@ -29,4 +29,4 @@ import: ../README.md
 .box--large { height: 5rem; }
 
 .box-tall { padding: 200px 0; }
-/* stylelint-enable */ 
+/* stylelint-enable */

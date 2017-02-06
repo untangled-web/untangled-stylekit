@@ -69,7 +69,18 @@
     (dom/ul nil
             (map-indexed (fn [idx nm]
                            (dom/li #js {:key idx}
-                                   (dom/button #js {:className (get-class idx)
+                                   (dom/button #js {:className (str (get-class idx) " c-button c-button--anchor")
+                                                    :onClick   #(select-item idx)} nm))) part-names))))
+
+(defn tabs [component field options]
+  (let [part-names options
+        selected-idx (get (om/props component) field)
+        get-class (fn [idx] (str "link" (if (= idx selected-idx) " is-active" "")))
+        select-item (fn [idx] (m/set-integer! component field :value idx))]
+    (dom/ul #js {:className "c-menu c-menu--inline"}
+            (map-indexed (fn [idx nm]
+                           (dom/li #js {:key idx}
+                                   (dom/button #js {:className (str (get-class idx) " c-menu__link")
                                                     :onClick   #(select-item idx)} nm))) part-names))))
 
 (defn toolbar [component field options]
@@ -190,7 +201,8 @@
 
 (defui ^:once Parts
   static uc/InitialAppState
-  (initial-state [c p] {:parts/selected-part 0
+  (initial-state [c p] {:searchbar    (uc/initial-state SearchBar nil)
+                        :parts/selected-part 0
                         :parts               (mapv (fn [t] (uc/initial-state Part {:title t})) (keys parts))})
   static om/IQuery
   (query [this] [:parts/selected-part {:parts (om/get-query Part)}])
@@ -198,29 +210,32 @@
   (ident [this props] [:parts :ui])
   Object
   (render [this]
-    (let [{:keys [parts/selected-part parts] :or {parts/selected-part 0}} (om/props this)
+    (let [{:keys [parts/selected-part parts searchbar] :or {parts/selected-part 0}} (om/props this)
           part-names (map :part/title parts)]
-      (dom/div #js {:className "ui-parts"}
-        (navlist this :parts/selected-part part-names)
-        (ui-part (nth parts selected-part))))))
+      (dom/div nil
+               (dom/div #js {:className "o-toolbar u-trailer--half"}
+                        (dom/div #js {:className "u-column--2"}
+                                 (dom/h1 nil "Stylekit"))
+                        (dom/div #js {:className "u-column--5"
+                                      :style #js {:marginTop "20px"}}
+                                 (tabs this :parts/selected-part part-names))
+                        (dom/div #js {:className "u-column u-end"}
+                                 (ui-search searchbar))
+                        )
+        (dom/div #js {:className "ui-parts"}
+                (ui-part (nth parts selected-part)))))))
 
 (def ui-parts (om/factory Parts))
 
 (defui ^:once Root
   static uc/InitialAppState
   (initial-state [clz p] {:ui/react-key "A"
-                          :searchbar    (uc/initial-state SearchBar nil)
                           :main-ui      (uc/initial-state Parts nil)})
   static om/IQuery
   (query [this] [:ui/react-key {:searchbar (om/get-query SearchBar)} {:main-ui (om/get-query Parts)}])
   Object
   (render [this]
-    (let [{:keys [ui/react-key main-ui searchbar]} (om/props this)]
+    (let [{:keys [ui/react-key main-ui]} (om/props this)]
       (dom/div #js {:key react-key}
-               (dom/div #js {:className "o-toolbar"}
-                        (dom/div #js {:className "u-column--3"}
-                                 (dom/h1 nil "Untangled Stylekit"))
-                        (dom/div #js {:className "u-column"}
-                                 (ui-search searchbar)))
         (ui-parts main-ui)))))
 
