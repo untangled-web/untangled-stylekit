@@ -4,7 +4,7 @@
   "description": "A PostCSS Framework for web apps",
   "author": "Stephen Way <stephen@stephenway.net> (http://stephenway.net)",
   "license": "Apache-2.0",
-  "main": "index.css",
+  "main": "src/main/css/stylekit.css",
   "devDependencies": {
     "autoprefixer": "^6.3.6",
     "babel-core": "^6.10.4",

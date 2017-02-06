@@ -31,5 +31,6 @@
                                   [org.clojure/tools.namespace "0.2.11"]
                                   [com.cemerick/piggieback "0.2.1"]
                                   [figwheel-sidecar "0.5.8" :exclusions [org.clojure/tools.reader]]
-                                  [devcards "0.2.2" :exclusions [org.omcljs/om]]]
+                                  [devcards "0.2.2" :exclusions [org.omcljs/om]]
+                                  [venantius/glow "0.1.4"]]
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}})

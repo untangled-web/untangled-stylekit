@@ -38,7 +38,7 @@
     (dom/button #js {:aria-disabled "true" :className "c-button is-disabled"} "Disabled")
     (dom/button #js {:title "Click me to see the active state." :className "c-button is-active"} "Active")))
 
-(defexample button-size-and-shape
+(defexample button-shape
   "## Button size and shape"
   (dom/div #js {}
     (dom/button #js {:className "c-button"} "Regular")
@@ -46,20 +46,29 @@
     (dom/button #js {:className "c-button c-button--xlarge"} "Extra Large")
     (dom/button #js {:className "c-button c-button--round"} "Round")
     (dom/button #js {:className "c-button c-button--wide"} "Wide")
-    (dom/button #js {:className "c-button"}
+
+
+    ))
+
+(defexample icon-button
+            "## Buttons with icons"
+            (dom/div nil
+                     (dom/button #js {:className "c-button"}
       (dom/span #js {:className "c-icon"}
         (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
           (dom/path #js {:d "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"})))
       (dom/span #js {:className "c-button__content"} "Left Icon"))
-    (dom/button #js {:className "c-button"}
+                     (dom/button #js {:className "c-button"}
       (dom/span #js {:className "c-button__content"} "Right Icon")
       (dom/span #js {:className "c-icon"}
         (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
           (dom/path #js {:d "M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"}))))
-    (dom/button #js {:title "Icon Button" :className "c-button c-button--icon"}
+                     (dom/button #js {:title "Icon Button" :className "c-button c-button--icon"}
       (dom/span #js {:className "c-icon"}
         (dom/svg #js {:xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :viewBox "0 0 24 24"}
-          (dom/path #js {:d "M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"}))))))
+          (dom/path #js {:d "M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"}))))
+                     )
+            )
 
 (defexample button-color
   "## Button Color"
@@ -125,8 +134,8 @@
       (dom/h1 #js {} "Title")
       (dom/p #js {} "I could have used lorem ipsum, but what's the fun in that?"))))
 
-(defexample drop-card
-  "## Drop Zone Card"
+(defexample zone-card
+  "## Zone Card"
   (dom/div #js {:className "c-card c-card--zone"} "This is a Card Zone component! Drop things on me!"))
 
 (defexample checkboxes
@@ -819,12 +828,12 @@
 
                 we don't need no stinkin badges!"
                   :examples      [badge-example-1 badge-on-button badge-with-icon]}
-                 {:id :buttons :title "Buttons" :examples [button-size-and-shape button-color button-state button-postfix]}
-                 {:id :card :title "Card" :examples [drop-card active-card inactive-card card-with-titlebar card-example rounded-card transparent-card ruled-card]}
+                 {:id :buttons    :title "Buttons"    :examples [button-shape button-color button-state button-postfix icon-button]}
+                 {:id :card       :title "Card"       :examples [card-example active-card inactive-card card-with-titlebar rounded-card transparent-card ruled-card zone-card]}
                  {:id :checkboxes :title "Checkboxes" :examples [checkboxes]}
-                 {:id :dropdowns :title "Dropdowns" :examples [dropdown dropdown-large dropdown-alterable dropdown-negative dropdown-positive dropdown-right-aligned dropdown-button-2 dropdown-button dropdown-search-multi dropdown-data]}
-                 {:id :fields :title "Fields" :examples [field-normal field-states field-sizes]}
-                 {:id       :inputs :title "Form Inputs"
+                 {:id :dropdowns  :title "Dropdowns"  :examples [dropdown dropdown-large dropdown-alterable dropdown-negative dropdown-positive dropdown-right-aligned dropdown-button-2 dropdown-button dropdown-search-multi dropdown-data]}
+                 {:id :fields     :title "Fields"     :examples [field-normal field-states field-sizes]}
+                 {:id :inputs     :title "Form Inputs"
                   :documentation
                             "Input class give support for visualizing various kind of interactions.
                             Supported input types are: `text`, `password`, `date`, `datetime`,

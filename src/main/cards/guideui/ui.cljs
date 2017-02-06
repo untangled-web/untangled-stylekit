@@ -61,14 +61,36 @@
                             (assoc-in [:parts/by-title part-title :part/selected-section] section-index)
                             (assoc-in [:section/by-title section-title :section/selected-example] example))))))})
 
+(defn navlist [component field options]
+  (let [part-names options
+        selected-idx (get (om/props component) field)
+        get-class (fn [idx] (str "link" (if (= idx selected-idx) " is-active" "")))
+        select-item (fn [idx] (m/set-integer! component field :value idx))]
+    (dom/ul nil
+            (map-indexed (fn [idx nm]
+                           (dom/li #js {:key idx}
+                                   (dom/button #js {:className (str (get-class idx) " c-button c-button--anchor")
+                                                    :onClick   #(select-item idx)} nm))) part-names))))
+
+(defn tabs [component field options]
+  (let [part-names options
+        selected-idx (get (om/props component) field)
+        get-class (fn [idx] (str "link" (if (= idx selected-idx) " is-active" "")))
+        select-item (fn [idx] (m/set-integer! component field :value idx))]
+    (dom/ul #js {:className "c-menu c-menu--inline"}
+            (map-indexed (fn [idx nm]
+                           (dom/li #js {:key idx}
+                                   (dom/button #js {:className (str (get-class idx) " c-menu__link")
+                                                    :onClick   #(select-item idx)} nm))) part-names))))
+
 (defn toolbar [component field options]
   (let [part-names options
         selected-idx (get (om/props component) field)
         get-class (fn [idx] (str "c-menu__link" (if (= idx selected-idx) " is-active" "")))
         select-item (fn [idx] (m/set-integer! component field :value idx))]
     (dom/div #js {}
-      (dom/div #js {:className "o-toolbar o-toolbar--small"}
-        (dom/ul #js {:className "c-menu c-menu--block"}
+      (dom/div #js {:className "o-toolbar"}
+        (dom/ul #js {:className "c-menu c-menu--inline"}
           (map-indexed (fn [idx nm]
                          (dom/li #js {:key idx}
                            (dom/button #js {:className (get-class idx)
@@ -88,18 +110,17 @@
           open (and open (pos? (count results)))
           menu-class (str "c-dropdown__menu" (when open " is-active"))]
       (dom/div #js {:className "c-dropdown"}
-        (dom/div #js {:className "u-row u-row--collapse"}
-          (dom/div #js {:className "u-column--9"}
-            (dom/input #js {:type        "text"
-                            :value       search
-                            :onChange    (fn [evt]
-                                           (let [v (.. evt -target -value)]
-                                             (om/transact! this `[(search/update-results ~{:term v})])))
-                            :onFocus     #(m/set-value! this :ui/open true)
-                            :placeholder "Search..." :className "c-input"}))
-          (dom/div #js {:className "u-column--3"}
-            (dom/div #js {:className "o-button-group"}
-              (dom/button #js {:className "c-button c-button--postfix"} "Search"))))
+               (dom/div #js {:className "c-field c-field--medium"}
+                     (dom/input #js {:type        "text"
+                                    :value       search
+                                    :onChange    (fn [evt]
+                                                   (let [v (.. evt -target -value)]
+                                                     (om/transact! this `[(search/update-results ~{:term v})])))
+                                    :onFocus     #(m/set-value! this :ui/open true)
+                                    :placeholder "Search"
+                                     :className "c-field__input"})
+                        #_(dom/span #js {:className "c-icon"} (untangled.icons/material-icon :search))
+                        )
         (dom/ul #js {:tabIndex "-1" :aria-hidden "true" :className menu-class}
           (map (fn [{:keys [label path]}]
                  (dom/li #js {:key label :onClick (fn [evt]
@@ -147,8 +168,8 @@
   (render [this]
     (let [{:keys [section/selected-example section/examples section/title] :or {section/selected-example 0}} (om/props this)
           example-names (map :example/title examples)]
-      (dom/div nil
-        (toolbar this :section/selected-example example-names)
+      (dom/div #js {:className "ui-section"}
+               (when (> (count examples) 1) (toolbar this :section/selected-example example-names))
         (ui-example (nth examples selected-example))))))
 
 (def ui-section (om/factory Section {:keyfn :section/title}))
@@ -169,16 +190,19 @@
   (render [this]
     (let [{:keys [part/selected-section part/sections part/title] :or {part/selected-section 0}} (om/props this)
           section-names (map :section/title sections)]
-      (dom/div nil
-        (toolbar this :part/selected-section section-names)
-        (ui-section (nth sections selected-section))))))
+      (dom/div #js {:className "ui-part u-row"}
+               (dom/div #js {:className "u-column--2@md"}
+                 (navlist this :part/selected-section section-names))
+               (dom/div #js {:className "u-column--10@md"}
+                 (ui-section (nth sections selected-section)))))))
 
 (def ui-part (om/factory Part {:keyfn :part/title}))
 
 
 (defui ^:once Parts
   static uc/InitialAppState
-  (initial-state [c p] {:parts/selected-part 0
+  (initial-state [c p] {:searchbar    (uc/initial-state SearchBar nil)
+                        :parts/selected-part 0
                         :parts               (mapv (fn [t] (uc/initial-state Part {:title t})) (keys parts))})
   static om/IQuery
   (query [this] [:parts/selected-part {:parts (om/get-query Part)}])
@@ -186,25 +210,32 @@
   (ident [this props] [:parts :ui])
   Object
   (render [this]
-    (let [{:keys [parts/selected-part parts] :or {parts/selected-part 0}} (om/props this)
+    (let [{:keys [parts/selected-part parts searchbar] :or {parts/selected-part 0}} (om/props this)
           part-names (map :part/title parts)]
       (dom/div nil
-        (toolbar this :parts/selected-part part-names)
-        (ui-part (nth parts selected-part))))))
+               (dom/div #js {:className "o-toolbar u-trailer--half"}
+                        (dom/div #js {:className "u-column--2"}
+                                 (dom/h1 nil "Stylekit"))
+                        (dom/div #js {:className "u-column--5"
+                                      :style #js {:marginTop "20px"}}
+                                 (tabs this :parts/selected-part part-names))
+                        (dom/div #js {:className "u-column u-end"}
+                                 (ui-search searchbar))
+                        )
+        (dom/div #js {:className "ui-parts"}
+                (ui-part (nth parts selected-part)))))))
 
 (def ui-parts (om/factory Parts))
 
 (defui ^:once Root
   static uc/InitialAppState
   (initial-state [clz p] {:ui/react-key "A"
-                          :searchbar    (uc/initial-state SearchBar nil)
                           :main-ui      (uc/initial-state Parts nil)})
   static om/IQuery
   (query [this] [:ui/react-key {:searchbar (om/get-query SearchBar)} {:main-ui (om/get-query Parts)}])
   Object
   (render [this]
-    (let [{:keys [ui/react-key main-ui searchbar]} (om/props this)]
+    (let [{:keys [ui/react-key main-ui]} (om/props this)]
       (dom/div #js {:key react-key}
-        (ui-search searchbar)
         (ui-parts main-ui)))))
 
