@@ -213,9 +213,10 @@
     (let [{:keys [parts/selected-part parts searchbar] :or {parts/selected-part 0}} (om/props this)
           part-names (map :part/title parts)]
       (dom/div nil
-               (dom/div #js {:className "o-toolbar u-trailer--half"}
-                        (dom/div #js {:className "u-column--2"}
-                                 (dom/h1 nil "Stylekit"))
+               (dom/div #js {:className "o-toolbar u-row--collapse u-trailer--half"}
+                        (dom/div #js {:className "u-column--2 u-middle"}
+                                 (dom/span nil (dom/img #js {:src "/img/logo.png" :height "45" :width "45"}))
+                                 (dom/span #js {:className "u-font-size--semi-medium u-trailer--half"} "Stylekit"))
                         (dom/div #js {:className "u-column--5"
                                       :style #js {:marginTop "20px"}}
                                  (tabs this :parts/selected-part part-names))

@@ -8,14 +8,13 @@
             [om.dom :as dom]))
 
 (defexample button
-            "# Button
-A simple button element"
-
-(dom/div #js {}
-(dom/button #js {} "Normal")
-(dom/button #js {:disabled true} "Disabled")
-(dom/button #js {:type "submit"} "Submit")
-(dom/button #js {:type "reset"} "Reset")))
+  "# Button
+  A simple button element"
+(dom/span #js {}
+  (dom/button #js {} "Normal")
+  (dom/button #js {:disabled true} "Disabled")
+  (dom/button #js {:type "submit"} "Submit")
+  (dom/button #js {:type "reset"} "Reset")))
 
 (defexample input
   "# Input"
