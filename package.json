@@ -20,17 +20,21 @@
     "gulp-autoprefixer": "^3.1.0",
     "gulp-babel": "^6.0.0",
     "gulp-cache": "^0.4.5",
+    "gulp-clone": "^1.0.0",
     "gulp-concat": "^2.5.2",
     "gulp-cssstats": "^1.0.1",
     "gulp-eslint": "^3.0.1",
     "gulp-load-plugins": "^1.0.0",
     "gulp-newer": "^1.0.0",
     "gulp-postcss": "^6.0.1",
+    "gulp-rename": "^1.2.2",
     "gulp-size": "^2.0.0",
     "gulp-sourcemaps": "^2.2.0",
     "gulp-uglify": "^2.0.0",
     "gulp-useref": "^3.0.0",
     "gulp-util": "^3.0.7",
+    "gulp-zip": "^4.0.0",
+    "merge-stream": "^1.0.1",
     "postcss": "^5.0.14",
     "postcss-apply": "^0.4.0",
     "postcss-calc": "^5.2.0",
@@ -50,7 +54,8 @@
     "psi": "^2.0.2",
     "run-sequence": "^1.0.1",
     "stylelint": "^7.0.2",
-    "stylelint-config-guidelines": "^1.1.0"
+    "stylelint-config-guidelines": "^1.1.0",
+    "sw-precache": "^4.3.0"
   },
   "dependencies": {
     "modernizr": "^3.2.0"

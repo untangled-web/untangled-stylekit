@@ -24,7 +24,6 @@
 // You can read more about the new JavaScript features here:
 // https://babeljs.io/docs/learn-es2015/
 
-import path from 'path';
 import gulp from 'gulp';
 import gutil from 'gulp-util';
 import del from 'del';
@@ -33,7 +32,6 @@ import autoprefixer from 'autoprefixer';
 import mqpacker from 'css-mqpacker';
 import cssnano from 'cssnano';
 import stylelint from 'stylelint';
-import browserSync from 'browser-sync';
 import postcssImport from 'postcss-import';
 import postcssEach from 'postcss-each';
 import postcssApply from 'postcss-apply';
@@ -48,8 +46,7 @@ import postcssLogicalProps from 'postcss-logical-props';
 import postcssFlexbugsFixes from 'postcss-flexbugs-fixes';
 import postcssReporter from 'postcss-reporter';
 import gulpLoadPlugins from 'gulp-load-plugins';
-import {output as pagespeed} from 'psi';
-import pkg from './package.json';
+import gulpZip from 'gulp-zip';
 
 const $ = gulpLoadPlugins();
 const AUTOPREFIXER_BROWSERS = ['last 2 versions'];
@@ -76,37 +73,24 @@ gulp.task('styles', () => {
     cssnano,
     postcssReporter({clearMessages: true})
   ];
-  // For best performance, don't add Sass partials to `gulp.src`
-  return gulp.src(['src/main/css/*.css'])
+  const css = gulp.src('src/main/css/*.css')
     .pipe($.sourcemaps.init())
-    .pipe($.postcss(PROCESSORS)).on('error', gutil.log)
+    .pipe($.postcss(PROCESSORS)).on('error', gutil.log);
+
+  const min = css.pipe(clone())
+    .pipe(cssnano({discardComments: {removeAll: true}}))
+    .pipe(rename({suffix: '.min'}));
+
+  return merge(css, min)
     .pipe($.sourcemaps.write('./'))
-    .pipe(gulp.dest('resources/public/css'));
+    .pipe(gulp.dest('resources/public/css'))
+    .pipe(gulp.dest('dist'));
 });
 
-// Compile CSS
-gulp.task('dist', () => {
-  const PROCESSORS = [
-    postcssImport({ glob: true }),
-    postcssEach,
-    postcssApply,
-    postcssSimpleVars,
-    postcssCustomMedia,
-    postcssCustomSelectors,
-    postcssNested,
-    postcssCssVariables,
-    postcssSelectorNot,
-    postcssCalc,
-    postcssLogicalProps,
-    postcssFlexbugsFixes,
-    autoprefixer({browsers: AUTOPREFIXER_BROWSERS}),
-    mqpacker,
-    cssnano,
-    postcssReporter({clearMessages: true})
-  ];
-  return gulp.src(['src/main/css/*.css'])
-    .pipe($.postcss(PROCESSORS)).on('error', gutil.log)
-    .pipe(gulp.dest('dist'));
+gulp.task('zip', () => {
+  return gulp.src(['./dist/*.css'])
+    .pipe(gulpZip('stylekit.zip'))
+    .pipe(gulp.dest('./dist'));
 })
 
 
@@ -127,6 +111,14 @@ gulp.task('default', cb =>
     cb
   )
 );
+
+gulp.task('release', cb =>
+    runSequence(
+      'styles',
+      'zip',
+      cb
+    )
+)
 
 
 // Load custom tasks from the `tasks` directory

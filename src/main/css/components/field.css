@@ -85,6 +85,8 @@ section: Components
   min-height: 34px;
 
   .c-field__input { font-size: inherit; }
+
+  & > .c-icon { margin: 4px 0; }
 }
 
 

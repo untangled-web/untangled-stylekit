@@ -128,7 +128,7 @@ section: Settings
 
   /* Globals */
 
-  --backgroundColor-page: var(--grey-50);
+  --backgroundColor-page: var(--white);
 
   --borderColor: var(--grey-300);
   --borderColor-inactive: var(--grey-500);

@@ -12,9 +12,8 @@
 ;; Sample Example
 (defexample badge-example-1
   "## A plain badge"
-  (dom/p #js {}
-    (dom/a #js {:href "#"} "Inbox "
-      (dom/span #js {:className "c-badge"} 7))))
+  (dom/a #js {:href "#"} "Inbox "
+         (dom/span #js {:className "c-badge"} 7)))
 
 (defexample badge-on-button
   "## A Badge on a Button"
@@ -375,7 +374,7 @@
 
 (defexample textarea
   "# Text Area"
-  (dom/textarea {:className "c-input c-input--multi-line"}))
+  (dom/textarea #js {:className "c-input c-input--multi-line"}))
 
 (defexample input-validation
   "# Input Validation"
@@ -473,6 +472,33 @@
     (dom/span #js {:className "c-label c-label--negative"}
       (dom/span #js {:className "c-icon"}
         (icons/material-icon :close)) " Remove ")))
+
+(defexample component-lists
+  "# Lists
+  Lists present multiple line items vertically as a single continuous element."
+  (dom/div #js {:className "c-list"}
+     (dom/div #js {:className "c-list__row c-list__row--collapse"}
+        (dom/div #js {:className "c-list__tile"}
+                 (dom/span #js {:className "c-list__title"} "Today")))
+           (dom/div #js {:className "c-list__row c-list__row--collapse c-list__row--bordered is-selectable"}
+                    (dom/div #js {:className "c-list__tile"}
+                             (dom/div #js {:className "u-row"}
+                                      (dom/div #js {:className "c-list__avatar c-list__avatar--round"}
+                                               (dom/img #js {:src (:photo (util/mock-users :1))}))
+                                      (dom/div #js {:className "c-list__name"}
+                                               (dom/div nil "Brunch this weekend?")
+                                               (dom/div nil
+                                                        (dom/span nil (util/full-name :1))
+                                                        (dom/span #js {:className "c-list__subtext"} " - I'll be in your neighborhood"))))))
+           (dom/div #js {:className "c-list__row c-list__row--collapse c-list__row--bordered is-selectable"}
+              (dom/div #js {:className "c-list__tile"}
+                       (dom/div #js {:className "u-row"}
+                                (dom/div #js {:className "c-list__avatar c-list__avatar--round"}
+                                         (dom/img #js {:src (:photo (util/mock-users :2))}))
+                                (dom/div #js {:className "c-list__name"}
+                                         (dom/div nil "Brunch this weekend?")
+                                         (dom/div nil (dom/span nil (util/full-name :2))
+                                                  (dom/span #js {:className "c-list__subtext"} " - I'll be in your neighborhood"))))))))
 
 (defexample loader
   "# Loader"
@@ -809,7 +835,8 @@
                       "Tool tips are based on `data` attributes. "}
                  {:id :table :title "Tables" :examples [tables]}
                  {:id :radio :title "Radio Buttons" :examples [radio radio-informative radio-stacked]}
-                 {:id :notifications :examples [info-notification success-notification warning-notification error-notification wide-notification] :title "Notifications"
+                 {:id :notifications :examples [info-notification success-notification warning-notification error-notification wide-notification]
+                  :title "Notifications"
                   :documentation
                       "Used to communicate the state of your user's interactions as well as system status.
 
@@ -822,6 +849,7 @@
                   :documentation "Webapps often need to provide feedback to the user for when things are loading, so we have a few loader components that are animated using only CSS techniques."}
 
                  {:id :labels :title "Labels" :examples [labels label-icons]}
+                 {:id :lists :title "Lists" :examples [component-lists]}
                  {:id            :badges :title "Badges"
                   :documentation "
                 ## Badges?
@@ -835,7 +863,8 @@
                  {:id :fields     :title "Fields"     :examples [field-normal field-states field-sizes]}
                  {:id :inputs     :title "Form Inputs"
                   :documentation
-                            "Input class give support for visualizing various kind of interactions.
+                            "# Inputs
+                            Input class give support for visualizing various kind of interactions.
                             Supported input types are: `text`, `password`, `date`, `datetime`,
                             `datetime-local`, `month`, `week`, `email`, `number`, `search`, `tel`, `time`, `url`, `color`.
                             ```"

@@ -17,16 +17,35 @@
 
 #?(:clj
    (defmacro source->react [obj body]
-     (let [code (cljs.repl/source-fn &env obj)
+     (let [code      (cljs.repl/source-fn &env obj)
            ; HACK: Use the first form in the sexp to find the end of the doc, so we can trim out the macro source
-           marker (str "(" (first body))
+           marker    (str "(" (first body))
            beginning (- (.indexOf code marker) 2)
            ; HACK: drop the last closing paren
-           end (- (.length code) 1)
-           code (.substring code beginning end)]
+           end       (- (.length code) 1)
+           code      (.substring code beginning end)]
        `(devcards.core/markdown->react
           (dc/mkdn-code
             ~(or code (str "Source not found")))))))
+
+#?(:clj
+   (defmacro defarticle
+     "Define an example that just renders some doc."
+     [sym doc]
+     (let [basename (str sym "-")
+           root     (gensym basename)
+           symfn    (symbol (str (name sym) "-code"))]
+       `(do
+          (om.next/defui ~root
+            ~'Object
+            (~'render [this#]
+              (om.dom/div (cljs.core/clj->js {:className "ui-example"})
+                (om.dom/div (cljs.core/clj->js {:className "ui-example__description"})
+                  (om.dom/div nil (devcards.core/markdown->react ~doc))))))
+          (def ~sym {:name          ~(name sym)
+                     :documentation ~doc
+                     :search-terms  ~(str/join " " (map str/lower-case [doc (name sym)]))
+                     :renderer      (om.next/factory ~root {:keyfn (fn [] ~(name root))})})))))
 
 #?(:clj
    (defmacro defexample
@@ -34,26 +53,25 @@
      an Om component `(render [this] ...)`"
      [sym doc body]
      (let [basename (str sym "-")
-           root (gensym basename)
-           symfn (symbol (str (name sym) "-code"))]
+           root     (gensym basename)
+           symfn    (symbol (str (name sym) "-code"))]
        `(do
           (defn ~symfn [~'this] ~body)
           (om.next/defui ~root
             ~'Object
             (~'render [this#]
-              (om.dom/div (cljs.core/clj->js {:className "ui-example c-card"})
-                          (om.dom/div (cljs.core/clj->js {:className "ui-example__description u-row"})
-                            (om.dom/div (cljs.core/clj->js {:dangerouslySetInnerHTML (cljs.core/clj->js {:__html (devcards.util.markdown/markdown-to-html ~doc)})})))
-                          (om.dom/hr nil)
-                (om.dom/div (cljs.core/clj->js {:className "ui-example__figure u-row"})
-                  (om.dom/div (cljs.core/clj->js {:className "u-column--12"})
-                              (om.dom/div #js {:className "ui-example"}
-                                          (~symfn this#)
-                                       #_(let [iframe# (.createElement js/document "IFRAME")
-                                             example# (.innerHTML iframe# (om.dom/div nil (~symfn this#)))]
-                                         (.appendChild example# iframe#)))))
-                (om.dom/div (cljs.core/clj->js {:className "ui-example__source u-row"})
-                  (om.dom/div (cljs.core/clj->js {:className "u-column--12"}) (styles.util/source->react ~symfn ~body))))))
+              (om.dom/div (cljs.core/clj->js {:className "ui-example"})
+                (om.dom/div (cljs.core/clj->js {:className "ui-example__description"})
+                  (om.dom/div nil (devcards.core/markdown->react ~doc)))
+                (om.dom/div (cljs.core/clj->js {:className "u-row"})
+                  (om.dom/div (cljs.core/clj->js {:className "ui-example__figure u-column--12 u-column--6@lg u-column--4@xl"})
+                    (om.dom/div (cljs.core/clj->js {:className "ui-example"})
+                      (~symfn this#)
+                      #_(let [iframe#  (.createElement js/document "IFRAME")
+                              example# (.innerHTML iframe# (om.dom/div nil (~symfn this#)))]
+                          (.appendChild example# iframe#))))
+                  (om.dom/div (cljs.core/clj->js {:className "ui-example__source u-column--12 u-column--6@lg u-column--8@xl"})
+                    (styles.util/source->react ~symfn ~body))))))
           (def ~sym {:name          ~(name sym)
                      :documentation ~doc
                      :search-terms  ~(str/join " " (map str/lower-case [doc (name sym)]))
@@ -66,14 +84,14 @@
                    :viewbox      :viewBox
                    :spellcheck   :spellcheck
                    :autocorrect  :autoCorrect
-                   :autocomplete :autoComplete
-                   })
+                   :autocomplete :autoComplete})
+
 #?(:cljs
    (defn elem-to-cljs [elem]
      (cond
        (string? elem) elem
-       (vector? elem) (let [tag (name (first elem))
-                            attrs (set/rename-keys (second elem) attr-renames)
+       (vector? elem) (let [tag      (name (first elem))
+                            attrs    (set/rename-keys (second elem) attr-renames)
                             children (map elem-to-cljs (rest (rest elem)))]
                         (concat (list (symbol "dom" tag) (symbol "#js") attrs) children))
        :otherwise "UNKNOWN")))
@@ -150,3 +168,46 @@
      (dom/ul nil
        (map #(dom/li nil (dom/a #js {:href (str "#" (:id %))} (:title %))) sections))))
 
+#?(:cljs
+   (def mock-users {
+                    :1 {:first-name "Betty"
+                        :last-name  "Velez"
+                        :email      "bettyrvelez@armyspy.com"
+                        :phone      "475-23-7849"
+                        :birthday   "October 30, 1936"
+                        :photo      "/img/user-1.jpg"}
+                    :2 {:first-name "Carlos"
+                        :last-name  "Doyle"
+                        :email      "carlosdoyle@armyspy.com"
+                        :phone      "928-999-6782"
+                        :birthday   "October 11, 1942"
+                        :photo      "/img/user-2.jpg"}
+                    :3 {:first-name "Carrie"
+                        :last-name  "Ball"
+                        :email      "carrieball@jourrapide.com"
+                        :phone      "321-260-7190"
+                        :birthday   "February 15, 1945"
+                        :photo      "/img/user-3.jpg"}
+                    :4 {:first-name "Brian"
+                        :last-name  "Nelson"
+                        :email      "briannelson@jourrapide.com"
+                        :phone      "617-295-9302"
+                        :birthday   "March 5, 1980"
+                        :photo      "/img/user-4.jpg"}
+                    :5 {:first-name "Norman"
+                        :last-name  "Mendoza"
+                        :email      "normanmendoza@armyspy.com"
+                        :phone      "732-8320-3240"
+                        :birthday   "November 14, 1981"
+                        :photo      "/img/user-5.jpg"}
+                    :6 {:first-name "Thomas"
+                        :last-name  "Colburn"
+                        :email      "thomascolburn@teleworm.us"
+                        :phone      "920-472-4173"
+                        :birthday   "November 9, 1987"
+                        :photo      "/img/user-6.jpg"}
+                    }))
+
+#?(:cljs
+   (defn full-name [num]
+     (str (:first-name (mock-users num)) " " (:last-name (mock-users num)))))

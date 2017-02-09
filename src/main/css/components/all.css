@@ -14,6 +14,7 @@
  * Icon...............Usefull classes for doing things with icons
  * Input..............Simple input styles
  * Label..............Subjective indicators
+ * List...............Simple way of organizing descendant information
  * Loader.............Animated controls to show progress
  * Menu...............Navigable controls
  * Message............Small text in varrying colors
@@ -33,6 +34,7 @@
 @import 'icon';
 @import 'input';
 @import 'label';
+@import 'list';
 @import 'loader';
 @import 'menu';
 @import 'message';

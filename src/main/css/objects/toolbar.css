@@ -52,6 +52,10 @@ section: Objects
   }
 }
 
+  .o-toolbar__tile {
+    padding: 7px 0;
+  }
+
 
   .o-toolbar__product {
     color: var(--color-nav-active);
