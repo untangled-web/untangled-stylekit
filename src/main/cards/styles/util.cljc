@@ -41,7 +41,7 @@
             (~'render [this#]
               (om.dom/div (cljs.core/clj->js {:className "ui-example"})
                 (om.dom/div (cljs.core/clj->js {:className "ui-example__description"})
-                  (om.dom/div nil (devcards.core/markdown->react ~doc))))))
+                  (om.dom/div (cljs.core/clj->js {:className "ui-example__description"}) (devcards.core/markdown->react ~doc))))))
           (def ~sym {:name          ~(name sym)
                      :documentation ~doc
                      :search-terms  ~(str/join " " (map str/lower-case [doc (name sym)]))
@@ -156,7 +156,7 @@
          (dom/a #js {:id id}
            (dom/h1 nil title))
          (when documentation
-           (dom/div nil (dc/markdown->react documentation)))
+           (dom/div #js {:className "ui-example__description"} (dc/markdown->react documentation)))
          (map-indexed (fn [idx render]
                         (dom/div #js {:key (str "section-" idx)}
                           (render))) examples)))))

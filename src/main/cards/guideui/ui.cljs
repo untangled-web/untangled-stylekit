@@ -178,7 +178,7 @@
           example-names (map :example/title examples)]
       (dom/div #js {:className "ui-section"}
         (when documentation
-          (dom/div nil (dc/markdown->react documentation)))
+          (dom/div #js {:className "ui-example__description"} (dc/markdown->react documentation)))
         (when (> (count examples) 1) (toolbar this :section/selected-example example-names))
         (ui-example (nth examples selected-example))))))
 
