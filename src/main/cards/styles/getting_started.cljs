@@ -8,38 +8,52 @@
             [om.dom :as dom]))
 
 (defarticle intro
-  "# Getting Started
+"# What is Untangled Stylekit?
 
-  Stylekit comes in a few different flavors to fit your needs. Please choose a flavor and follow the guide to get started.
+Stylekit is a user interface library of patterns for web applications and websites built with a custom PostCSS preprocessor.
 
-  **Components**
 
-  Browse our pre-built components to get a feel for how well all of them work together. [Learn more](#asd)
 
-  # Boo
+#### History of Stylekit
 
-  **CSS**
 
-  You can get straight to the point and get a simple CSS file with only what you need.
 
-  **PostCSS**
+## What is Stylekit for?
 
-  Style like a pro with future spec-compliant CSS that lets you write variables, applys and nesting in your CSS. This is the easiest way to modify and extend stylekit.
+This project is meant to suppliment your next project with a wide array of components that are styled for your HTML or
+Clojurescript project. If you are using Untangled UI, you will automatically get these styles by default.
+
+## What problem does Stylekit solve?
+
+
+
+## What design principles underlie Stylekit?
+
+Based on the ITCSS methodology by Harry Roberts, this project is composed by settings, elements, components, objects and
+utilities and produces a stylesheet that has a healthy inclining specificity graph.
+
+## How does Stylekit accomplish it's goals?
+
+# Getting Started
+
+Stylekit comes in a few different flavors to fit your needs. Please choose a flavor and follow the guide to get started.
+
+## Components
+
+Browse our pre-built components to get a feel for how well all of them work together.
+
+## CSS
+
+You can get straight to the point and get a simple CSS file with only what you need.
+
+## PostCSS
+
+Style like a pro with future spec-compliant CSS that lets you write variables, applys and nesting in your CSS. This is
+the easiest way to modify and extend stylekit.
   ")
-
-(defexample CSS
-  "# Using CSS"
-  (dom/span nil))
-
-(defexample PostCSS
-  "# Using PostCSS"
-  (dom/span nil))
 
 (def sections
   (vec [;; NOTE: :examples is a list of example names, rendered in order given
-        {:id :settings-config :title "Intro" :examples [intro]}
-        {:id :settings-config :title "Using CSS" :examples [CSS]}
-        {:id :settings-config :title "Using PostCSS" :examples [PostCSS]}
-
+        {:id :settings-config :title "What is Stylekit?" :examples [intro]}
         ]))
 

@@ -35,6 +35,12 @@ import: ../README.md
     font-size: var(--fontSize--medium);
   }
 
+  h2 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    line-height: 1.25;
+  }
+
   code {
     background-color: var(--grey-50);
     font-size: 90%;
@@ -56,4 +62,5 @@ import: ../README.md
   padding: 5px 0;
   overflow-x: scroll;
 }
+
 /* stylelint-enable */

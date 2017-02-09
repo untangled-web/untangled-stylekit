@@ -6,7 +6,7 @@ title: Motion
 :root {
   --pulse-color: 101, 182, 220;
   --pulse-color--start: rgba(var(--pulse-color), .5);
-  --pulse-color--end: rgba(var(--pulse-color), .0);
+  --pulse-color--end: rgba(var(--pulse-color), 0);
   --fade-in: {
     opacity: 1;
     pointer-events: all;
